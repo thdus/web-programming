@@ -1,0 +1,714 @@
+.desktop-2 {
+    background: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 30px;
+    width: 1440px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .frame-16 {
+    background: #D9D9D9;
+    margin: 0 124px 0 109px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 61px 88px 29px 89px;
+    width: 1207px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .rectangle-12 {
+    border-radius: 20px;
+    background: #9F9A9A;
+    width: 256px;
+    height: 66px;
+  }
+  .desktop-2 .container {
+    margin: 13px 0;
+    display: inline-block;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 33px;
+    color: #000000;
+  }
+  .desktop-2 .container-1 {
+    margin-right: 33.4px;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 45px;
+    color: #000000;
+  }
+  .desktop-2 .frame-15 {
+    background: #D9D9D9;
+    margin-right: 74px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px 0 7.5px 0;
+    width: 314px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-2 {
+    margin-right: 16.3px;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #000000;
+  }
+  .desktop-2 .line-2 {
+    background: #000000;
+    margin-right: 55px;
+    width: 18px;
+    height: 1px;
+  }
+  .desktop-2 .vector {
+    margin: 4px 0 1px 0;
+    width: 12px;
+    height: 19px;
+  }
+  .desktop-2 .vector-1 {
+    margin: 4px 18.4px 1px 0;
+    width: 12px;
+    height: 19px;
+  }
+  .desktop-2 .container-3 {
+    margin-right: 14.6px;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #000000;
+  }
+  .desktop-2 .container-4 {
+    margin-right: 19.6px;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #000000;
+  }
+  .desktop-2 .frame-161 {
+    background: #FFFFFF;
+    margin: 0 0 29px 1px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 8px 22.9px 9px 15px;
+    width: 1029px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .ellipse-1 {
+    border-radius: 34.5px;
+    background: #D9D9D9;
+    margin-bottom: 11px;
+    width: 69px;
+    height: 69px;
+  }
+  .desktop-2 .container-5 {
+    margin-bottom: 18px;
+    display: inline-block;
+    align-self: flex-start;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 23px;
+    color: #000000;
+  }
+  .desktop-2 .frame-7 {
+    background: #FFFFFF;
+    margin: 0 1px 29px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 9px 17.9px 10px 15px;
+    width: 1029px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .ellipse-11 {
+    border-radius: 34.5px;
+    background: #D9D9D9;
+    margin-bottom: 10px;
+    width: 69px;
+    height: 69px;
+  }
+  .desktop-2 .container-6 {
+    margin-bottom: 15px;
+    display: inline-block;
+    align-self: flex-start;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 23px;
+    color: #000000;
+  }
+  .desktop-2 .frame-17 {
+    background: #FFFFFF;
+    margin: 0 0 29px 1px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 9px 23.9px 10px 15px;
+    width: 1029px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .ellipse-12 {
+    border-radius: 34.5px;
+    background: #D9D9D9;
+    margin-bottom: 10px;
+    width: 69px;
+    height: 69px;
+  }
+  .desktop-2 .container-7 {
+    margin-bottom: 17px;
+    display: inline-block;
+    align-self: flex-start;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 23px;
+    color: #000000;
+  }
+  .desktop-2 .frame-18 {
+    background: #FFFFFF;
+    margin: 0 1px 73px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 9px 19.9px 10px 15px;
+    width: 1029px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .ellipse-13 {
+    border-radius: 34.5px;
+    background: #D9D9D9;
+    margin-bottom: 10px;
+    width: 69px;
+    height: 69px;
+  }
+  .desktop-2 .container-8 {
+    margin: 0 1px 17px 1px;
+    display: inline-block;
+    align-self: flex-start;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 23px;
+    color: #000000;
+  }
+  .desktop-2 .container-9 {
+    margin: 19px 0 5px 0;
+    display: inline-block;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 25px;
+    color: #000000;
+  }
+  .desktop-2 .line-21 {
+    background: #000000;
+    margin: 0 0 16.9px 843.5px;
+    align-self: center;
+    width: 281.5px;
+    height: 1px;
+  }
+  .desktop-2 .container-10 {
+    margin-bottom: 4px;
+    display: inline-block;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 23px;
+    color: #000000;
+  }
+  .desktop-2 .vector-2 {
+    margin-right: 18px;
+    width: 24px;
+    height: 32px;
+  }
+  .desktop-2 .container-11 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .container-12 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .container-13 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .vector-3 {
+    margin: 3.9px 5.6px 6.8px 0;
+    width: 25.8px;
+    height: 17.3px;
+  }
+  .desktop-2 .container-14 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 23px;
+    color: #000000;
+  }
+  .desktop-2 .container-15 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 23px;
+    color: #000000;
+  }
+  .desktop-2 .vector-4 {
+    margin: 3.9px 5.6px 6.8px 0;
+    width: 25.8px;
+    height: 17.3px;
+  }
+  .desktop-2 .container-16 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 23px;
+    color: #000000;
+  }
+  .desktop-2 .vector-5 {
+    margin: 3.9px 5.6px 6.8px 0;
+    width: 25.8px;
+    height: 17.3px;
+  }
+  .desktop-2 .container-17 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 23px;
+    color: #000000;
+  }
+  .desktop-2 .vector-6 {
+    margin: 3.9px 5.6px 6.8px 0;
+    width: 25.8px;
+    height: 17.3px;
+  }
+  .desktop-2 .container-18 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .container-19 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .container-20 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .container-21 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .container-22 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .container-23 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .container-24 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .container-25 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .container-26 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 20px;
+    color: #897A7A;
+  }
+  .desktop-2 .container-27 {
+    margin-right: 12.2px;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    color: #000000;
+  }
+  .desktop-2 .container-28 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    color: #000000;
+  }
+  .desktop-2 .container-29 {
+    margin-right: 12.2px;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    color: #000000;
+  }
+  .desktop-2 .container-30 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    color: #000000;
+  }
+  .desktop-2 .container-31 {
+    margin-right: 12.2px;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    color: #000000;
+  }
+  .desktop-2 .container-32 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    color: #000000;
+  }
+  .desktop-2 .container-33 {
+    margin-right: 12.2px;
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    color: #000000;
+  }
+  .desktop-2 .container-34 {
+    overflow-wrap: break-word;
+    font-family: 'Inter';
+    font-weight: 400;
+    font-size: 14px;
+    color: #000000;
+  }
+  .desktop-2 .container {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-1 {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-2 {
+    margin-top: 5px;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-3 {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-4 {
+    margin: 7px 12px 8px 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-5 {
+    margin: 0 2.1px 0 3.1px;
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-6 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    display: flex;
+    padding: 8px 16.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-7 {
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-8 {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-9 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    margin-right: 11px;
+    display: flex;
+    padding: 8px 5.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-10 {
+    margin-right: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-11 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    margin-right: 11px;
+    display: flex;
+    padding: 8px 5.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-12 {
+    margin: 7px 12px 8px 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-13 {
+    margin-right: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-14 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    display: flex;
+    padding: 8px 16.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-15 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    margin: 54px 0 6px 0;
+    display: flex;
+    padding: 8px 5.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-16 {
+    margin: 0 2.1px 0 3.1px;
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-17 {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-18 {
+    margin-bottom: 72px;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-19 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    margin-right: 11px;
+    display: flex;
+    padding: 8px 5.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-20 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    margin: 54px 0 6px 0;
+    display: flex;
+    padding: 8px 5.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-21 {
+    margin: 0 2.1px 0 3.1px;
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-22 {
+    margin: 17px 0 5px 0;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-23 {
+    margin-bottom: 72px;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-24 {
+    margin: 0 2.1px 0 3.1px;
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-25 {
+    margin-right: 35px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-26 {
+    margin-top: 4px;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-27 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    margin: 55px 0 6px 0;
+    display: flex;
+    padding: 8px 5.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-28 {
+    margin-right: 34px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-29 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    display: flex;
+    padding: 8px 16.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-30 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    margin: 52px 0 8px 0;
+    display: flex;
+    padding: 8px 5.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-31 {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-32 {
+    margin: 0 134px 1.1px 134px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-self: flex-start;
+    width: 1014.1px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-33 {
+    background: #D9D9D9;
+    position: relative;
+    margin-bottom: 37px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 27px 53.8px 28px 30px;
+    width: 1440px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-34 {
+    margin-bottom: 74px;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-35 {
+    margin-bottom: 72px;
+    display: flex;
+    flex-direction: row;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-36 {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-37 {
+    margin: 7px 12px 10px 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-38 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    margin-right: 11px;
+    display: flex;
+    padding: 8px 5.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-39 {
+    border-radius: 18px;
+    background: #F3F2E3;
+    position: relative;
+    display: flex;
+    padding: 8px 16.2px 4px 19px;
+    box-sizing: border-box;
+  }
+  .desktop-2 .container-40 {
+    margin: 7px 12px 8px 0;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
