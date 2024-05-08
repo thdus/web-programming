@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>레시피 작성</title>
+    <link rel="stylesheet" href="page3.css">
+</head>
+<body>
+    <!-- 상단바 구성 -->
+    <header class="header-bar">
+        <div class="logo">레시피 작성</div>
+        <div class="header-buttons">
+            <button class="btn-header">레시피 추가</button>
+        </div>
+    </header>
+    
+    <!-- 폼 컨테이너 -->
+    <div class="form-container">
+        <h2 class="form-title">레시피 추가</h2>
+        <form>
+            <div class="form-group">
+                <label for="name">음식 이름</label>
+                <input type="text" id="name" placeholder="음식 이름을 입력하세요">
+            </div>
+            <div class="form-group">
+                <label for="tag">재료-태그</label>
+                <select multiple id="tag"></select>
+            </div>
+            <div class="form-group">
+                <label for="ingredients">재료</label>
+                <textarea id="ingredients" placeholder="예: 양파 1개, 간장 1큰술"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="recipe">레시피</label>
+                <textarea id="recipe" placeholder="레시피를 순서대로 입력하세요"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="image">이미지 첨부</label>
+                <input type="file" id="image">
+            </div>
+            <button type="submit">완료</button>
+        </form>
+    </div>
+</body>
+</html>
