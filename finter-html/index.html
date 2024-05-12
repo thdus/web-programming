@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Basic -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <!-- Mobile Metas -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <!-- Site Metas -->
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <link rel="shortcut icon" href="images/fevicon.png" type="image/x-icon" />
+    <title>Ourecipe</title>
+
+    <!-- bootstrap core css -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+
+    <!-- fonts style -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!--owl slider stylesheet -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+    />
+    <!-- nice select -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
+      integrity="sha256-mLBIhmBvigTFWPSCtvdu6a76T+3Xyt+K571hupeFLg4="
+      crossorigin="anonymous"
+    />
+    <!-- font awesome style -->
+    <link href="css/font-awesome.min.css" rel="stylesheet" />
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet" />
+    <!-- responsive style -->
+    <link href="css/responsive.css" rel="stylesheet" />
+
+  </head>
+
+
+
+  <body>
+    <!-- 배경 -->
+    <div class="hero_area">
+      <div class="hero_bg_box">
+        <img src="images/hero-bg.jpg" alt="" />
+      </div>
+
+      <!-- header section strats -->
+      <!-- 홈버튼 -->
+      <header class="header_section">
+        <nav class="navbar navbar-expand-lg custom_nav-container">
+          <a class="navbar-brand" href="index.html"> Ourecipe </a>
+
+          <!-- 검색 및 로그인 영역 -->
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class=""> </span>
+          </button>
+          <ul class="navbar-nav">
+            <div class="navbar-collapse" id="navbarSupportedContent">
+              <form class="form-inline justify-content-center" style="flex-grow: 1;">
+                
+                <button class="btn my-2 my-sm-0 nav_search-btn" type="submit">
+                  <i class="fa fa-search" aria-hidden="true"></i>
+                </button>
+  
+                <div class="form-row">
+                  <div class="form-group col-lg-6">
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="foodInput"
+                      placeholder="음식을 입력해 주세요."
+                    />
+                  </div>
+  
+                  <div class="form-group col-lg-6">
+                    <select name="" id="timeSelect" class="form-control wide">
+                      <option value="">조리시간 선택</option>
+                      <option value="5분">5분</option>
+                      <option value="10분">10분</option>
+                      <option value="15분">15분</option>
+                      <option value="20분">20분</option>
+                      <option value="30분">30분</option>
+                      <option value="1시간">1시간</option>
+                    </select>
+                    <select name="" id="categorySelect" class="form-control wide">
+                      <option value="">카테고리 선택</option>
+                      <option value="한식">한식</option>
+                      <option value="중식">중식</option>
+                      <option value="일식">일식</option>
+                      <option value="양식">양식</option>
+                    </select>
+                  </div>
+                  
+                </div>
+              </form>
+            </div>
+            
+            <li class="nav-item">
+              <button class="btn nav-link login-button" type="button">
+                <i class="fa fa-user" aria-hidden="true"></i> Login
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </header>
+      <!-- end header section -->
+
+      <!-- slider section -->
+      <section class="slider_section">
+        <div class="new-area">
+          <div class="left-area">
+            <div class="left-text">전체 목록
+          </div>
+          <button id="addButton" class="add-button">추가</button>
+          </div>
+          
+        </div>
+        <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+          <div class="tm-list">
+            <div class="tm-list-item">          
+              <img src="images/iced-americano.png" alt="Image" class="tm-list-item-img">
+              <div class="tm-black-bg tm-list-item-text">
+                <h3 class="tm-list-item-name">Iced Americano<span class="tm-list-item-price">$10.25</span></h3>
+                <p class="tm-list-item-description">Here is a short description for the first item. Wave Cafe Template is provided by Tooplate.</p>
+              </div>
+            </div>
+          </div>
+          <div class="navigation">
+          <button class="prev-btn">이전</button>
+          <button class="next-btn">다음</button>
+          </div>
+        </div>
+
+        
+        
+      </section>
+      <!-- end slider section -->
+    </div>
+
+    <!-- contact section -->
+    <div class="hero_area">
+      <div class="hero_bg_box">
+        <img src="images/hero-bg.jpg" alt="" />
+      </div>
+
+      <div class="contact_section">
+        <nav class="navbar navbar-expand-lg custom_nav-container_contact">
+          <a class="navbar-brand" href="index.html"> Ourecipe </a>
+        </nav>
+
+        
+        <div class="container-fluid">
+          <div class="row">
+              <div class="form_container">
+                <div class="heading_container heading_center">
+                  <h2>레시피 추가</h2>
+                </div>
+
+                <form action="">
+                  <div class="form-row">
+                    <div class="form-group col">
+                      <label for="foodNameInput" style="color: white;">음식 이름</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="foodNameInput"
+                        placeholder="추가할 음식이름을 작성해주세요." 
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col-lg-6">
+                      <label for="cookingTime" style="color: white;">조리 시간</label>
+                      <select id="cookingTime" class="form-control">
+                        <option value="">시간 선택</option>
+                        <option value="5분">5분</option>
+                        <option value="10분">10분</option>
+                        <option value="15분">15분</option>
+                        <option value="20분">20분</option>
+                        <option value="30분">30분</option>
+                        <option value="1시간">1시간 이상</option>
+                      </select>
+                    </div>
+                    <div class="form-group col-lg-6">
+                      <label for="foodCategory" style="color: white;">음식 종류</label>
+                      <select id="foodCategory" class="form-control">
+                        <option value="">카테고리 선택</option>
+                        <option value="한식">한식</option>
+                        <option value="중식">중식</option>
+                        <option value="일식">일식</option>
+                        <option value="양식">양식</option>
+                        <option value="기타">기타</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col">
+                      <label for="material" style="color: white;">재료</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="material"
+                        placeholder="재료를 입력해주세요."
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col">
+                      <label for="recipe" style="color: white;">레시피</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="recipe"
+                        placeholder="레시피를 입력해주세요."
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-row">
+                    <div class="form-group col">
+                      <label for="uploadPhoto">음식 사진</label>
+                      <input
+                        type="file"
+                        class="form-control-file"
+                        id="uploadPhoto"
+                        accept="image/*"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="btn_box">
+                    <button>SEND</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    <!-- end contact section -->
+
+    <!-- jQery -->
+    <script src="js/jquery-3.4.1.min.js"></script>
+    <!-- popper js -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+      crossorigin="anonymous"
+    ></script>
+    <!-- bootstrap js -->
+    <script src="js/bootstrap.js"></script>
+    <!-- owl slider -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- nice select -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+      integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo="
+      crossorigin="anonymous"
+    ></script>
+    <!-- custom js -->
+    <script src="js/custom.js"></script>
+
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+  const foodInput = document.getElementById('foodInput');
+  const timeSelect = document.getElementById('timeSelect');
+  const categorySelect = document.getElementById('categorySelect');
+  const leftText = document.querySelector('.left-text');
+  const searchButton = document.querySelector('.nav_search-btn'); // 돋보기 버튼
+  const addButton = document.querySelector('.add-button');
+    
+  function updateLeftText() {
+    // 초기에 '전체 목록' 텍스트를 클리어
+    leftText.innerHTML = '';
+
+    // 음식 이름이 입력되어 있으면 표시
+    const foodValue = foodInput.value.trim();
+    if (foodValue) {
+      leftText.textContent = `${foodValue}  `;
+    }
+
+    // 시간이 선택되어 있으면 span 요소로 추가
+    const timeValue = timeSelect.value;
+        if (timeValue) {
+          const timeBadge = document.createElement('span');
+          timeBadge.className = 'filter-badge';
+          timeBadge.textContent = `시간: ${timeValue}`;
+          leftText.appendChild(timeBadge); // left-text 영역에 추가
+        }
+
+        // 카테고리가 선택되어 있으면 span 요소로 추가
+        const categoryValue = categorySelect.value;
+        if (categoryValue) {
+          const categoryBadge = document.createElement('span');
+          categoryBadge.className = 'filter-badge';
+          categoryBadge.textContent = `카테고리: ${categoryValue}`;
+          leftText.appendChild(categoryBadge); // left-text 영역에 추가
+        }
+      }
+
+      searchButton.addEventListener('click', function(event) {
+        event.preventDefault(); // 기본 제출 행위 방지
+        updateLeftText(); // left-text 업데이트
+      });
+    });
+    </script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+    const addButton = document.getElementById('addButton');
+    addButton.addEventListener('click', function() {
+        const contactSection = document.querySelector('.contact_section');
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+    });
+});
+    </script>
+  </body>
+</html>
