@@ -104,6 +104,7 @@
 
 .tm-list{
   height:680px;
+  overflow: auto; /* 이전, 다음 버튼 구현 후 삭제 예정, 임시방편. */
 }
 
 .tm-list-item{
