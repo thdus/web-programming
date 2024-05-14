@@ -5,30 +5,30 @@
 // 레시피 : recipe
 // 음식사진 : uploadPhoto
 
-document.addEventListener("DOMContentLoaded", function () {
-  const menuContainer = document.querySelector("#customCarousel1 .tm-list"); // id 선택자 사용
+// document.addEventListener("DOMContentLoaded", function () {
+//   const menuContainer = document.querySelector("#customCarousel1 .tm-list"); // id 선택자 사용
 
-  function fetchMenuItems() {
-    fetch("/menu-items")
-      .then((response) => response.json())
-      .then((menuItems) => {
-        menuItems.forEach((item) => {
-          const menuItemHtml = `
-                    <div class="tm-list-item">          
-                        <img src="images/${item.image}" alt="Image" class="tm-list-item-img">
-                        <div class="tm-black-bg tm-list-item-text">
-                            <h3 class="tm-list-item-name">${item.name}<span class="tm-list-item-price">${item.price}</span></h3>
-                            <p class="tm-list-item-description">${item.recipe}</p>
-                        </div>
-                    </div>`;
-          menuContainer.innerHTML += menuItemHtml;
-        });
-      })
-      .catch((error) => console.error("Error loading the menu items:", error));
-  }
+//   function fetchMenuItems() {
+//     fetch("/menu-items")
+//       .then((response) => response.json())
+//       .then((menuItems) => {
+//         menuItems.forEach((item) => {
+//           const menuItemHtml = `
+//                     <div class="tm-list-item">          
+//                         <img src="image/${item.image}" alt="Image" class="tm-list-item-img">
+//                         <div class="tm-black-bg tm-list-item-text">
+//                             <h3 class="tm-list-item-name">${item.name}<span class="tm-list-item-price">${item.price}</span></h3>
+//                             <p class="tm-list-item-description">${item.recipe}</p>
+//                         </div>
+//                     </div>`;
+//           menuContainer.innerHTML += menuItemHtml;
+//         });
+//       })
+//       .catch((error) => console.error("Error loading the menu items:", error));
+//   }
 
-  fetchMenuItems(); // 페이지 로딩 시 메뉴 아이템 로드
-});
+//   fetchMenuItems(); // 페이지 로딩 시 메뉴 아이템 로드
+// });
 
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("form");

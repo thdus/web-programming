@@ -18,7 +18,7 @@ app.get("/menu-items", (req, res) => {
 
 const imageStorage = multer.diskStorage({
   destination: function (req, file, callback) {
-    callback(null, "public/images");
+    callback(null, "public/image");
   },
   filename: function (req, file, callback) {
     callback(null, file.originalname);
@@ -54,7 +54,7 @@ app.post("/upload-data", uploadImage.single("uploadPhoto"), (req, res) => {
   menuItems.push(newItem);
   fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
   res.redirect("/");
-  res.send({ message: "Data and Image uploaded successfully" });
+
 });
 
 app.listen(PORT, () => {

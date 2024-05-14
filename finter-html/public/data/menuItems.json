@@ -1,0 +1,50 @@
+[
+  {
+    "name": "tofuKimchi",
+    "time": "10분",
+    "category": "한식",
+    "material": "두부, 김치, 파",
+    "recipe": "두부를 썰어 볶고, 잘 익은 김치와 파를 넣어 간단하게 볶아내세요.",
+    "image": "tofuKimchi.png"
+  },
+  {
+    "name": "chickenCurry",
+    "time": "30분",
+    "category": "양식",
+    "material": "치킨, 카레 분말",
+    "recipe": "치킨을 살짝 볶고 카레 분말을 넣어 함께 조리하세요. 쌀과 함께 제공됩니다.",
+    "image": "chickenCurry.png"
+  },
+  {
+    "name": "seaweedSoup",
+    "time": "20분",
+    "category": "한식",
+    "material": "미역, 소고기, 마늘",
+    "recipe": "소고기를 볶고 물을 붓고 미역을 넣어 끓입니다. 마늘로 간을 맞추세요.",
+    "image": "seaweedSoup.png"
+  },
+  {
+    "name": "pastaBolognese",
+    "time": "25분",
+    "category": "양식",
+    "material": "파스타, 토마토 소스, 소고기",
+    "recipe": "소고기를 볶고 토마토 소스를 넣어 잘 조리한 후 삶은 파스타와 섞어주세요.",
+    "image": "pastaBolognese.png"
+  },
+  {
+    "name": "spicyTofuStew",
+    "time": "15분",
+    "category": "한식",
+    "material": "두부, 고추장, 야채",
+    "recipe": "야채를 볶고 물을 붓고 고추장을 풀어 두부를 넣고 끓여내세요.",
+    "image": "spicyTofuStew.png"
+  },
+  {
+    "name": "진짜 좀 제발 돼라!!!",
+    "time": "15분",
+    "category": "한식",
+    "material": "제발제발제발제발",
+    "recipe": "진짜쩨발발",
+    "image": "macdonald.png"
+  }
+]

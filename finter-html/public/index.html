@@ -181,7 +181,11 @@
                 <h2>레시피 추가</h2>
               </div>
 
-              <form action="/menu-items">
+              <form
+                action="/upload-data"
+                method="post"
+                enctype="multipart/form-data"
+              >
                 <div class="form-row">
                   <div class="form-group col">
                     <label for="foodNameInput" style="color: white"
@@ -372,9 +376,9 @@
             menuItems.forEach((item) => {
               const menuItemHtml = `
                     <div class="tm-list-item">          
-                        <img src="images/${item.image}" alt="Image" class="tm-list-item-img">
+                        <img src="image/${item.image}" alt="Image" class="tm-list-item-img">
                         <div class="tm-black-bg tm-list-item-text">
-                            <h3 class="tm-list-item-name">${item.name}<span class="tm-list-item-price">${item.price}</span></h3>
+                            <h3 class="tm-list-item-name">${item.name}<span class="tm-list-item-price">${item.time}# ${item.material}</span></h3>
                             <p class="tm-list-item-description">${item.recipe}</p>
                         </div>
                     </div>`;
