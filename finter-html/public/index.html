@@ -365,15 +365,20 @@
     </script>
     <!-- 용호 코드 추가 부분 -->
     <script>
+      // 문서가 로드되면 함수를 실행
       document.addEventListener("DOMContentLoaded", function () {
+        // 메뉴 컨테이너 DOM 요소 선택
         const menuContainer = document.querySelector(
           "#customCarousel1 .tm-list"
         );
 
+        // 서버에서 메뉴 아이템을 가져오는 HTTP 요청을 보냄
         fetch("/menu-items")
-          .then((response) => response.json())
+          .then((response) => response.json()) // 응답을 JSON 형식으로 파싱
           .then((menuItems) => {
             menuItems.forEach((item) => {
+              // 메뉴 아이템 배열을 순회
+              // HTML 마크업 생성하여 각 메뉴 아이템을 화면에 표시
               const menuItemHtml = `
                     <div class="tm-list-item">          
                         <img src="image/${item.image}" alt="Image" class="tm-list-item-img">
@@ -382,11 +387,13 @@
                             <p class="tm-list-item-description">${item.recipe}</p>
                         </div>
                     </div>`;
-              menuContainer.innerHTML += menuItemHtml;
+              menuContainer.innerHTML += menuItemHtml; // 컨테이너에 HTML 추가
             });
           })
-          .catch((error) =>
-            console.error("Error loading the menu items:", error)
+          .catch(
+            (
+              error // 요청 실패 시 오류 처리
+            ) => console.error("Error loading the menu items:", error)
           );
       });
     </script>
