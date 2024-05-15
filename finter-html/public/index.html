@@ -117,11 +117,48 @@
               </form>
             </div>
 
-            <li class="nav-item">
-              <button class="btn nav-link login-button" type="button">
-                <i class="fa fa-user" aria-hidden="true"></i> Login
-              </button>
-            </li>
+            <!-- Login Modal -->
+            <!-- 로그인 버튼 -->
+<button class="btn nav-link login-button" type="button" id="loginBtn">
+  <i class="fa fa-user" aria-hidden="true"></i> Login
+</button>
+
+<!-- 로그인 모달 -->
+<div id="loginModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <form id="loginForm">
+      <label for="username">ID:</label>
+      <input type="text" id="username" name="username" placeholder="아이디 입력">
+      <label for="password">PW:</label>
+      <input type="password" id="password" name="password" placeholder="비밀번호 입력">
+      <button type="submit" class="login-submit-btn">Login</button>
+    </form>
+    <div class="register-link">
+      <a href="#" id="registerLink">회원가입</a>
+    </div>
+  </div>
+</div>
+
+<!-- 회원가입 모달 -->
+<div id="registerModal" class="modal">
+  <div class="modal-content">
+    <span class="close-register">&times;</span>
+    <form id="registerForm" action="/register" method="post">
+      <label for="student-id">학번:</label>
+      <input type="number" id="student-id" name="student-id" placeholder="학번 입력">
+      <label for="name">이름:</label>
+      <input type="text" id="name" name="name" placeholder="이름 입력">
+      <label for="new-username">등록할 ID:</label>
+      <input type="text" id="new-username" name="new-username" placeholder="ID 입력">
+      <label for="new-password">등록할 비밀번호:</label>
+      <input type="password" id="new-password" name="new-password" placeholder="비밀번호 입력">
+      <button type="submit" class="register-submit-btn">Register</button>
+      <div id="error-message"></div>
+    </form>
+  </div>
+</div>
+
           </ul>
         </nav>
       </header>
@@ -396,6 +433,73 @@
             ) => console.error("Error loading the menu items:", error)
           );
       });
+    </script>
+
+    <!-- 민혁 추가 -->
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+  var loginBtn = document.getElementById("loginBtn");
+  var loginModal = document.getElementById("loginModal");
+  var closeBtn = document.querySelector(".close");
+
+  var registerLink = document.getElementById("registerLink");
+  var registerModal = document.getElementById("registerModal");
+  var closeRegisterBtn = document.querySelector(".close-register");
+
+  // 로그인 모달 표시
+  loginBtn.onclick = function() {
+    loginModal.style.display = "block";
+  }
+
+  // 로그인 모달 닫기
+  closeBtn.onclick = function() {
+    loginModal.style.display = "none";
+  }
+
+  // 회원가입 모달 표시
+  registerLink.onclick = function(event) {
+    event.preventDefault();
+    loginModal.style.display = "none";
+    registerModal.style.display = "block";
+  }
+
+  // 회원가입 모달 닫기
+  closeRegisterBtn.onclick = function() {
+    registerModal.style.display = "none";
+  }
+
+  // 모달 외부 클릭 시 모달 닫기
+  window.onclick = function(event) {
+    if (event.target == loginModal) {
+      loginModal.style.display = "none";
+    }
+    if (event.target == registerModal) {
+      registerModal.style.display = "none";
+    }
+  }
+
+  // 회원가입 폼 제출 시 ID 중복 확인
+  var registerForm = document.getElementById("registerForm");
+  registerForm.onsubmit = function(event) {
+    event.preventDefault();
+    var newUsername = document.getElementById("new-username").value;
+    var errorMessage = document.getElementById("error-message");
+
+    // 사용자 이름(ID) 중복 확인
+    fetch('/check-username?username=' + newUsername)
+      .then(response => response.json())
+      .then(data => {
+        if (data.exists) {
+          errorMessage.textContent = "이미 존재하는 ID입니다.";
+        } else {
+          // 사용자 이름이 사용 가능하면 폼 제출
+          errorMessage.textContent = "";
+          registerForm.submit();
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  };
+});
     </script>
   </body>
 </html>

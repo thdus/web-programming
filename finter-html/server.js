@@ -9,6 +9,7 @@ const PORT = 3000; // 서버 포트 설정
 app.use(express.static("public")); // 정적 파일 제공을 위한 폴더 설정
 app.use(express.json()); // JSON 요청 본문 파싱을 위한 미들웨어 사용
 
+
 // 메뉴 아이템을 제공하는 라우트
 app.get("/menu-items", (req, res) => {
   const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json"); // JSON 파일 경로 설정
