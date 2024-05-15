@@ -5,59 +5,37 @@
 // 레시피 : recipe
 // 음식사진 : uploadPhoto
 
-// document.addEventListener("DOMContentLoaded", function () {
-//   const menuContainer = document.querySelector("#customCarousel1 .tm-list"); // id 선택자 사용
-
-//   function fetchMenuItems() {
-//     fetch("/menu-items")
-//       .then((response) => response.json())
-//       .then((menuItems) => {
-//         menuItems.forEach((item) => {
-//           const menuItemHtml = `
-//                     <div class="tm-list-item">          
-//                         <img src="image/${item.image}" alt="Image" class="tm-list-item-img">
-//                         <div class="tm-black-bg tm-list-item-text">
-//                             <h3 class="tm-list-item-name">${item.name}<span class="tm-list-item-price">${item.price}</span></h3>
-//                             <p class="tm-list-item-description">${item.recipe}</p>
-//                         </div>
-//                     </div>`;
-//           menuContainer.innerHTML += menuItemHtml;
-//         });
-//       })
-//       .catch((error) => console.error("Error loading the menu items:", error));
-//   }
-
-//   fetchMenuItems(); // 페이지 로딩 시 메뉴 아이템 로드
-// });
-
+// DOM이 로드된 후에 실행
 document.addEventListener("DOMContentLoaded", function () {
-  const form = document.querySelector("form");
+  const form = document.querySelector("form"); // 폼 선택자
   form.addEventListener("submit", function (event) {
-    // event.preventDefault();
-    const formData = new FormData(form);
+    // 폼 제출 이벤트 리스너
+    const formData = new FormData(form); // 폼 데이터 객체 생성
 
     fetch("/upload-data", {
-      method: "POST",
-      body: formData,
+      method: "POST", // POST 요청
+      body: formData, // 요청 본문
     })
-      .then((response) => response.json())
+      .then((response) => response.json()) // 응답을 JSON으로 파싱
       .then((data) => {
-        // 성공 메시지를 받고 나면,
-        fetchMenuItems(); // 메뉴 아이템을 새로고침할 수 있도록 설정
+        fetchMenuItems(); // 메뉴 아이템을 새로고침
       })
       .catch((error) => {
+        // 에러 처리
         console.error("Error:", error);
         alert("An error occurred while uploading data");
       });
   });
 
   function fetchMenuItems() {
+    // 메뉴 아이템을 불러오는 함수
     fetch("/menu-items")
-      .then((response) => response.text())
+      .then((response) => response.text()) // 응답을 텍스트로 파싱
       .then((html) => {
-        document.querySelector(".tm-list").innerHTML = html; // 화면에 새로운 메뉴 아이템을 표시
+        document.querySelector(".tm-list").innerHTML = html; // 화면에 새로운 메뉴 아이템 표시
       })
       .catch((error) => {
+        // 에러 처리
         console.error("Error loading menu items:", error);
       });
   }

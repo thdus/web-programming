@@ -3,46 +3,51 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 
-const app = express();
-const PORT = 3000;
+const app = express(); // express 애플리케이션 생성
+const PORT = 3000; // 서버 포트 설정
 
-app.use(express.static("public"));
-app.use(express.json());
+app.use(express.static("public")); // 정적 파일 제공을 위한 폴더 설정
+app.use(express.json()); // JSON 요청 본문 파싱을 위한 미들웨어 사용
 
+// 메뉴 아이템을 제공하는 라우트
 app.get("/menu-items", (req, res) => {
-  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
-  const data = fs.readFileSync(jsonFilePath, "utf8");
-  const menuItems = JSON.parse(data);
-  res.json(menuItems);
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json"); // JSON 파일 경로 설정
+  const data = fs.readFileSync(jsonFilePath, "utf8"); // 동기적으로 파일 읽기
+  const menuItems = JSON.parse(data); // JSON 파싱
+  res.json(menuItems); // 클라이언트에 JSON 데이터 응답
 });
 
 const imageStorage = multer.diskStorage({
+  // 이미지 저장 설정
   destination: function (req, file, callback) {
+    // 이미지 저장 경로 설정
     callback(null, "public/image");
   },
   filename: function (req, file, callback) {
+    // 저장할 파일 이름 설정
     callback(null, file.originalname);
   },
 });
 
-const uploadImage = multer({ storage: imageStorage });
+const uploadImage = multer({ storage: imageStorage }); // 이미지 업로드 처리를 위한 multer 설정
 
-// JSON 데이터 저장
+// JSON 데이터와 이미지를 업로드하는 POST 라우트
 app.post("/upload-data", uploadImage.single("uploadPhoto"), (req, res) => {
   if (!req.file) {
-    return res.status(400).send("No file uploaded");
+    return res.status(400).send("No file uploaded"); // 파일이 업로드되지 않았을 경우 에러 처리
   }
 
-  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
-  let menuItems = [];
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json"); // JSON 파일 경로 설정
+  let menuItems = []; // 메뉴 아이템 배열 초기화
 
-  // 파일이 존재하면 기존 데이터 불러오기
   if (fs.existsSync(jsonFilePath)) {
-    const data = fs.readFileSync(jsonFilePath, "utf8");
-    menuItems = JSON.parse(data);
+    // 파일 존재 여부 확인
+    const data = fs.readFileSync(jsonFilePath, "utf8"); // 파일 읽기
+    menuItems = JSON.parse(data); // 기존 데이터 파싱
   }
 
   const newItem = {
+    // 새 메뉴 아이템 객체 생성
     name: req.body.foodNameInput,
     time: req.body.cookingTime,
     category: req.body.foodCategory,
@@ -51,12 +56,12 @@ app.post("/upload-data", uploadImage.single("uploadPhoto"), (req, res) => {
     image: req.file.filename,
   };
 
-  menuItems.push(newItem);
-  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
-  res.redirect("/");
-
+  menuItems.push(newItem); // 새 아이템 배열에 추가
+  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2)); // 파일에 데이터 저장
+  res.redirect("/"); // 메인 페이지로 리디렉트
 });
 
 app.listen(PORT, () => {
+  // 서버 시작
   console.log(`Server running on http://localhost:${PORT}`);
 });
