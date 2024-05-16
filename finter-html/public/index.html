@@ -119,46 +119,81 @@
 
             <!-- Login Modal -->
             <!-- 로그인 버튼 -->
-<button class="btn nav-link login-button" type="button" id="loginBtn">
-  <i class="fa fa-user" aria-hidden="true"></i> Login
-</button>
+            <button
+              class="btn nav-link login-button"
+              type="button"
+              id="loginBtn"
+            >
+              <i class="fa fa-user" aria-hidden="true"></i> Login
+            </button>
 
-<!-- 로그인 모달 -->
-<div id="loginModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <form id="loginForm">
-      <label for="username">ID:</label>
-      <input type="text" id="username" name="username" placeholder="아이디 입력">
-      <label for="password">PW:</label>
-      <input type="password" id="password" name="password" placeholder="비밀번호 입력">
-      <button type="submit" class="login-submit-btn">Login</button>
-    </form>
-    <div class="register-link">
-      <a href="#" id="registerLink">회원가입</a>
-    </div>
-  </div>
-</div>
+            <!-- 로그인 모달 -->
+            <div id="loginModal" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="loginForm">
+                  <label for="username">ID:</label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="아이디 입력"
+                  />
+                  <label for="password">PW:</label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="비밀번호 입력"
+                  />
+                  <button type="submit" class="login-submit-btn">Login</button>
+                </form>
+                <div class="register-link">
+                  <a href="#" id="registerLink">회원가입</a>
+                </div>
+              </div>
+            </div>
 
-<!-- 회원가입 모달 -->
-<div id="registerModal" class="modal">
-  <div class="modal-content">
-    <span class="close-register">&times;</span>
-    <form id="registerForm" action="/register" method="post">
-      <label for="student-id">학번:</label>
-      <input type="number" id="student-id" name="student-id" placeholder="학번 입력">
-      <label for="name">이름:</label>
-      <input type="text" id="name" name="name" placeholder="이름 입력">
-      <label for="new-username">등록할 ID:</label>
-      <input type="text" id="new-username" name="new-username" placeholder="ID 입력">
-      <label for="new-password">등록할 비밀번호:</label>
-      <input type="password" id="new-password" name="new-password" placeholder="비밀번호 입력">
-      <button type="submit" class="register-submit-btn">Register</button>
-      <div id="error-message"></div>
-    </form>
-  </div>
-</div>
-
+            <!-- 회원가입 모달 -->
+            <div id="registerModal" class="modal">
+              <div class="modal-content">
+                <span class="close-register">&times;</span>
+                <form id="registerForm" action="/register" method="post">
+                  <label for="student-id">학번:</label>
+                  <input
+                    type="number"
+                    id="student-id"
+                    name="student-id"
+                    placeholder="학번 입력"
+                  />
+                  <label for="name">이름:</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="이름 입력"
+                  />
+                  <label for="new-username">등록할 ID:</label>
+                  <input
+                    type="text"
+                    id="new-username"
+                    name="new-username"
+                    placeholder="ID 입력"
+                  />
+                  <label for="new-password">등록할 비밀번호:</label>
+                  <input
+                    type="password"
+                    id="new-password"
+                    name="new-password"
+                    placeholder="비밀번호 입력"
+                  />
+                  <button type="submit" class="register-submit-btn">
+                    Register
+                  </button>
+                  <div id="error-message"></div>
+                </form>
+              </div>
+            </div>
           </ul>
         </nav>
       </header>
@@ -172,6 +207,7 @@
             <button id="addButton" class="add-button">추가</button>
           </div>
         </div>
+
         <div id="customCarousel1" class="carousel slide" data-ride="carousel">
           <div class="tm-list">
             <div class="tm-list-item">
@@ -180,20 +216,121 @@
                 alt="Image"
                 class="tm-list-item-img"
               />
-              <div class="tm-black-bg tm-list-item-text">
-                <h3 class="tm-list-item-name">
-                  Iced Americano<span class="tm-list-item-price">$10.25</span>
-                </h3>
-                <p class="tm-list-item-description">
-                  Here is a short description for the first item. Wave Cafe
-                  Template is provided by Tooplate.
-                </p>
+              <div class="tm-list-item-content">
+                <div class="tm-list-item-header">
+                  <h3 class="tm-list-item-name">Iced Americano</h3>
+                  <div class="tm-list-item-filters">
+                    <span class="filter">시간</span>
+                    <span class="filter">요리 종류</span>
+                  </div>
+                  <div class="tm-list-item-id-date">
+                    <span class="tm-list-item-id">ID: 사용자아이디/</span>
+                    <span class="tm-list-item-date">업데이트 날짜</span>
+                  </div>
+                </div>
+                <div class="tm-list-item-footer">
+                  <button class="details-btn">상세 정보</button>
+                  <div class="tm-list-item-actions">
+                    <button class="like-btn">
+                      <i class="fa fa-heart"></i>
+                    </button>
+                    <span class="like-count">0</span>
+                    <button class="comment-btn">
+                      <i class="fa fa-comment"></i>
+                    </button>
+                    <span class="comment-count">0</span>
+                    <!-- 댓글 목록 모달 -->
+                    <div id="commentListModal" class="comment-list-modal">
+                      <div class="comment-list-content">
+                        <span class="comment-list-close">&times;</span>
+                        <div class="comment-list">
+                          <div class="comment-item">
+                            <p><strong>사용자1:</strong> 여기에 첫 번째 댓글이 표시됩니다.</p>
+                          </div>
+                          <div class="comment-item">
+                            <p><strong>사용자2:</strong> 여기에 두 번째 댓글이 표시됩니다.</p>
+                          </div>
+                          <!-- 더 많은 댓글 항목을 추가할 수 있습니다. -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 공유 버튼 -->
+                    <button class="share-btn">
+                      <i class="fa fa-share"></i>
+                    </button>
+
+                    <!-- 이메일 공유 모달 -->
+                    <div id="shareModal" class="modal">
+                      <div class="modal-content">
+                        <span class="share-close">&times;</span>
+                        <h2>공유하기</h2>
+                        <form id="shareForm">
+                          <label for="recipient-email">이메일 주소:</label>
+                          <input
+                            type="email"
+                            id="recipient-email"
+                            name="recipient-email"
+                            placeholder="이메일 주소 입력"
+                          />
+                          <button type="submit" class="share-submit-btn">보내기</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="navigation">
-            <button class="prev-btn">이전</button>
-            <button class="next-btn">다음</button>
+            
+    </div>
+
+            <!-- 레시피 상세 정보 모달 -->
+            <div class="recipe-details-modal">
+              <div class="recipe-details-content">
+                <span class="recipe-details-close">&times;</span>
+                <div class="recipe-details-header">
+                  <h2 class="recipe-name">음식이름</h2>
+                  <div class="recipe-details-filters">
+                    <span class="filter">시간</span>
+                    <span class="filter">요리 종류</span>
+                    <!-- 좋아요 버튼과 개수 추가 -->
+                    <div class="tm-list-item-actions-details">
+                      <button class="like-btn">
+                        <i class="fa fa-heart"></i>
+                      </button>
+                      <span class="like-count">0</span>
+                    </div>
+                  </div>
+                </div>
+                <img
+                  class="recipe-details-image"
+                  src="images/iced-americano.png"
+                  alt="Recipe Image"
+                />
+                <div class="recipe-ingredients">
+                  <h3>재료</h3>
+                  <p>여기에 재료 설명이 표시됩니다.</p>
+                </div>
+                <div class="recipe-instructions">
+                  <h3>레시피</h3>
+                  <p>여기에 레시피 설명이 표시됩니다.</p>
+                </div>
+                <div class="recipe-comments">
+                  <h3>댓글</h3>
+                  <div class="comment-list">
+                    <div class="comment-item">
+                      <p><strong>사용자1:</strong> 여기에 첫 번째 댓글이 표시됩니다.</p>
+                    </div>
+                    <div class="comment-item">
+                      <p><strong>사용자2:</strong> 여기에 두 번째 댓글이 표시됩니다.</p>
+                    </div>
+                    <!-- 더 많은 댓글 항목을 추가할 수 있습니다. -->
+                  </div>
+                  <textarea placeholder="댓글을 입력하세요"></textarea>
+                  <button class="comment-submit-btn">댓글 달기</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -437,67 +574,156 @@
 
     <!-- 민혁 추가 -->
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var loginBtn = document.getElementById("loginBtn");
-  var loginModal = document.getElementById("loginModal");
-  var closeBtn = document.querySelector(".close");
+      document.addEventListener("DOMContentLoaded", function () {
+        var loginBtn = document.getElementById("loginBtn");
+        var loginModal = document.getElementById("loginModal");
+        var closeBtn = document.querySelector(".close");
 
-  var registerLink = document.getElementById("registerLink");
-  var registerModal = document.getElementById("registerModal");
-  var closeRegisterBtn = document.querySelector(".close-register");
+        var registerLink = document.getElementById("registerLink");
+        var registerModal = document.getElementById("registerModal");
+        var closeRegisterBtn = document.querySelector(".close-register");
 
-  // 로그인 모달 표시
-  loginBtn.onclick = function() {
-    loginModal.style.display = "block";
-  }
+        // 로그인 모달 표시
+        loginBtn.onclick = function () {
+          loginModal.style.display = "block";
+        };
 
-  // 로그인 모달 닫기
-  closeBtn.onclick = function() {
-    loginModal.style.display = "none";
-  }
+        // 로그인 모달 닫기
+        closeBtn.onclick = function () {
+          loginModal.style.display = "none";
+        };
 
-  // 회원가입 모달 표시
-  registerLink.onclick = function(event) {
-    event.preventDefault();
-    loginModal.style.display = "none";
-    registerModal.style.display = "block";
-  }
+        // 회원가입 모달 표시
+        registerLink.onclick = function (event) {
+          event.preventDefault();
+          loginModal.style.display = "none";
+          registerModal.style.display = "block";
+        };
 
-  // 회원가입 모달 닫기
-  closeRegisterBtn.onclick = function() {
-    registerModal.style.display = "none";
-  }
+        // 회원가입 모달 닫기
+        closeRegisterBtn.onclick = function () {
+          registerModal.style.display = "none";
+        };
 
-  // 모달 외부 클릭 시 모달 닫기
-  window.onclick = function(event) {
-    if (event.target == loginModal) {
-      loginModal.style.display = "none";
+        // 모달 외부 클릭 시 모달 닫기
+        window.onclick = function (event) {
+          if (event.target == loginModal) {
+            loginModal.style.display = "none";
+          }
+          if (event.target == registerModal) {
+            registerModal.style.display = "none";
+          }
+        };
+
+        // 회원가입 폼 제출 시 ID 중복 확인
+        var registerForm = document.getElementById("registerForm");
+        registerForm.onsubmit = function (event) {
+          event.preventDefault();
+          var newUsername = document.getElementById("new-username").value;
+          var errorMessage = document.getElementById("error-message");
+
+          // 사용자 이름(ID) 중복 확인
+          fetch("/check-username?username=" + newUsername)
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.exists) {
+                errorMessage.textContent = "이미 존재하는 ID입니다.";
+              } else {
+                // 사용자 이름이 사용 가능하면 폼 제출
+                errorMessage.textContent = "";
+                registerForm.submit();
+              }
+            })
+            .catch((error) => console.error("Error:", error));
+        };
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+  // 모든 상세 정보 버튼을 선택합니다.
+  const detailsBtns = document.querySelectorAll(".details-btn");
+
+  // 각 버튼에 클릭 이벤트 리스너를 추가합니다.
+  detailsBtns.forEach((btn) => {
+    btn.addEventListener("click", function (event) {
+      event.stopPropagation(); // 이벤트 전파 방지
+      // 상세 정보 모달을 표시합니다.
+      const details = document.querySelector(".recipe-details-modal");
+      details.style.display = "block";
+      const listItem = btn.closest(".tm-list-item");
+      listItem.classList.add("active"); // 클릭된 아이템에 active 클래스 추가
+    });
+  });
+
+  // 닫기 버튼 클릭 시 상세 정보 모달을 숨깁니다.
+  const closeModalBtn = document.querySelector(".recipe-details-close");
+  closeModalBtn.addEventListener("click", function () {
+    const details = document.querySelector(".recipe-details-modal");
+    details.style.display = "none";
+    // 모든 리스트 아이템에서 active 클래스 제거
+    document.querySelectorAll(".tm-list-item").forEach((item) => {
+      item.classList.remove("active");
+    });
+  });
+});
+
+    </script>
+
+    <!-- 공유버튼 -->
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+  // 공유 버튼과 이메일 공유 모달 요소 선택
+  const shareBtns = document.querySelectorAll(".share-btn");
+  const shareModal = document.getElementById("shareModal");
+  const closeShareBtn = document.querySelector(".share-close");
+
+  // 공유 버튼 클릭 시 이메일 공유 모달 표시
+  shareBtns.forEach((btn) => {
+    btn.addEventListener("click", function (event) {
+      event.stopPropagation(); // 이벤트 전파 방지
+      shareModal.style.display = "block";
+    });
+  });
+
+  // 닫기 버튼 클릭 시 이메일 공유 모달 숨기기
+  closeShareBtn.onclick = function () {
+    shareModal.style.display = "none";
+  };
+
+  // 모달 외부 클릭 시 이메일 공유 모달 숨기기
+  window.onclick = function (event) {
+    if (event.target == shareModal) {
+      shareModal.style.display = "none";
     }
-    if (event.target == registerModal) {
-      registerModal.style.display = "none";
+  };
+});
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+  // 댓글 버튼과 댓글 목록 모달 요소 선택
+  const commentBtns = document.querySelectorAll(".comment-btn");
+  const commentListModal = document.getElementById("commentListModal");
+  const closeCommentListBtn = document.querySelector(".comment-list-close");
+
+  // 댓글 버튼 클릭 시 댓글 목록 모달 표시
+  commentBtns.forEach((btn) => {
+    btn.addEventListener("click", function (event) {
+      event.stopPropagation(); // 이벤트 전파 방지
+      commentListModal.style.display = "block";
+    });
+  });
+
+  // 닫기 버튼 클릭 시 댓글 목록 모달 숨기기
+  closeCommentListBtn.onclick = function () {
+    commentListModal.style.display = "none";
+  };
+
+  // 모달 외부 클릭 시 댓글 목록 모달 숨기기
+  window.onclick = function (event) {
+    if (event.target == commentListModal) {
+      commentListModal.style.display = "none";
     }
-  }
-
-  // 회원가입 폼 제출 시 ID 중복 확인
-  var registerForm = document.getElementById("registerForm");
-  registerForm.onsubmit = function(event) {
-    event.preventDefault();
-    var newUsername = document.getElementById("new-username").value;
-    var errorMessage = document.getElementById("error-message");
-
-    // 사용자 이름(ID) 중복 확인
-    fetch('/check-username?username=' + newUsername)
-      .then(response => response.json())
-      .then(data => {
-        if (data.exists) {
-          errorMessage.textContent = "이미 존재하는 ID입니다.";
-        } else {
-          // 사용자 이름이 사용 가능하면 폼 제출
-          errorMessage.textContent = "";
-          registerForm.submit();
-        }
-      })
-      .catch(error => console.error('Error:', error));
   };
 });
     </script>
