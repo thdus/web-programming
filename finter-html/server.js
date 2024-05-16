@@ -62,6 +62,7 @@ app.post("/upload-data", uploadImage.single("uploadPhoto"), (req, res) => {
   res.redirect("/"); // 메인 페이지로 리디렉트
 });
 
+
 app.listen(PORT, () => {
   // 서버 시작
   console.log(`Server running on http://localhost:${PORT}`);

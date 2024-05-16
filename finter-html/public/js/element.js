@@ -8,6 +8,7 @@
 // DOM이 로드된 후에 실행
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("form"); // 폼 선택자
+
   form.addEventListener("submit", function (event) {
     // 폼 제출 이벤트 리스너
     const formData = new FormData(form); // 폼 데이터 객체 생성
@@ -25,6 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Error:", error);
         alert("An error occurred while uploading data");
       });
+
+      
   });
 
   function fetchMenuItems() {
@@ -40,3 +43,5 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 });
+
+

@@ -119,46 +119,81 @@
 
             <!-- Login Modal -->
             <!-- 로그인 버튼 -->
-<button class="btn nav-link login-button" type="button" id="loginBtn">
-  <i class="fa fa-user" aria-hidden="true"></i> Login
-</button>
+            <button
+              class="btn nav-link login-button"
+              type="button"
+              id="loginBtn"
+            >
+              <i class="fa fa-user" aria-hidden="true"></i> Login
+            </button>
 
-<!-- 로그인 모달 -->
-<div id="loginModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <form id="loginForm">
-      <label for="username">ID:</label>
-      <input type="text" id="username" name="username" placeholder="아이디 입력">
-      <label for="password">PW:</label>
-      <input type="password" id="password" name="password" placeholder="비밀번호 입력">
-      <button type="submit" class="login-submit-btn">Login</button>
-    </form>
-    <div class="register-link">
-      <a href="#" id="registerLink">회원가입</a>
-    </div>
-  </div>
-</div>
+            <!-- 로그인 모달 -->
+            <div id="loginModal" class="modal">
+              <div class="modal-content">
+                <span class="close">&times;</span>
+                <form id="loginForm">
+                  <label for="username">ID:</label>
+                  <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="아이디 입력"
+                  />
+                  <label for="password">PW:</label>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="비밀번호 입력"
+                  />
+                  <button type="submit" class="login-submit-btn">Login</button>
+                </form>
+                <div class="register-link">
+                  <a href="#" id="registerLink">회원가입</a>
+                </div>
+              </div>
+            </div>
 
-<!-- 회원가입 모달 -->
-<div id="registerModal" class="modal">
-  <div class="modal-content">
-    <span class="close-register">&times;</span>
-    <form id="registerForm" action="/register" method="post">
-      <label for="student-id">학번:</label>
-      <input type="number" id="student-id" name="student-id" placeholder="학번 입력">
-      <label for="name">이름:</label>
-      <input type="text" id="name" name="name" placeholder="이름 입력">
-      <label for="new-username">등록할 ID:</label>
-      <input type="text" id="new-username" name="new-username" placeholder="ID 입력">
-      <label for="new-password">등록할 비밀번호:</label>
-      <input type="password" id="new-password" name="new-password" placeholder="비밀번호 입력">
-      <button type="submit" class="register-submit-btn">Register</button>
-      <div id="error-message"></div>
-    </form>
-  </div>
-</div>
-
+            <!-- 회원가입 모달 -->
+            <div id="registerModal" class="modal">
+              <div class="modal-content">
+                <span class="close-register">&times;</span>
+                <form id="registerForm" action="/register" method="post">
+                  <label for="student-id">학번:</label>
+                  <input
+                    type="number"
+                    id="student-id"
+                    name="student-id"
+                    placeholder="학번 입력"
+                  />
+                  <label for="name">이름:</label>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="이름 입력"
+                  />
+                  <label for="new-username">등록할 ID:</label>
+                  <input
+                    type="text"
+                    id="new-username"
+                    name="new-username"
+                    placeholder="ID 입력"
+                  />
+                  <label for="new-password">등록할 비밀번호:</label>
+                  <input
+                    type="password"
+                    id="new-password"
+                    name="new-password"
+                    placeholder="비밀번호 입력"
+                  />
+                  <button type="submit" class="register-submit-btn">
+                    Register
+                  </button>
+                  <div id="error-message"></div>
+                </form>
+              </div>
+            </div>
           </ul>
         </nav>
       </header>
@@ -416,14 +451,23 @@
             menuItems.forEach((item) => {
               // 메뉴 아이템 배열을 순회
               // HTML 마크업 생성하여 각 메뉴 아이템을 화면에 표시
-              const menuItemHtml = `
-                    <div class="tm-list-item">          
-                        <img src="image/${item.image}" alt="Image" class="tm-list-item-img">
-                        <div class="tm-black-bg tm-list-item-text">
-                            <h3 class="tm-list-item-name">${item.name}<span class="tm-list-item-price">${item.time}# ${item.material}</span></h3>
-                            <p class="tm-list-item-description">${item.recipe}</p>
-                        </div>
-                    </div>`;
+              // const menuItemHtml = `
+              //       <div class="tm-list-item">          
+              //           <img src="image/${item.image}" alt="Image" class="tm-list-item-img">
+              //           <div class="tm-black-bg tm-list-item-text">
+              //               <h3 class="tm-list-item-name">${item.name}<span class="tm-list-item-price">${item.time}# ${item.material}</span></h3>
+              //               <p class="tm-list-item-description">${item.recipe}</p>
+              //           </div>
+              //       </div>`;
+                    const menuItemHtml = `
+                    '<div class="tm-list-item">          
+            <img src="image/${item.image}" alt="Image" class="tm-list-item-img">
+            <div class="tm-black-bg tm-list-item-text">
+              <h3 class="tm-list-item-name">${item.name}<span class="tm-list-item-price">${item.time}# ${item.material}</span></h3>
+              <span class="tm-list-item-category" style="display: none;">${item.category}</span>
+              <p class="tm-list-item-description">${item.recipe}</p>
+            </div>
+          </div>`;
               menuContainer.innerHTML += menuItemHtml; // 컨테이너에 HTML 추가
             });
           })
@@ -437,69 +481,175 @@
 
     <!-- 민혁 추가 -->
     <script>
-document.addEventListener('DOMContentLoaded', function() {
-  var loginBtn = document.getElementById("loginBtn");
-  var loginModal = document.getElementById("loginModal");
-  var closeBtn = document.querySelector(".close");
+      document.addEventListener("DOMContentLoaded", function () {
+        var loginBtn = document.getElementById("loginBtn");
+        var loginModal = document.getElementById("loginModal");
+        var closeBtn = document.querySelector(".close");
 
-  var registerLink = document.getElementById("registerLink");
-  var registerModal = document.getElementById("registerModal");
-  var closeRegisterBtn = document.querySelector(".close-register");
+        var registerLink = document.getElementById("registerLink");
+        var registerModal = document.getElementById("registerModal");
+        var closeRegisterBtn = document.querySelector(".close-register");
 
-  // 로그인 모달 표시
-  loginBtn.onclick = function() {
-    loginModal.style.display = "block";
-  }
+        // 로그인 모달 표시
+        loginBtn.onclick = function () {
+          loginModal.style.display = "block";
+        };
 
-  // 로그인 모달 닫기
-  closeBtn.onclick = function() {
-    loginModal.style.display = "none";
-  }
+        // 로그인 모달 닫기
+        closeBtn.onclick = function () {
+          loginModal.style.display = "none";
+        };
 
-  // 회원가입 모달 표시
-  registerLink.onclick = function(event) {
-    event.preventDefault();
-    loginModal.style.display = "none";
-    registerModal.style.display = "block";
-  }
+        // 회원가입 모달 표시
+        registerLink.onclick = function (event) {
+          event.preventDefault();
+          loginModal.style.display = "none";
+          registerModal.style.display = "block";
+        };
 
-  // 회원가입 모달 닫기
-  closeRegisterBtn.onclick = function() {
-    registerModal.style.display = "none";
-  }
+        // 회원가입 모달 닫기
+        closeRegisterBtn.onclick = function () {
+          registerModal.style.display = "none";
+        };
 
-  // 모달 외부 클릭 시 모달 닫기
-  window.onclick = function(event) {
-    if (event.target == loginModal) {
-      loginModal.style.display = "none";
-    }
-    if (event.target == registerModal) {
-      registerModal.style.display = "none";
-    }
-  }
+        // 모달 외부 클릭 시 모달 닫기
+        window.onclick = function (event) {
+          if (event.target == loginModal) {
+            loginModal.style.display = "none";
+          }
+          if (event.target == registerModal) {
+            registerModal.style.display = "none";
+          }
+        };
 
-  // 회원가입 폼 제출 시 ID 중복 확인
-  var registerForm = document.getElementById("registerForm");
-  registerForm.onsubmit = function(event) {
-    event.preventDefault();
-    var newUsername = document.getElementById("new-username").value;
-    var errorMessage = document.getElementById("error-message");
+        // 회원가입 폼 제출 시 ID 중복 확인
+        var registerForm = document.getElementById("registerForm");
+        registerForm.onsubmit = function (event) {
+          event.preventDefault();
+          var newUsername = document.getElementById("new-username").value;
+          var errorMessage = document.getElementById("error-message");
 
-    // 사용자 이름(ID) 중복 확인
-    fetch('/check-username?username=' + newUsername)
-      .then(response => response.json())
-      .then(data => {
-        if (data.exists) {
-          errorMessage.textContent = "이미 존재하는 ID입니다.";
-        } else {
-          // 사용자 이름이 사용 가능하면 폼 제출
-          errorMessage.textContent = "";
-          registerForm.submit();
-        }
-      })
-      .catch(error => console.error('Error:', error));
-  };
-});
+          // 사용자 이름(ID) 중복 확인
+          fetch("/check-username?username=" + newUsername)
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.exists) {
+                errorMessage.textContent = "이미 존재하는 ID입니다.";
+              } else {
+                // 사용자 이름이 사용 가능하면 폼 제출
+                errorMessage.textContent = "";
+                registerForm.submit();
+              }
+            })
+            .catch((error) => console.error("Error:", error));
+        };
+      });
     </script>
+
+    <!--소연 추가 -->
+    <script>
+     
+      document.addEventListener("DOMContentLoaded", function () {
+        const foodInput = document.getElementById("foodInput");
+        const searchButton = document.querySelector(".nav_search-btn");
+
+        // 검색 키워드를 기반으로 메뉴 항목을 필터링하는 함수
+        function filterMenuItems() {
+          const keyword = foodInput.value.trim().toLowerCase();
+          const menuItems = document.querySelectorAll(".tm-list-item");
+
+          menuItems.forEach((item) => {
+            const itemName = item
+              .querySelector(".tm-list-item-name")
+              .textContent.trim()
+              .toLowerCase();
+            if (itemName.includes(keyword)) {
+              item.style.display = ""; // 항목 표시
+            } else {
+              item.style.display = "none"; // 항목 숨기기
+            }
+          });
+        }
+
+          // 검색 버튼 클릭 시 필터링 함수 실행
+    searchButton.addEventListener("click", function (event) {
+      event.preventDefault(); // 기본 제출 동작 방지
+      filterMenuItems(); // 메뉴 항목 필터링
+    });
+  });
+
+
+      document.addEventListener("DOMContentLoaded", function () {
+    const foodInput = document.getElementById("foodInput");
+    const timeSelect = document.getElementById("timeSelect");
+    const categorySelect = document.getElementById("categorySelect");
+    const searchButton = document.querySelector(".nav_search-btn");
+
+    // 검색 키워드를 기반으로 메뉴 항목을 필터링하는 함수
+    function filterMenuItems() {
+      const keyword = foodInput.value.trim().toLowerCase();
+      const selectedTime = timeSelect.value;
+      const menuItems = document.querySelectorAll(".tm-list-item");
+
+      menuItems.forEach(item => {
+        const itemName = item.querySelector(".tm-list-item-name").textContent.trim().toLowerCase();
+        const itemTime = item.querySelector(".tm-list-item-price").textContent.split('#')[0].trim();
+        
+        const matchesKeyword = keyword ? itemName.includes(keyword) : true;
+        const matchesTime = selectedTime ? itemTime === selectedTime : true;
+
+        if (matchesKeyword && matchesTime) {
+          item.style.display = ""; // 항목 표시
+        } else {
+          item.style.display = "none"; // 항목 숨기기
+        }
+      });
+    }
+
+    // 검색 버튼 클릭 시 필터링 함수 실행
+    searchButton.addEventListener("click", function (event) {
+      event.preventDefault(); // 기본 제출 동작 방지
+      filterMenuItems(); // 메뉴 항목 필터링
+    });
+  });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const foodInput = document.getElementById("foodInput");
+    const timeSelect = document.getElementById("timeSelect");
+    const categorySelect = document.getElementById("categorySelect");
+    const searchButton = document.querySelector(".nav_search-btn");
+
+    // 검색 키워드를 기반으로 메뉴 항목을 필터링하는 함수
+    function filterMenuItems() {
+      const keyword = foodInput.value.trim().toLowerCase();
+      const selectedTime = timeSelect.value;
+      const selectedCategory = categorySelect.value;
+      const menuItems = document.querySelectorAll(".tm-list-item");
+
+      menuItems.forEach(item => {
+        const itemName = item.querySelector(".tm-list-item-name").textContent.trim().toLowerCase();
+        const itemTime = item.querySelector(".tm-list-item-price").textContent.split('#')[0].trim();
+        const itemCategory = item.querySelector(".tm-list-item-category") ? item.querySelector(".tm-list-item-category").textContent.trim() : "";
+
+        const matchesKeyword = keyword ? itemName.includes(keyword) : true;
+        const matchesTime = selectedTime ? itemTime === selectedTime : true;
+        const matchesCategory = selectedCategory ? itemCategory === selectedCategory : true;
+
+        if (matchesKeyword && matchesTime && matchesCategory) {
+          item.style.display = ""; // 항목 표시
+        } else {
+          item.style.display = "none"; // 항목 숨기기
+        }
+      });
+    }
+
+    // 검색 버튼 클릭 시 필터링 함수 실행
+    searchButton.addEventListener("click", function (event) {
+      event.preventDefault(); // 기본 제출 동작 방지
+      filterMenuItems(); // 메뉴 항목 필터링
+    });
+  });
+    </script>
+    
   </body>
 </html>
