@@ -680,77 +680,107 @@
     });
   });
 
+  document.addEventListener("DOMContentLoaded", function () {
+        const timeSelect = document.getElementById("timeSelect");
+        const menuContainer = document.querySelector("#customCarousel1 .tm-list");
+
+        // 서버에서 메뉴 항목 가져오기
+        function fetchMenuItems() {
+          fetch("/menu-items")
+            .then((response) => response.json())
+            .then((menuItems) => {
+              displayMenuItems(menuItems);
+              // 선택된 시간에 따라 메뉴 항목 필터링
+              timeSelect.addEventListener("change", function () {
+                filterMenuItems(menuItems);
+              });
+            })
+            .catch((error) => console.error("메뉴 항목을 로드하는 중 오류 발생:", error));
+        }
+
+        // 메뉴 항목 표시
+        function displayMenuItems(menuItems) {
+          menuContainer.innerHTML = "";
+          menuItems.forEach((item) => {
+            const menuItemHtml = `
+              <div class="tm-list-item">
+                <img src="image/${item.image}" alt="Image" class="tm-list-item-img">
+                <div class="tm-black-bg tm-list-item-text">
+                  <h3 class="tm-list-item-name">${item.name}<span class="tm-list-item-price">${item.time}# ${item.material}</span></h3>
+                  <span class="tm-list-item-category" style="display: none;">${item.category}</span>
+                  <p class="tm-list-item-description">${item.recipe}</p>
+                </div>
+              </div>`;
+            menuContainer.innerHTML += menuItemHtml;
+          });
+        }
+
+        // 선택된 시간에 따라 메뉴 항목 필터링
+        function filterMenuItems(menuItems) {
+          const selectedTime = timeSelect.value;
+          const filteredItems = menuItems.filter(item => item.time === selectedTime);
+          displayMenuItems(filteredItems);
+        }
+
+        // 메뉴 항목 초기 로드
+        fetchMenuItems();
+      });
+
 
       document.addEventListener("DOMContentLoaded", function () {
-    const foodInput = document.getElementById("foodInput");
-    const timeSelect = document.getElementById("timeSelect");
-    const categorySelect = document.getElementById("categorySelect");
-    const searchButton = document.querySelector(".nav_search-btn");
+        const timeSelect = document.getElementById("timeSelect");
+        const categorySelect = document.getElementById("categorySelect");
+        const menuContainer = document.querySelector("#customCarousel1 .tm-list");
 
-    // 검색 키워드를 기반으로 메뉴 항목을 필터링하는 함수
-    function filterMenuItems() {
-      const keyword = foodInput.value.trim().toLowerCase();
-      const selectedTime = timeSelect.value;
-      const menuItems = document.querySelectorAll(".tm-list-item");
-
-      menuItems.forEach(item => {
-        const itemName = item.querySelector(".tm-list-item-name").textContent.trim().toLowerCase();
-        const itemTime = item.querySelector(".tm-list-item-price").textContent.split('#')[0].trim();
-        
-        const matchesKeyword = keyword ? itemName.includes(keyword) : true;
-        const matchesTime = selectedTime ? itemTime === selectedTime : true;
-
-        if (matchesKeyword && matchesTime) {
-          item.style.display = ""; // 항목 표시
-        } else {
-          item.style.display = "none"; // 항목 숨기기
+        // 서버에서 메뉴 항목 가져오기
+        function fetchMenuItems() {
+          fetch("/menu-items")
+            .then((response) => response.json())
+            .then((menuItems) => {
+              displayMenuItems(menuItems);
+              // 선택된 시간과 카테고리에 따라 메뉴 항목 필터링
+              timeSelect.addEventListener("change", function () {
+                filterMenuItems(menuItems);
+              });
+              categorySelect.addEventListener("change", function () {
+                filterMenuItems(menuItems);
+              });
+            })
+            .catch((error) => console.error("메뉴 항목을 로드하는 중 오류 발생:", error));
         }
-      });
-    }
 
-    // 검색 버튼 클릭 시 필터링 함수 실행
-    searchButton.addEventListener("click", function (event) {
-      event.preventDefault(); // 기본 제출 동작 방지
-      filterMenuItems(); // 메뉴 항목 필터링
-    });
-  });
-
-  document.addEventListener("DOMContentLoaded", function () {
-    const foodInput = document.getElementById("foodInput");
-    const timeSelect = document.getElementById("timeSelect");
-    const categorySelect = document.getElementById("categorySelect");
-    const searchButton = document.querySelector(".nav_search-btn");
-
-    // 검색 키워드를 기반으로 메뉴 항목을 필터링하는 함수
-    function filterMenuItems() {
-      const keyword = foodInput.value.trim().toLowerCase();
-      const selectedTime = timeSelect.value;
-      const selectedCategory = categorySelect.value;
-      const menuItems = document.querySelectorAll(".tm-list-item");
-
-      menuItems.forEach(item => {
-        const itemName = item.querySelector(".tm-list-item-name").textContent.trim().toLowerCase();
-        const itemTime = item.querySelector(".tm-list-item-price").textContent.split('#')[0].trim();
-        const itemCategory = item.querySelector(".tm-list-item-category") ? item.querySelector(".tm-list-item-category").textContent.trim() : "";
-
-        const matchesKeyword = keyword ? itemName.includes(keyword) : true;
-        const matchesTime = selectedTime ? itemTime === selectedTime : true;
-        const matchesCategory = selectedCategory ? itemCategory === selectedCategory : true;
-
-        if (matchesKeyword && matchesTime && matchesCategory) {
-          item.style.display = ""; // 항목 표시
-        } else {
-          item.style.display = "none"; // 항목 숨기기
+        // 메뉴 항목 표시
+        function displayMenuItems(menuItems) {
+          menuContainer.innerHTML = "";
+          menuItems.forEach((item) => {
+            const menuItemHtml = `
+              <div class="tm-list-item">
+                <img src="image/${item.image}" alt="Image" class="tm-list-item-img">
+                <div class="tm-black-bg tm-list-item-text">
+                  <h3 class="tm-list-item-name">${item.name}<span class="tm-list-item-price">${item.time}# ${item.material}</span></h3>
+                  <span class="tm-list-item-category" style="display: none;">${item.category}</span>
+                  <p class="tm-list-item-description">${item.recipe}</p>
+                </div>
+              </div>`;
+            menuContainer.innerHTML += menuItemHtml;
+          });
         }
-      });
-    }
 
-    // 검색 버튼 클릭 시 필터링 함수 실행
-    searchButton.addEventListener("click", function (event) {
-      event.preventDefault(); // 기본 제출 동작 방지
-      filterMenuItems(); // 메뉴 항목 필터링
-    });
-  });
+        // 선택된 시간과 카테고리에 따라 메뉴 항목 필터링
+        function filterMenuItems(menuItems) {
+          const selectedTime = timeSelect.value;
+          const selectedCategory = categorySelect.value;
+          const filteredItems = menuItems.filter(item => {
+            const matchTime = selectedTime ? item.time === selectedTime : true;
+            const matchCategory = selectedCategory ? item.category === selectedCategory : true;
+            return matchTime && matchCategory;
+          });
+          displayMenuItems(filteredItems);
+        }
+
+        // 메뉴 항목 초기 로드
+        fetchMenuItems();
+      });
     </script>
     
   </body>
