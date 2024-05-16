@@ -207,6 +207,7 @@
             <button id="addButton" class="add-button">추가</button>
           </div>
         </div>
+
         <div id="customCarousel1" class="carousel slide" data-ride="carousel">
           <div class="tm-list">
             <div class="tm-list-item">
@@ -215,20 +216,121 @@
                 alt="Image"
                 class="tm-list-item-img"
               />
-              <div class="tm-black-bg tm-list-item-text">
-                <h3 class="tm-list-item-name">
-                  Iced Americano<span class="tm-list-item-price">$10.25</span>
-                </h3>
-                <p class="tm-list-item-description">
-                  Here is a short description for the first item. Wave Cafe
-                  Template is provided by Tooplate.
-                </p>
+              <div class="tm-list-item-content">
+                <div class="tm-list-item-header">
+                  <h3 class="tm-list-item-name">Iced Americano</h3>
+                  <div class="tm-list-item-filters">
+                    <span class="filter">시간</span>
+                    <span class="filter">요리 종류</span>
+                  </div>
+                  <div class="tm-list-item-id-date">
+                    <span class="tm-list-item-id">ID: 사용자아이디/</span>
+                    <span class="tm-list-item-date">업데이트 날짜</span>
+                  </div>
+                </div>
+                <div class="tm-list-item-footer">
+                  <button class="details-btn">상세 정보</button>
+                  <div class="tm-list-item-actions">
+                    <button class="like-btn">
+                      <i class="fa fa-heart"></i>
+                    </button>
+                    <span class="like-count">0</span>
+                    <button class="comment-btn">
+                      <i class="fa fa-comment"></i>
+                    </button>
+                    <span class="comment-count">0</span>
+                    <!-- 댓글 목록 모달 -->
+                    <div id="commentListModal" class="comment-list-modal">
+                      <div class="comment-list-content">
+                        <span class="comment-list-close">&times;</span>
+                        <div class="comment-list">
+                          <div class="comment-item">
+                            <p><strong>사용자1:</strong> 여기에 첫 번째 댓글이 표시됩니다.</p>
+                          </div>
+                          <div class="comment-item">
+                            <p><strong>사용자2:</strong> 여기에 두 번째 댓글이 표시됩니다.</p>
+                          </div>
+                          <!-- 더 많은 댓글 항목을 추가할 수 있습니다. -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- 공유 버튼 -->
+                    <button class="share-btn">
+                      <i class="fa fa-share"></i>
+                    </button>
+
+                    <!-- 이메일 공유 모달 -->
+                    <div id="shareModal" class="modal">
+                      <div class="modal-content">
+                        <span class="share-close">&times;</span>
+                        <h2>공유하기</h2>
+                        <form id="shareForm">
+                          <label for="recipient-email">이메일 주소:</label>
+                          <input
+                            type="email"
+                            id="recipient-email"
+                            name="recipient-email"
+                            placeholder="이메일 주소 입력"
+                          />
+                          <button type="submit" class="share-submit-btn">보내기</button>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="navigation">
-            <button class="prev-btn">이전</button>
-            <button class="next-btn">다음</button>
+            
+    </div>
+
+            <!-- 레시피 상세 정보 모달 -->
+            <div class="recipe-details-modal">
+              <div class="recipe-details-content">
+                <span class="recipe-details-close">&times;</span>
+                <div class="recipe-details-header">
+                  <h2 class="recipe-name">음식이름</h2>
+                  <div class="recipe-details-filters">
+                    <span class="filter">시간</span>
+                    <span class="filter">요리 종류</span>
+                    <!-- 좋아요 버튼과 개수 추가 -->
+                    <div class="tm-list-item-actions-details">
+                      <button class="like-btn">
+                        <i class="fa fa-heart"></i>
+                      </button>
+                      <span class="like-count">0</span>
+                    </div>
+                  </div>
+                </div>
+                <img
+                  class="recipe-details-image"
+                  src="images/iced-americano.png"
+                  alt="Recipe Image"
+                />
+                <div class="recipe-ingredients">
+                  <h3>재료</h3>
+                  <p>여기에 재료 설명이 표시됩니다.</p>
+                </div>
+                <div class="recipe-instructions">
+                  <h3>레시피</h3>
+                  <p>여기에 레시피 설명이 표시됩니다.</p>
+                </div>
+                <div class="recipe-comments">
+                  <h3>댓글</h3>
+                  <div class="comment-list">
+                    <div class="comment-item">
+                      <p><strong>사용자1:</strong> 여기에 첫 번째 댓글이 표시됩니다.</p>
+                    </div>
+                    <div class="comment-item">
+                      <p><strong>사용자2:</strong> 여기에 두 번째 댓글이 표시됩니다.</p>
+                    </div>
+                    <!-- 더 많은 댓글 항목을 추가할 수 있습니다. -->
+                  </div>
+                  <textarea placeholder="댓글을 입력하세요"></textarea>
+                  <button class="comment-submit-btn">댓글 달기</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -529,21 +631,21 @@
           var newUsername = document.getElementById("new-username").value;
           var errorMessage = document.getElementById("error-message");
 
-          // 사용자 이름(ID) 중복 확인
-          fetch("/check-username?username=" + newUsername)
-            .then((response) => response.json())
-            .then((data) => {
-              if (data.exists) {
-                errorMessage.textContent = "이미 존재하는 ID입니다.";
-              } else {
-                // 사용자 이름이 사용 가능하면 폼 제출
-                errorMessage.textContent = "";
-                registerForm.submit();
-              }
-            })
-            .catch((error) => console.error("Error:", error));
-        };
-      });
+    // 사용자 이름(ID) 중복 확인
+    fetch('/check-username?username=' + newUsername)
+      .then(response => response.json())
+      .then(data => {
+        if (data.exists) {
+          errorMessage.textContent = "이미 존재하는 ID입니다.";
+        } else {
+          // 사용자 이름이 사용 가능하면 폼 제출
+          errorMessage.textContent = "";
+          registerForm.submit();
+        }
+      })
+      .catch(error => console.error('Error:', error));
+  };
+});
     </script>
 
     <!--소연 추가 -->
