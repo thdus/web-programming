@@ -1,0 +1,20 @@
+[
+  {
+    "studentId": "11111111",
+    "name": "김소연",
+    "username": "소연",
+    "password": "1234"
+  },
+  {
+    "studentId": "2222",
+    "name": "송용호",
+    "username": "용호",
+    "password": "1111"
+  },
+  {
+    "studentId": "3333",
+    "name": "손민혁",
+    "username": "민혁",
+    "password": "3333"
+  }
+]

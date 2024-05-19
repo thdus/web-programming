@@ -9,6 +9,9 @@ const PORT = 3000; // 서버 포트 설정
 app.use(express.static("public")); // 정적 파일 제공을 위한 폴더 설정
 app.use(express.json()); // JSON 요청 본문 파싱을 위한 미들웨어 사용
 
+const storage = multer.memoryStorage();  // 메모리 스토리지 설정
+const upload = multer({ storage: storage });
+
 
 // 메뉴 아이템을 제공하는 라우트
 app.get("/menu-items", (req, res) => {
@@ -18,6 +21,62 @@ app.get("/menu-items", (req, res) => {
   res.json(menuItems); // 클라이언트에 JSON 데이터 응답
 });
 
+
+
+
+const usersFilePath = path.join(__dirname, "public/data", "users.json");
+
+app.post("/register", upload.none(), (req, res) => {
+  const { studentId, name, username, password } = req.body;
+
+  console.log("Received registration data:", { studentId, name, username, password });
+
+  if (!fs.existsSync(usersFilePath)) {
+    console.log("users.json does not exist. Creating new file.");
+    fs.writeFileSync(usersFilePath, JSON.stringify([]));
+  }
+
+  const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  console.log("Current users data:", usersData);
+
+  const userExists = usersData.some(user => user.username === username);
+  console.log("User exists:", userExists);
+
+  if (userExists) {
+    return res.status(400).json({ message: "이미 존재하는 ID입니다." });
+  }
+
+  const newUser = { studentId, name, username, password };
+  usersData.push(newUser);
+  fs.writeFileSync(usersFilePath, JSON.stringify(usersData, null, 2));
+
+  console.log("New user added:", newUser);
+  res.status(201).json({ message: "회원가입이 완료되었습니다." });
+});
+
+
+// 사용자 이름(ID) 중복 확인 라우트
+app.get("/check-username", (req, res) => {
+  const { username } = req.query;
+
+  console.log("Checking username availability for:", username);
+
+  if (!fs.existsSync(usersFilePath)) {
+    fs.writeFileSync(usersFilePath, JSON.stringify([]));
+  }
+
+  const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  const userExists = usersData.some(user => user.username === username);
+
+  console.log("User exists:", userExists);
+  res.json({ exists: userExists });
+});
+
+
+
+
+
+// JSON 데이터와 이미지를 업로드하는 POST 라우트
 const imageStorage = multer.diskStorage({
   // 이미지 저장 설정
   destination: function (req, file, callback) {
@@ -55,6 +114,7 @@ app.post("/upload-data", uploadImage.single("uploadPhoto"), (req, res) => {
     material: req.body.material,
     recipe: req.body.recipe,
     image: req.file.filename,
+    userId: req.body.userId // 사용자 ID 추가
   };
 
   menuItems.push(newItem); // 새 아이템 배열에 추가
