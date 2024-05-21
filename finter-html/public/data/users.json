@@ -16,5 +16,11 @@
     "name": "손민혁",
     "username": "민혁",
     "password": "3333"
+  },
+  {
+    "studentId": "1111",
+    "name": "2222",
+    "username": "3333",
+    "password": "4444"
   }
 ]
