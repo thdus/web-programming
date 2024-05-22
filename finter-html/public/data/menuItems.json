@@ -46,5 +46,13 @@
     "material": "제발제발제발제발",
     "recipe": "진짜쩨발발",
     "image": "macdonald.png"
+  },
+  {
+    "name": "확인용 추가",
+    "time": "5분",
+    "category": "한식",
+    "material": "화이팅",
+    "recipe": "화이팅",
+    "image": "smoothie-1.png"
   }
 ]
