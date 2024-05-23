@@ -74,8 +74,6 @@ app.get("/check-username", (req, res) => {
 
 
 
-
-
 // JSON 데이터와 이미지를 업로드하는 POST 라우트
 const imageStorage = multer.diskStorage({
   // 이미지 저장 설정

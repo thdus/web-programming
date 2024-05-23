@@ -123,7 +123,7 @@
                 </ul>
             </nav>
             <!-- 마이페이지 모달 -->
-            <<div id="myPageModal" class="modal">
+            <div id="myPageModal" class="modal">
                 <div class="myPage-modal-content">
                     <div class="myPage-modal-header">
                         <span class="close-mypage">&times;</span>
@@ -174,6 +174,14 @@
                     </div>
                 </div>
             </div>
+                        <!-- 로그인 경고 모달 -->
+            <div id="loginWarningModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <span class="login-warning-close">&times;</span>
+                    <p>로그인이 필요합니다.</p>
+                </div>
+            </div>
+
             
         </header>
         <!-- end header section -->
@@ -335,70 +343,589 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js" integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
     <!-- custom js -->
     <script src="js/custom.js"></script>
-
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const foodInput = document.getElementById("foodInput");
-            const timeSelect = document.getElementById("timeSelect");
-            const categorySelect = document.getElementById("categorySelect");
-            const leftText = document.querySelector(".left-text");
-            const searchButton = document.querySelector(".nav_search-btn"); // 돋보기 버튼
-            const addButton = document.querySelector(".add-button");
+document.addEventListener("DOMContentLoaded", function () {
+    window.currentUser = null;
 
-            function updateLeftText() {
-                // 초기에 '전체 목록' 텍스트를 클리어
-                leftText.innerHTML = "";
+    function showLoginWarningModal() {
+        var warningModal = document.getElementById("loginWarningModal");
+        warningModal.style.display = "block";
+    }
 
-                // 음식 이름이 입력되어 있으면 표시
-                const foodValue = foodInput.value.trim();
-                if (foodValue) {
-                    leftText.textContent = `${foodValue}  `;
+    function checkLogin(event) {
+        if (!window.currentUser) {
+            event.preventDefault();
+            showLoginWarningModal();
+        }
+    }
+
+    function handleLogin(event) {
+        event.preventDefault();
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        fetch('data/users.json')
+            .then(response => response.json())
+            .then(users => {
+                var user = users.find(user => user.username === username && user.password === password);
+                if (user) {
+                    alert('로그인 성공!');
+                    window.currentUser = user;
+                    // URL에 사용자 이름 추가
+                    history.pushState(null, '', `/index.html?user=${username}`);
+
+                    var navbarNav = document.querySelector(".navbar-nav");
+                    var loginBtn = document.getElementById("loginBtn");
+
+                    if (loginBtn) {
+                        var welcomeMessage = document.createElement("li");
+                        welcomeMessage.className = "nav-item";
+                        welcomeMessage.innerHTML = `<a class="nav-link"> ${username}님, 환영합니다 </a>`;
+
+                        var myPageButton = document.createElement("li");
+                        myPageButton.className = "nav-item";
+                        myPageButton.innerHTML = `<a class="nav-link" href="#" id="myPageBtn">마이페이지</a>`;
+
+                        loginBtn.parentNode.replaceChild(welcomeMessage, loginBtn);
+                        navbarNav.appendChild(myPageButton);
+
+                        myPageButton.addEventListener("click", showMyPage);
+
+                        var loginModal = document.getElementById("loginModal");
+                        loginModal.style.display = "none";
+                    }
+
+                    // 로그인 후 버튼 이벤트 리스너 설정
+                    setButtonEventListeners();
+                } else {
+                    alert('아이디 또는 비밀번호가 잘못되었습니다.');
                 }
+            })
+            .catch(error => console.error('Error:', error));
+    }
 
-                // 시간이 선택되어 있으면 span 요소로 추가
-                const timeValue = timeSelect.value;
-                if (timeValue) {
-                    const timeBadge = document.createElement("span");
-                    timeBadge.className = "filter-badge";
-                    timeBadge.textContent = `시간: ${timeValue}`;
-                    leftText.appendChild(timeBadge); // left-text 영역에 추가
+    function showMyPage(event) {
+        event.preventDefault();
+        if (!window.currentUser) return;
+
+        var myPageModal = document.getElementById("myPageModal");
+        document.getElementById("myPageUsername").textContent = `${window.currentUser.username}님의 마이페이지`;
+        document.getElementById("userStudentId").textContent = window.currentUser.studentId;
+        document.getElementById("userName").textContent = window.currentUser.name;
+        document.getElementById("userId").textContent = window.currentUser.username;
+        document.getElementById("userPassword").textContent = window.currentUser.password;
+
+        updateUserRecipes(window.currentUser);
+        updateLikedRecipes(window.currentUser);
+        updateUserComments(window.currentUser);
+
+        myPageModal.style.display = "block";
+    }
+
+    function updateUserRecipes(user) {
+        var userRecipeList = document.getElementById("userRecipeList");
+        userRecipeList.innerHTML = "";
+        if (user.recipes) {
+            user.recipes.forEach(recipe => {
+                var li = document.createElement("li");
+                li.textContent = recipe;
+                userRecipeList.appendChild(li);
+            });
+        }
+    }
+
+    function updateLikedRecipes(user) {
+        var likedRecipeList = document.getElementById("likedRecipeList");
+        likedRecipeList.innerHTML = "";
+        if (user.likedRecipes) {
+            user.likedRecipes.forEach(recipe => {
+                var li = document.createElement("li");
+                li.textContent = recipe;
+                likedRecipeList.appendChild(li);
+            });
+        }
+    }
+
+    function updateUserComments(user) {
+        var userCommentList = document.getElementById("userCommentList");
+        userCommentList.innerHTML = "";
+        if (user.comments) {
+            user.comments.forEach(comment => {
+                var li = document.createElement("li");
+                li.textContent = comment;
+                userCommentList.appendChild(li);
+            });
+        }
+    }
+
+    function handleLogout() {
+        window.currentUser = null;
+        alert('로그아웃 되었습니다.');
+
+        var navbarNav = document.querySelector(".navbar-nav");
+        var myPageBtn = document.getElementById("myPageBtn").closest('li');
+        if (myPageBtn) {
+            var loginBtn = document.createElement("li");
+            loginBtn.className = "nav-item";
+            loginBtn.innerHTML = `<button class="btn nav-link login-button" type="button" id="loginBtn">
+                                    <i class="fa fa-user" aria-hidden="true"></i> Login
+                                </button>`;
+            navbarNav.replaceChild(loginBtn, myPageBtn);
+
+            loginBtn.querySelector('#loginBtn').addEventListener("click", function () {
+                var loginModal = document.getElementById("loginModal");
+                loginModal.style.display = "block";
+            });
+        }
+
+        history.pushState(null, '', '/');
+        location.reload();
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", handleLogin);
+
+    var closeMyPageBtn = document.querySelector(".close-mypage");
+    closeMyPageBtn.onclick = function () {
+        var myPageModal = document.getElementById("myPageModal");
+        myPageModal.style.display = "none";
+    };
+
+    window.onclick = function (event) {
+        var myPageModal = document.getElementById("myPageModal");
+        if (event.target == myPageModal) {
+            myPageModal.style.display = "none";
+        }
+    };
+
+    // 이벤트 리스너 설정 함수
+    function setButtonEventListeners() {
+        // 상세 정보 버튼 클릭 이벤트 설정
+        document.querySelectorAll(".details-btn").forEach(button => {
+            button.addEventListener("click", function(event) {
+                if (!window.currentUser) {
+                    showLoginWarningModal();
+                    return;
                 }
+                event.stopPropagation();
+                const details = document.querySelector(".recipe-details-modal");
+                const listItem = button.closest(".tm-list-item");
+                const itemData = JSON.parse(listItem.getAttribute("data-item"));
+                document.querySelector(".recipe-details-image").src = `image/${itemData.image}`;
+                document.querySelector(".recipe-name").textContent = itemData.name;
+                const filters = document.querySelectorAll(".recipe-details-filters .filter");
+                filters[0].textContent = itemData.time;
+                filters[1].textContent = itemData.category;
+                document.querySelector(".recipe-ingredients p").textContent = itemData.material;
+                document.querySelector(".recipe-instructions p").textContent = itemData.recipe;
+                details.style.display = "block";
+                listItem.classList.add("active");
 
-                // 카테고리가 선택되어 있으면 span 요소로 추가
-                const categoryValue = categorySelect.value;
-                if (categoryValue) {
-                    const categoryBadge = document.createElement("span");
-                    categoryBadge.className = "filter-badge";
-                    categoryBadge.textContent = `카테고리: ${categoryValue}`;
-                    leftText.appendChild(categoryBadge); // left-text 영역에 추가
-                }
-            }
-
-            searchButton.addEventListener("click", function (event) {
-                event.preventDefault(); // 기본 제출 행위 방지
-                updateLeftText(); // left-text 업데이트
+                // 상세 정보 모달 닫기 버튼 설정
+                const closeModalBtn = details.querySelector(".recipe-details-close");
+                closeModalBtn.addEventListener("click", function () {
+                    details.style.display = "none";
+                    listItem.classList.remove("active");
+                });
             });
         });
 
-        document.addEventListener("DOMContentLoaded", function () {
-            const addButton = document.getElementById("addButton");
-            addButton.addEventListener("click", function () {
-                const contactSection = document.querySelector(".contact_section");
-                contactSection.scrollIntoView({ behavior: "smooth" });
+        // 좋아요 버튼 클릭 이벤트 설정
+        document.querySelectorAll(".like-btn").forEach(button => {
+            button.addEventListener("click", function(event) {
+                if (!window.currentUser) {
+                    showLoginWarningModal();
+                    return;
+                }
+                const listItem = button.closest(".tm-list-item");
+                const likeCount = listItem.querySelector(".like-count");
+                likeCount.textContent = parseInt(likeCount.textContent) + 1;
+                // 서버에 좋아요 정보 저장 로직 추가
             });
         });
+
+        // 댓글 버튼 클릭 이벤트 설정
+        document.querySelectorAll(".comment-btn").forEach(button => {
+            button.addEventListener("click", function(event) {
+                if (!window.currentUser) {
+                    showLoginWarningModal();
+                    return;
+                }
+                event.stopPropagation();
+                const listItem = button.closest(".tm-list-item");
+                const detailsModal = document.querySelector(".recipe-details-modal");
+                const commentsSection = detailsModal.querySelector(".comment-list");
+
+                const commentListModal = document.createElement("div");
+                commentListModal.classList.add("comment-list-modal");
+                commentListModal.innerHTML = `
+                    <div class="comment-list-content">
+                        <span class="comment-list-close">&times;</span>
+                        ${commentsSection.innerHTML}
+                    </div>
+                `;
+                document.body.appendChild(commentListModal);
+                commentListModal.style.display = "block";
+
+                const closeBtn = commentListModal.querySelector(".comment-list-close");
+                closeBtn.addEventListener("click", function () {
+                    commentListModal.style.display = "none";
+                    document.body.removeChild(commentListModal);
+                });
+
+                window.addEventListener("click", function (event) {
+                    if (event.target === commentListModal) {
+                        commentListModal.style.display = "none";
+                        document.body.removeChild(commentListModal);
+                    }
+                });
+            });
+        });
+
+        // 공유 버튼 클릭 이벤트 설정
+        document.querySelectorAll(".share-btn").forEach(button => {
+            button.addEventListener("click", function(event) {
+                if (!window.currentUser) {
+                    showLoginWarningModal();
+                    return;
+                }
+                event.stopPropagation();
+                const shareModal = button.nextElementSibling;
+                shareModal.style.display = "block";
+
+                const closeShareBtn = shareModal.querySelector(".share-close");
+                closeShareBtn.onclick = function () {
+                    shareModal.style.display = "none";
+                };
+
+                window.onclick = function (event) {
+                    if (event.target == shareModal) {
+                        shareModal.style.display = "none";
+                    }
+                };
+            });
+        });
+    }
+
+    setButtonEventListeners();
+
+    var loginWarningCloseBtn = document.querySelector(".login-warning-close");
+    loginWarningCloseBtn.onclick = function () {
+        var loginWarningModal = document.getElementById("loginWarningModal");
+        loginWarningModal.style.display = "none";
+    };
+
+    var addButton = document.getElementById("addButton");
+    addButton.addEventListener("click", function (event) {
+        if (window.currentUser) {
+            document.querySelector(".contact_section").scrollIntoView({ behavior: 'smooth' });
+        } else {
+            checkLogin(event); // 로그인 여부 확인
+        }
+    });
+
+    var ourecipeButton = document.querySelector(".navbar-brand");
+    ourecipeButton.addEventListener("click", function (event) {
+        event.preventDefault();
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get('user');
+        if (username) {
+            window.location.href = `/index.html?user=${username}`;
+        } else {
+            window.location.href = "/index.html";
+        }
+    });
+
+    function checkLoginStatus() {
+        const params = new URLSearchParams(window.location.search);
+        const username = params.get('user');
+
+        if (username) {
+            fetch('data/users.json')
+                .then(response => response.json())
+                .then(users => {
+                    var user = users.find(user => user.username === username);
+                    if (user) {
+                        window.currentUser = user;
+
+                        var navbarNav = document.querySelector(".navbar-nav");
+                        var loginBtn = document.getElementById("loginBtn");
+
+                        if (loginBtn) {
+                            var welcomeMessage = document.createElement("li");
+                            welcomeMessage.className = "nav-item";
+                            welcomeMessage.innerHTML = `<a class="nav-link"> ${username}님, 환영합니다 </a>`;
+
+                            var myPageButton = document.createElement("li");
+                            myPageButton.className = "nav-item";
+                            myPageButton.innerHTML = `<a class="nav-link" href="#" id="myPageBtn">마이페이지</a>`;
+
+                            loginBtn.parentNode.replaceChild(welcomeMessage, loginBtn);
+                            navbarNav.appendChild(myPageButton);
+
+                            myPageButton.addEventListener("click", showMyPage);
+                        }
+
+                        setButtonEventListeners();
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    }
+
+    checkLoginStatus();
+});
+
+
+        </script>
+        
+            
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    function handleLogin(event) {
+        event.preventDefault();
+        var username = document.getElementById("username").value;
+        var password = document.getElementById("password").value;
+
+        fetch('data/users.json')
+            .then(response => response.json())
+            .then(users => {
+                var user = users.find(user => user.username === username && user.password === password);
+                if (user) {
+                    alert('로그인 성공!');
+                    window.currentUser = user;
+                    // URL에 사용자 이름 추가
+                    history.pushState(null, '', `/index.html?user=${username}`);
+
+                    var navbarNav = document.querySelector(".navbar-nav");
+                    var loginBtn = document.getElementById("loginBtn");
+
+                    if (loginBtn) {
+                        var welcomeMessage = document.createElement("li");
+                        welcomeMessage.className = "nav-item";
+                        welcomeMessage.innerHTML = `<a class="nav-link"> ${username}님, 환영합니다 </a>`;
+
+                        var myPageButton = document.createElement("li");
+                        myPageButton.className = "nav-item";
+                        myPageButton.innerHTML = `<a class="nav-link" href="#" id="myPageBtn">마이페이지</a>`;
+
+                        loginBtn.parentNode.replaceChild(welcomeMessage, loginBtn);
+                        navbarNav.appendChild(myPageButton);
+
+                        myPageButton.addEventListener("click", showMyPage);
+
+                        var loginModal = document.getElementById("loginModal");
+                        loginModal.style.display = "none";
+                    }
+                } else {
+                    alert('아이디 또는 비밀번호가 잘못되었습니다.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    document.getElementById("loginForm").addEventListener("submit", handleLogin);
+
+    var registerLink = document.getElementById("registerLink");
+    var registerModal = document.getElementById("registerModal");
+    var closeRegisterBtn = document.querySelector(".close-register");
+
+    var loginBtn = document.getElementById("loginBtn");
+    loginBtn.onclick = function () {
+        var loginModal = document.getElementById("loginModal");
+        loginModal.style.display = "block";
+    };
+
+    var closeLoginBtn = document.querySelector(".close");
+    closeLoginBtn.onclick = function () {
+        var loginModal = document.getElementById("loginModal");
+        loginModal.style.display = "none";
+    };
+
+    registerLink.onclick = function (event) {
+        event.preventDefault();
+        var loginModal = document.getElementById("loginModal");
+        loginModal.style.display = "none";
+        registerModal.style.display = "block";
+    };
+
+    closeRegisterBtn.onclick = function () {
+        registerModal.style.display = "none";
+    };
+
+    var registerForm = document.getElementById("registerForm");
+    var warningModal = document.getElementById("warningModal");
+    var warningText = document.getElementById("warning-text");
+    var closeWarningBtn = document.querySelector(".warning-close");
+    var successModal = document.getElementById("successModal");
+    var closeSuccessBtn = document.querySelector(".success-close");
+
+    registerForm.onsubmit = function (event) {
+        event.preventDefault();
+        var newUsername = document.getElementById("new-username").value;
+
+        fetch('/check-username?username=' + newUsername)
+            .then(response => response.json())
+            .then(data => {
+                if (data.exists) {
+                    warningText.textContent = "이미 존재하는 ID입니다.";
+                    warningModal.style.display = "block";
+                } else {
+                    warningModal.style.display = "none";
+                    successModal.style.display = "block";
+
+                    setTimeout(function () {
+                        successModal.style.display = "none";
+                        registerModal.style.display = "none";
+                        var loginModal = document.getElementById("loginModal");
+                        loginModal.style.display = "block";
+                    }, 2000);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    };
+
+    closeWarningBtn.onclick = function () {
+        warningModal.style.display = "none";
+    };
+
+    closeSuccessBtn.onclick = function () {
+        successModal.style.display = "none";
+    };
+
+    window.onclick = function (event) {
+        var loginModal = document.getElementById("loginModal");
+        var registerModal = document.getElementById("registerModal");
+        var successModal = document.getElementById("successModal");
+        var warningModal = document.getElementById("warningModal");
+        var myPageModal = document.getElementById("myPageModal");
+        if (event.target == loginModal) {
+            loginModal.style.display = "none";
+        }
+        if (event.target == registerModal) {
+            registerModal.style.display = "none";
+        }
+        if (event.target == successModal) {
+            successModal.style.display = "none";
+        }
+        if (event.target == warningModal) {
+            warningModal.style.display = "none";
+        }
+        if (event.target == myPageModal) {
+            myPageModal.style.display = "none";
+        }
+    };
+});
+</script>
+
+<script>
+    // 음식 필터링
+    document.addEventListener("DOMContentLoaded", function () {
+        function filterMenuItems(menuItems) {
+            const foodValue = document.getElementById("foodInput").value.trim().toLowerCase();
+            const timeValue = document.getElementById("timeSelect").value;
+            const categoryValue = document.getElementById("categorySelect").value;
+    
+            return menuItems.filter(item => {
+                const matchesFood = !foodValue || item.name.toLowerCase().includes(foodValue);
+                const matchesTime = !timeValue || item.time === timeValue;
+                const matchesCategory = !categoryValue || item.category === categoryValue;
+                return matchesFood && matchesTime && matchesCategory;
+            });
+        }
+    
+        function displayMenuItems(filteredItems) {
+            const menuContainer = document.querySelector("#customCarousel1 .tm-list");
+            menuContainer.innerHTML = ""; // 기존 내용 초기화
+            filteredItems.forEach((item) => {
+                const menuItemHtml = `
+                    <div class="tm-list-item" data-item='${JSON.stringify(item)}'>          
+                        <img src="image/${item.image}" alt="${item.name}" class="tm-list-item-img">
+                        <div class="tm-list-item-content">
+                            <div class="tm-list-item-header">
+                                <h3 class="tm-list-item-name">${item.name}</h3>
+                                <div class="tm-list-item-filters">
+                                    <span class="filter">${item.time}</span>
+                                    <span class="filter">${item.category}</span>
+                                </div>
+                                <div class="tm-list-item-id-date">
+                                    <span class="tm-list-item-id">ID: 사용자아이디/</span>
+                                    <span class="tm-list-item-date">업데이트 날짜</span>
+                                </div>
+                            </div>
+                            <div class="tm-list-item-footer">
+                                <button class="details-btn">상세 정보</button>
+                                <div class="tm-list-item-actions">
+                                    <button class="like-btn" ${!window.currentUser ? 'disabled' : ''}>
+                                        <i class="fa fa-heart"></i>
+                                    </button>
+                                    <span class="like-count">0</span>
+                                    <button class="comment-btn" ${!window.currentUser ? 'disabled' : ''}>
+                                        <i class="fa fa-comment"></i>
+                                    </button>
+                                    <span class="comment-count">0</span>
+                                    <div class="comment-list-modal">
+                                        <div class="comment-list-content">
+                                            <span class="comment-list-close">&times;</span>
+                                            <div class="comment-list">
+                                                <h3>댓글</h3>
+                                                <p>댓글이 없습니다.</p>
+                                            </div>
+                                            <textarea placeholder="댓글을 입력하세요"></textarea>
+                                            <button class="comment-submit-btn" ${!window.currentUser ? 'disabled' : ''}>댓글 달기</button>
+                                        </div>
+                                    </div>
+                                    <button class="share-btn" ${!window.currentUser ? 'disabled' : ''}>
+                                        <i class="fa fa-share"></i>
+                                    </button>
+                                    <div id="shareModal" class="modal">
+                                        <div class="modal-content">
+                                            <span class="share-close">&times;</span>
+                                            <h2>공유하기</h2>
+                                            <form class="shareForm">
+                                                <label for="recipient-email">이메일 주소:</label>
+                                                <input type="email" id="recipient-email" name="recipient-email" placeholder="이메일 주소 입력">
+                                                <button type="submit" class="share-submit-btn">보내기</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>`;
+                menuContainer.innerHTML += menuItemHtml;
+            });
+    
+            attachEventListeners();
+        }
+    
+        function loadFilteredMenuItems() {
+            fetch("/menu-items")
+                .then((response) => response.json())
+                .then((menuItems) => {
+                    const filteredItems = filterMenuItems(menuItems);
+                    displayMenuItems(filteredItems);
+                })
+                .catch((error) => console.error("Error loading the menu items:", error));
+        }
+    
+        // 검색 버튼 클릭 시 필터링된 결과 표시
+        const searchButton = document.querySelector(".nav_search-btn");
+        searchButton.addEventListener("click", function (event) {
+            event.preventDefault(); // 기본 제출 행위 방지
+            loadFilteredMenuItems(); // 메뉴 항목 로드 및 필터링된 결과 표시
+        });
+    });
     </script>
 
-    <script>
-        // 문서가 로드되면 함수를 실행
-        document.addEventListener("DOMContentLoaded", function () {
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function loadMenuItems() {
             const menuContainer = document.querySelector("#customCarousel1 .tm-list");
-
-            // 서버에서 메뉴 아이템을 가져오는 HTTP 요청을 보냄
+    
             fetch("/menu-items")
-                .then((response) => response.json()) // 응답을 JSON 형식으로 파싱
+                .then((response) => response.json())
                 .then((menuItems) => {
-                    menuContainer.innerHTML = ""; // 기존 내용 초기화
+                    menuContainer.innerHTML = "";
                     menuItems.forEach((item) => {
                         const menuItemHtml = `
                             <div class="tm-list-item" data-item='${JSON.stringify(item)}'>          
@@ -426,7 +953,6 @@
                                                 <i class="fa fa-comment"></i>
                                             </button>
                                             <span class="comment-count">0</span>
-                                            <!-- 댓글 목록 모달 -->
                                             <div class="comment-list-modal">
                                                 <div class="comment-list-content">
                                                     <span class="comment-list-close">&times;</span>
@@ -438,11 +964,9 @@
                                                     <button class="comment-submit-btn">댓글 달기</button>
                                                 </div>
                                             </div>
-                                            <!-- 공유 버튼 -->
                                             <button class="share-btn">
                                                 <i class="fa fa-share"></i>
                                             </button>
-                                            <!-- 이메일 공유 모달 -->
                                             <div id="shareModal" class="modal">
                                                 <div class="modal-content">
                                                     <span class="share-close">&times;</span>
@@ -458,359 +982,118 @@
                                     </div>
                                 </div>
                             </div>`;
-                        menuContainer.innerHTML += menuItemHtml; // 컨테이너에 HTML 추가
+                        menuContainer.innerHTML += menuItemHtml;
                     });
-
-                    // 이벤트 리스너를 추가
+    
                     attachEventListeners();
+                    setButtonEventListeners();
                 })
                 .catch((error) => console.error("Error loading the menu items:", error));
-        });
-
-        function attachEventListeners() {
-            // 상세 정보 버튼 이벤트 리스너
-            const detailsBtns = document.querySelectorAll(".details-btn");
-            detailsBtns.forEach((btn) => {
-                btn.addEventListener("click", function (event) {
-                    event.stopPropagation();
-                    const details = document.querySelector(".recipe-details-modal");
-                    const listItem = btn.closest(".tm-list-item");
-                    const itemData = JSON.parse(listItem.getAttribute("data-item"));
-                    document.querySelector(".recipe-details-image").src = `image/${itemData.image}`;
-                    document.querySelector(".recipe-name").textContent = itemData.name;
-                    const filters = document.querySelectorAll(".recipe-details-filters .filter");
-                    filters[0].textContent = itemData.time;
-                    filters[1].textContent = itemData.category;
-                    document.querySelector(".recipe-ingredients p").textContent = itemData.material;
-                    document.querySelector(".recipe-instructions p").textContent = itemData.recipe;
-                    details.style.display = "block";
-                    listItem.classList.add("active");
-                });
-            });
-
-            // 상세 정보 모달 닫기 버튼 이벤트 리스너
-            const closeModalBtn = document.querySelector(".recipe-details-close");
-            closeModalBtn.addEventListener("click", function () {
-                const details = document.querySelector(".recipe-details-modal");
-                details.style.display = "none";
-                document.querySelectorAll(".tm-list-item").forEach((item) => {
-                    item.classList.remove("active");
-                });
-            });
-
-            // 공유 버튼 이벤트 리스너
-            const shareBtns = document.querySelectorAll(".share-btn");
-            shareBtns.forEach((btn) => {
-                btn.addEventListener("click", function (event) {
-                    event.stopPropagation();
-                    const shareModal = btn.nextElementSibling; // 다음 요소가 모달
-                    shareModal.style.display = "block";
-                });
-            });
-
-            const shareModal = document.getElementById("shareModal");
-            const closeShareBtn = document.querySelector(".share-close");
-
-            shareBtns.forEach((btn) => {
-                btn.addEventListener("click", function (event) {
-                    event.stopPropagation();
-                    shareModal.style.display = "block";
-                });
-            });
-
-            closeShareBtn.onclick = function () {
-                shareModal.style.display = "none";
-            };
-
-            window.onclick = function (event) {
-                if (event.target == shareModal) {
-                    shareModal.style.display = "none";
-                }
-            };
-
-            // 댓글 모달 
-            const commentBtns = document.querySelectorAll(".comment-btn");
-
-            commentBtns.forEach((btn) => {
-                btn.addEventListener("click", function (event) {
-                    event.stopPropagation();
-                    const listItem = btn.closest(".tm-list-item");
-                    const detailsModal = document.querySelector(".recipe-details-modal");
-                    const commentsSection = detailsModal.querySelector(".comment-list");
-
-                    // Create a temporary modal for comments
-                    const commentListModal = document.createElement("div");
-                    commentListModal.classList.add("comment-list-modal");
-                    commentListModal.innerHTML = `
-                        <div class="comment-list-content">
-                            <span class="comment-list-close">&times;</span>
-                            ${commentsSection.innerHTML}
-                        </div>
-                    `;
-                    document.body.appendChild(commentListModal);
-                    commentListModal.style.display = "block";
-
-                    // Close button functionality
-                    const closeBtn = commentListModal.querySelector(".comment-list-close");
-                    closeBtn.addEventListener("click", function () {
-                        commentListModal.style.display = "none";
-                        document.body.removeChild(commentListModal);
-                    });
-
-                    // Close modal when clicking outside
-                    window.addEventListener("click", function (event) {
-                        if (event.target === commentListModal) {
-                            commentListModal.style.display = "none";
-                            document.body.removeChild(commentListModal);
-                        }
-                    });
-                });
-            });
         }
+    
+        loadMenuItems();
+    });
     </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            window.currentUser = null; // 전역 변수 선언
-
-            // 로그인 처리 로직
-            function handleLogin(event) {
-                event.preventDefault(); // 기본 폼 제출 방지
-                var username = document.getElementById("username").value;
-                var password = document.getElementById("password").value;
-
-                fetch('data/users.json')
-                    .then(response => response.json())
-                    .then(users => {
-                        var user = users.find(user => user.username === username && user.password === password);
-                        if (user) {
-                            alert('로그인 성공!');
-                            window.currentUser = user; // 로그인한 사용자 정보 저장
-                            history.pushState(null, '', `/${username}`); // URL 변경
-
-                            // 로그인 성공 시 버튼 변경
-                            var navbarNav = document.querySelector(".navbar-nav");
-                            var loginBtn = document.getElementById("loginBtn");
-
-                            if (loginBtn) {
-                                var welcomeMessage = document.createElement("li");
-                                welcomeMessage.className = "nav-item";
-                                welcomeMessage.innerHTML = `<a class="nav-link"> ${username}님, 환영합니다 </a>`;
-
-                                var myPageButton = document.createElement("li");
-                                myPageButton.className = "nav-item";
-                                myPageButton.innerHTML = `<a class="nav-link" href="#" id="myPageBtn">마이페이지</a>`;
-
-                                loginBtn.parentNode.replaceChild(welcomeMessage, loginBtn);
-                                navbarNav.appendChild(myPageButton);
-
-                                // 마이페이지 버튼 클릭 이벤트
-                                myPageButton.addEventListener("click", showMyPage);
-
-                                // 로그인 모달 닫기
-                                var loginModal = document.getElementById("loginModal");
-                                loginModal.style.display = "none";
-                            }
-                        } else {
-                            alert('아이디 또는 비밀번호가 잘못되었습니다.');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        function showMyPage(event) {
+            event.preventDefault();
+            if (!window.currentUser) return;
+    
+            var myPageModal = document.getElementById("myPageModal");
+            document.getElementById("myPageUsername").textContent = `${window.currentUser.username}님의 마이페이지`;
+            document.getElementById("userStudentId").textContent = window.currentUser.studentId;
+            document.getElementById("userName").textContent = window.currentUser.name;
+            document.getElementById("userId").textContent = window.currentUser.username;
+            document.getElementById("userPassword").textContent = window.currentUser.password;
+    
+            updateUserRecipes(window.currentUser);
+            updateLikedRecipes(window.currentUser);
+            updateUserComments(window.currentUser);
+    
+            myPageModal.style.display = "block";
+        }
+    
+        function updateUserRecipes(user) {
+            var userRecipeList = document.getElementById("userRecipeList");
+            userRecipeList.innerHTML = "";
+            if (user.recipes) {
+                user.recipes.forEach(recipe => {
+                    var li = document.createElement("li");
+                    li.textContent = recipe;
+                    userRecipeList.appendChild(li);
+                });
             }
-
-            // 회원가입 모달 표시
-            var registerLink = document.getElementById("registerLink");
-            var registerModal = document.getElementById("registerModal");
-            var closeRegisterBtn = document.querySelector(".close-register");
-
-            // 로그인 모달 표시
-            var loginBtn = document.getElementById("loginBtn");
-            loginBtn.onclick = function () {
-                var loginModal = document.getElementById("loginModal");
-                loginModal.style.display = "block";
-            };
-
-            // 로그인 모달 닫기
-            var closeLoginBtn = document.querySelector(".close");
-            closeLoginBtn.onclick = function () {
-                var loginModal = document.getElementById("loginModal");
-                loginModal.style.display = "none";
-            };
-
-            // 회원가입 모달 표시
-            registerLink.onclick = function (event) {
-                event.preventDefault();
-                var loginModal = document.getElementById("loginModal");
-                loginModal.style.display = "none";
-                registerModal.style.display = "block";
-            };
-
-            // 회원가입 모달 닫기
-            closeRegisterBtn.onclick = function () {
-                registerModal.style.display = "none";
-            };
-
-            // 회원가입 폼 제출 시 ID 중복 확인
-            var registerForm = document.getElementById("registerForm");
-            var warningModal = document.getElementById("warningModal");
-            var warningText = document.getElementById("warning-text");
-            var closeWarningBtn = document.querySelector(".warning-close");
-            var successModal = document.getElementById("successModal");
-            var closeSuccessBtn = document.querySelector(".success-close");
-
-            registerForm.onsubmit = function (event) {
-                event.preventDefault();
-                var newUsername = document.getElementById("new-username").value;
-
-                // 사용자 이름(ID) 중복 확인
-                fetch('/check-username?username=' + newUsername)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.exists) {
-                            // 경고 모달 표시
-                            warningText.textContent = "이미 존재하는 ID입니다.";
-                            warningModal.style.display = "block";
-                        } else {
-                            // 사용자 이름이 사용 가능하면 폼 제출
-                            warningModal.style.display = "none";
-                            successModal.style.display = "block";
-
-                            // 2초 후에 성공 모달을 닫고 로그인 모달을 표시
-                            setTimeout(function () {
-                                successModal.style.display = "none";
-                                registerModal.style.display = "none";
-                                var loginModal = document.getElementById("loginModal");
-                                loginModal.style.display = "block";
-                            }, 2000);
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            };
-
-            // 경고 모달 닫기 버튼
-            closeWarningBtn.onclick = function () {
-                warningModal.style.display = "none";
-            };
-
-            // 성공 모달 닫기 버튼
-            closeSuccessBtn.onclick = function () {
-                successModal.style.display = "none";
-            };
-
-            // 모달 외부 클릭 시 모달 닫기
-            window.onclick = function (event) {
-                var loginModal = document.getElementById("loginModal");
-                var registerModal = document.getElementById("registerModal");
-                var successModal = document.getElementById("successModal");
-                var warningModal = document.getElementById("warningModal");
-                if (event.target == loginModal) {
-                    loginModal.style.display = "none";
-                }
-                if (event.target == registerModal) {
-                    registerModal.style.display = "none";
-                }
-                if (event.target == successModal) {
-                    successModal.style.display = "none";
-                }
-                if (event.target == warningModal) {
-                    warningModal.style.display = "none";
-                }
-            };
-
-            // 이벤트 리스너 설정
-            document.getElementById("loginForm").addEventListener("submit", handleLogin);
-        });
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // 마이페이지 표시
-            function showMyPage(event) {
-                event.preventDefault();
-                if (!window.currentUser) return;
-
-                var myPageModal = document.getElementById("myPageModal");
-                document.getElementById("myPageUsername").textContent = `${window.currentUser.username}님의 마이페이지`;
-                document.getElementById("userStudentId").textContent = window.currentUser.studentId;
-                document.getElementById("userName").textContent = window.currentUser.name;
-                document.getElementById("userId").textContent = window.currentUser.username;
-                document.getElementById("userPassword").textContent = window.currentUser.password;
-
-                // 등록한 레시피, 좋아요한 레시피, 내가 단 댓글 업데이트
-                updateUserRecipes(window.currentUser);
-                updateLikedRecipes(window.currentUser);
-                updateUserComments(window.currentUser);
-
-                myPageModal.style.display = "block";
+        }
+    
+        function updateLikedRecipes(user) {
+            var likedRecipeList = document.getElementById("likedRecipeList");
+            likedRecipeList.innerHTML = "";
+            if (user.likedRecipes) {
+                user.likedRecipes.forEach(recipe => {
+                    var li = document.createElement("li");
+                    li.textContent = recipe;
+                    likedRecipeList.appendChild(li);
+                });
             }
-
-            // 등록한 레시피 업데이트
-            function updateUserRecipes(user) {
-                var userRecipeList = document.getElementById("userRecipeList");
-                userRecipeList.innerHTML = ""; // 기존 내용 초기화
-                if (user.recipes) {
-                    user.recipes.forEach(recipe => {
-                        var li = document.createElement("li");
-                        li.textContent = recipe;
-                        userRecipeList.appendChild(li);
-                    });
-                }
+        }
+    
+        function updateUserComments(user) {
+            var userCommentList = document.getElementById("userCommentList");
+            userCommentList.innerHTML = "";
+            if (user.comments) {
+                user.comments.forEach(comment => {
+                    var li = document.createElement("li");
+                    li.textContent = comment;
+                    userCommentList.appendChild(li);
+                });
             }
-
-            // 좋아요한 레시피 업데이트
-            function updateLikedRecipes(user) {
-                var likedRecipeList = document.getElementById("likedRecipeList");
-                likedRecipeList.innerHTML = ""; // 기존 내용 초기화
-                if (user.likedRecipes) {
-                    user.likedRecipes.forEach(recipe => {
-                        var li = document.createElement("li");
-                        li.textContent = recipe;
-                        likedRecipeList.appendChild(li);
-                    });
-                }
+        }
+    
+        function handleLogout() {
+            window.currentUser = null;
+            alert('로그아웃 되었습니다.');
+    
+            var navbarNav = document.querySelector(".navbar-nav");
+            var myPageBtn = document.getElementById("myPageBtn").closest('li');
+            if (myPageBtn) {
+                var loginBtn = document.createElement("li");
+                loginBtn.className = "nav-item";
+                loginBtn.innerHTML = `<button class="btn nav-link login-button" type="button" id="loginBtn">
+                                        <i class="fa fa-user" aria-hidden="true"></i> Login
+                                    </button>`;
+                navbarNav.replaceChild(loginBtn, myPageBtn);
+    
+                loginBtn.querySelector('#loginBtn').addEventListener("click", function () {
+                    var loginModal = document.getElementById("loginModal");
+                    loginModal.style.display = "block";
+                });
             }
-
-            // 내가 단 댓글 업데이트
-            function updateUserComments(user) {
-                var userCommentList = document.getElementById("userCommentList");
-                userCommentList.innerHTML = ""; // 기존 내용 초기화
-                if (user.comments) {
-                    user.comments.forEach(comment => {
-                        var li = document.createElement("li");
-                        li.textContent = comment;
-                        userCommentList.appendChild(li);
-                    });
-                }
-            }
-
-            // 로그아웃 처리
-            function handleLogout() {
-                window.currentUser = null;
-                alert('로그아웃 되었습니다.');
-                location.reload(); // 페이지 새로고침하여 초기 상태로 되돌림
-            }
-
-            // 이벤트 리스너 설정
-            document.getElementById("logoutBtn").addEventListener("click", handleLogout);
-
-            // 모달 닫기 버튼
-            var closeMyPageBtn = document.querySelector(".close-mypage");
-            closeMyPageBtn.onclick = function () {
-                var myPageModal = document.getElementById("myPageModal");
+    
+            history.pushState(null, '', '/');
+            location.reload();
+        }
+    
+        document.getElementById("logoutBtn").addEventListener("click", handleLogout);
+    
+        var closeMyPageBtn = document.querySelector(".close-mypage");
+        closeMyPageBtn.onclick = function () {
+            var myPageModal = document.getElementById("myPageModal");
+            myPageModal.style.display = "none";
+        };
+    
+        window.onclick = function (event) {
+            var myPageModal = document.getElementById("myPageModal");
+            if (event.target == myPageModal) {
                 myPageModal.style.display = "none";
-            };
+            }
+        };
+    
+        window.showMyPage = showMyPage;
+    });
 
-            // 모달 외부 클릭 시 모달 닫기
-            window.onclick = function (event) {
-                var myPageModal = document.getElementById("myPageModal");
-                if (event.target == myPageModal) {
-                    myPageModal.style.display = "none";
-                }
-            };
-
-            // showMyPage 함수 정의
-            window.showMyPage = showMyPage;
-        });
     </script>
+             
 </body>
 </html>
