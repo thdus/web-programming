@@ -1,3 +1,20 @@
+.nutrition-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.nutrition-table th, .nutrition-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.nutrition-table th {
+  background-color: #f2f2f2;
+  text-align: left;
+}
+
+
 /* 기본 스타일 설정 */
 body {
   font-family: 'Poppins', sans-serif;

@@ -2,7 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
-
+const axios = require("axios");
 const app = express(); // express 애플리케이션 생성
 const PORT = 3000; // 서버 포트 설정
 
@@ -11,7 +11,37 @@ app.use(express.json()); // JSON 요청 본문 파싱을 위한 미들웨어 사
 
 const storage = multer.memoryStorage();  // 메모리 스토리지 설정
 const upload = multer({ storage: storage });
+const API_KEY = "bblWRDviGiHeESuXlBgA7YwwG/d1Ur+OEg+RbtiIjcbF3UaECl2X2wN/r5Le3OkF7VhcSouZkovjpfHu3fwPpg==";
+const API_URL = "http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1";
 
+const getFoodNutritionInfo = async (foodName) => {
+  const params = {
+    serviceKey: API_KEY,
+    desc_kor: foodName,
+    type: "json",
+    pageNo: 1,
+    numOfRows: 1,
+  };
+
+  try {
+    const response = await axios.get(API_URL, { params });
+    const foodData = response.data.body.items[0];
+    return {
+      calories: foodData.NUTR_CONT1,
+      carbohydrate: foodData.NUTR_CONT2,
+      protein: foodData.NUTR_CONT3,
+      fat: foodData.NUTR_CONT4,
+      sugars: foodData.NUTR_CONT5,
+      sodium: foodData.NUTR_CONT6,
+      cholesterol: foodData.NUTR_CONT7,
+      saturatedFat: foodData.NUTR_CONT8,
+      transFat: foodData.NUTR_CONT9,
+    };
+  } catch (error) {
+    console.error("Error fetching food nutrition info:", error);
+    return null;
+  }
+};
 
 // 메뉴 아이템을 제공하는 라우트
 app.get("/menu-items", (req, res) => {
@@ -90,7 +120,7 @@ const imageStorage = multer.diskStorage({
 const uploadImage = multer({ storage: imageStorage }); // 이미지 업로드 처리를 위한 multer 설정
 
 // JSON 데이터와 이미지를 업로드하는 POST 라우트
-app.post("/upload-data", uploadImage.single("uploadPhoto"), (req, res) => {
+app.post("/upload-data", uploadImage.single("uploadPhoto"), async (req, res) => {
   if (!req.file) {
     return res.status(400).send("No file uploaded"); // 파일이 업로드되지 않았을 경우 에러 처리
   }
@@ -103,7 +133,7 @@ app.post("/upload-data", uploadImage.single("uploadPhoto"), (req, res) => {
     const data = fs.readFileSync(jsonFilePath, "utf8"); // 파일 읽기
     menuItems = JSON.parse(data); // 기존 데이터 파싱
   }
-
+  const nutritionInfo = await getFoodNutritionInfo(req.body.foodNameInput);
   const newItem = {
     // 새 메뉴 아이템 객체 생성
     name: req.body.foodNameInput,
@@ -112,7 +142,8 @@ app.post("/upload-data", uploadImage.single("uploadPhoto"), (req, res) => {
     material: req.body.material,
     recipe: req.body.recipe,
     image: req.file.filename,
-    userId: req.body.userId // 사용자 ID 추가
+    userId: req.body.userId,// 사용자 ID 추가
+    nutrition: nutritionInfo 
   };
 
   menuItems.push(newItem); // 새 아이템 배열에 추가
