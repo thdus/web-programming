@@ -117,7 +117,7 @@ app.post("/upload-data", uploadImage.single("uploadPhoto"), (req, res) => {
 
   menuItems.push(newItem); // 새 아이템 배열에 추가
   fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2)); // 파일에 데이터 저장
-  res.redirect("/"); // 메인 페이지로 리디렉트
+  res.redirect(`/index.html?user=${req.body.userId}`);
 });
 
 

@@ -1,106 +1,38 @@
-// to get current year
-function getYear() {
-    var currentDate = new Date();
-    var currentYear = currentDate.getFullYear();
-    document.querySelector("#displayYear").innerHTML = currentYear;
-}
-
-getYear();
-
-//service section owl carousel
-$(".service_owl-carousel").owlCarousel({
-    autoplay: true,
-    center: true,
-    nav: true,
-    loop: true,
-    margin: 0,
-    responsive: {
-        0: {
-            items: 1
-        },
-        768: {
-            items: 3,
-        },
-        991: {
-            items: 3
-        }
-    }
-});
-
-// owl carousel slider js
-var owl = $('.portfolio_carousel').owlCarousel({
-    loop: true,
-    margin: 15,
-    dots: false,
-    center: true,
-    autoplay: true,
-    navText: [
-        '<i class="fa fa-arrow-left" aria-hidden="true"></i>',
-        '<i class="fa fa-arrow-right" aria-hidden="true"></i>'
-    ],
-    autoplayHoverPause: true,
-    responsive: {
-        0: {
-            center: false,
-            items: 1,
-            margin: 0
-        },
-        576: {
-            items: 2
-        },
-        991: {
-            center: true,
-            items: 3
-        }
-    }
-})
-
-
-// owl.owlcarousel2_filter
-
-$('.owl-filter-bar').on('click', '.item', function (e) {
-    var $items = $('.owl-filter-bar a')
-    var $item = $(this);
-    var filter = $item.data('owl-filter')
-    $items.removeClass("active");
-    $item.addClass("active");
-    owl.owlcarousel2_filter(filter);
-
-    e.preventDefault();
-})
-/** google_map js **/
-function myMap() {
-    var mapProp = {
-        center: new google.maps.LatLng(40.712775, -74.005973),
-        zoom: 18,
-    };
-    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-}
-
-// nice select
-$(document).ready(function () {
-    $('select').niceSelect();
-});
-
 document.addEventListener("DOMContentLoaded", function () {
+  
+  //여기서 받아오는듯
     var loginForm = document.getElementById("loginForm");
+  document
+    .querySelector('form[action="/upload-data"]')
+    .addEventListener("submit", function (event) {
+      if (!window.currentUser) {
+        event.preventDefault();
+        alert("로그인이 필요합니다.");
+        return;
+      }
+      var userIdInput = document.createElement("input");
+      userIdInput.type = "hidden";
+      userIdInput.name = "userId";
+      userIdInput.value = window.currentUser.username;
+      this.appendChild(userIdInput);
+    });
+  loginForm.onsubmit = function (event) {
+    event.preventDefault(); // 기본 폼 제출 방지
+    var username = document.getElementById("username").value;
+    var password = document.getElementById("password").value;
 
-    loginForm.onsubmit = function (event) {
-        event.preventDefault(); // 기본 폼 제출 방지
-        var username = document.getElementById("username").value;
-        var password = document.getElementById("password").value;
-
-        fetch('users.json')
-            .then(response => response.json())
-            .then(users => {
-                var user = users.find(user => user.username === username && user.password === password);
-                if (user) {
-                    alert('로그인 성공!');
-                } else {
-                    alert('아이디 또는 비밀번호가 잘못되었습니다.');
-                }
-            })
-            .catch(error => console.error('Error:', error));
-    };
+    fetch("users.json")
+      .then((response) => response.json())
+      .then((users) => {
+        var user = users.find(
+          (user) => user.username === username && user.password === password
+        );
+        if (user) {
+          alert("로그인 성공!");
+        } else {
+          alert("아이디 또는 비밀번호가 잘못되었습니다.");
+        }
+      })
+      .catch((error) => console.error("Error:", error));
+  };
 });
-

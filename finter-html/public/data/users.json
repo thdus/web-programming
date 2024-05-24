@@ -1,26 +1,20 @@
 [
   {
-    "studentId": "11111111",
-    "name": "김소연",
-    "username": "소연",
-    "password": "1234"
-  },
-  {
-    "studentId": "2222",
+    "studentId": "20102026",
     "name": "송용호",
     "username": "용호",
     "password": "1111"
   },
   {
-    "studentId": "3333",
-    "name": "손민혁",
-    "username": "민혁",
-    "password": "3333"
+    "studentId": "21101039",
+    "name": "김소연",
+    "username": "소연",
+    "password": "1111"
   },
   {
-    "studentId": "1111",
-    "name": "2222",
-    "username": "3333",
-    "password": "4444"
+    "studentId": "19111111",
+    "name": "손민혁",
+    "username": "민혁",
+    "password": "1111"
   }
 ]

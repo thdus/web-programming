@@ -762,6 +762,7 @@ document.addEventListener("DOMContentLoaded", function () {
     registerForm.onsubmit = function (event) {
         event.preventDefault();
         var newUsername = document.getElementById("new-username").value;
+        var formData = new FormData(registerForm);
 
         fetch('/check-username?username=' + newUsername)
             .then(response => response.json())
@@ -770,15 +771,29 @@ document.addEventListener("DOMContentLoaded", function () {
                     warningText.textContent = "이미 존재하는 ID입니다.";
                     warningModal.style.display = "block";
                 } else {
-                    warningModal.style.display = "none";
-                    successModal.style.display = "block";
+                    // 기존의 성공 모달을 숨기고 새로 회원가입 요청을 보냅니다.
+                    fetch('/register', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.message === "회원가입이 완료되었습니다.") {
+                            warningModal.style.display = "none";
+                            successModal.style.display = "block";
 
-                    setTimeout(function () {
-                        successModal.style.display = "none";
-                        registerModal.style.display = "none";
-                        var loginModal = document.getElementById("loginModal");
-                        loginModal.style.display = "block";
-                    }, 2000);
+                            setTimeout(function () {
+                                successModal.style.display = "none";
+                                registerModal.style.display = "none";
+                                var loginModal = document.getElementById("loginModal");
+                                loginModal.style.display = "block";
+                            }, 2000);
+                        } else {
+                            warningText.textContent = result.message || "회원가입에 실패했습니다.";
+                            warningModal.style.display = "block";
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -848,7 +863,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                     <span class="filter">${item.category}</span>
                                 </div>
                                 <div class="tm-list-item-id-date">
-                                    <span class="tm-list-item-id">ID: 사용자아이디/</span>
+                                    <span class="tm-list-item-id">ID: ${item.userId}/</span>
                                     <span class="tm-list-item-date">업데이트 날짜</span>
                                 </div>
                             </div>
