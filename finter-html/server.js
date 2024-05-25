@@ -51,7 +51,15 @@ app.get("/menu-items", (req, res) => {
   res.json(menuItems); // 클라이언트에 JSON 데이터 응답
 });
 
-
+// 특정 사용자의 레시피를 제공하는 라우트
+app.get("/user-recipes", (req, res) => {
+  const { userId } = req.query;
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
+  const data = fs.readFileSync(jsonFilePath, "utf8");
+  const menuItems = JSON.parse(data);
+  const userRecipes = menuItems.filter(item => item.userId === userId);
+  res.json(userRecipes);
+});
 
 
 const usersFilePath = path.join(__dirname, "public/data", "users.json");
@@ -150,6 +158,54 @@ app.post("/upload-data", uploadImage.single("uploadPhoto"), async (req, res) => 
   fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2)); // 파일에 데이터 저장
   res.redirect(`/index.html?user=${req.body.userId}`);
 });
+
+//좋아요 버튼 정보
+app.post("/like-recipe", upload.none(), (req, res) => {
+  const { userId, recipeName } = req.body;
+
+  const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  const menuItemsData = JSON.parse(fs.readFileSync(path.join(__dirname, "public/data", "menuItems.json"), "utf8"));
+
+  const user = usersData.find(user => user.username === userId);
+  const recipe = menuItemsData.find(item => item.name === recipeName);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  if (!recipe) {
+    return res.status(404).json({ message: "Recipe not found" });
+  }
+
+  recipe.likes = (recipe.likes || 0) + 1;
+
+  if (!user.likedRecipes) {
+    user.likedRecipes = [];
+  }
+
+  if (!user.likedRecipes.includes(recipeName)) {
+    user.likedRecipes.push(recipeName);
+  }
+
+  fs.writeFileSync(usersFilePath, JSON.stringify(usersData, null, 2));
+  fs.writeFileSync(path.join(__dirname, "public/data", "menuItems.json"), JSON.stringify(menuItemsData, null, 2));
+
+  res.status(200).json({ message: "Liked recipes updated", likes: recipe.likes });
+});
+
+
+app.get("/liked-recipes", (req, res) => {
+  const { userId } = req.query;
+  const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  const user = usersData.find(user => user.username === userId);
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  res.json(user.likedRecipes);
+});
+
 
 
 app.listen(PORT, () => {
