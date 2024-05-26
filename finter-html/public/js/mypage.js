@@ -197,3 +197,43 @@ function fetchRecipeDetails(recipeName) {
         })
         .catch(error => console.error("Error fetching recipe details:", error));
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    
+
+    // 회원 정보 수정 폼 제출 처리
+    const editUserForm = document.getElementById("editUserForm");
+    editUserForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const updatedUser = {
+            studentId: document.getElementById("editStudentId").value,
+            name: document.getElementById("editName").value,
+            username: document.getElementById("editUsername").value,
+            password: document.getElementById("editPassword").value
+        };
+
+        fetch("/update-user", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ oldUsername: window.currentUser.username, updatedUser })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                alert(data.message);
+                if (data.success) {
+                    window.currentUser = updatedUser; // 업데이트된 정보로 현재 사용자 정보 갱신
+                    localStorage.setItem("currentUser", JSON.stringify(updatedUser)); // 로컬 저장소 갱신
+                    updateUIForLoggedInUser(updatedUser.username); // UI 업데이트
+                    document.getElementById("myPageModal").style.display = "none"; // 모달 닫기
+                }
+            }
+        })
+        .catch(error => console.error("Error updating user:", error));
+    });
+
+ 
+});
