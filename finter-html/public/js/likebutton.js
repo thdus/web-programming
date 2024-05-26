@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 event.stopPropagation();
                 const listItem = button.closest(".tm-list-item");
                 const itemData = JSON.parse(listItem.getAttribute("data-item"));
-
+  
                 // 서버에 좋아요 수 토글 요청
                 fetch("/toggle-like-recipe", {
                     method: "POST",
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         itemData.likes = data.likes;
                         listItem.querySelector(".like-count").textContent = itemData.likes;
                         updateLikeCountInDetailsModal(itemData.name, data.likes);
-
+  
                         // 좋아요 버튼 아이콘 변경
                         const heartIcon = button.querySelector("i");
                         if (data.liked) {
@@ -44,20 +44,19 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
     }
-
+  
     function updateLikeCountInDetailsModal(recipeName, likes) {
         const modal = document.querySelector(".recipe-details-modal");
-        const recipeNameElement = modal.querySelector(".recipe-name");
+        const recipeNameElement = modal ? modal.querySelector(".recipe-name") : null;
         if (recipeNameElement && recipeNameElement.textContent === recipeName) {
             const likeCountElement = modal.querySelector(".like-count");
-            if (likeCountElement) {
-                likeCountElement.textContent = likes;
-            }
+            likeCountElement.textContent = likes;
         }
     }
-
+  
     setButtonEventListeners();
-
+  
     // 다른 스크립트 파일에서도 사용 가능하도록 함수를 window 객체에 할당
     window.setButtonEventListeners = setButtonEventListeners;
-});
+  });
+  

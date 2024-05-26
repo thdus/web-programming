@@ -931,7 +931,7 @@ a:focus {
 
 
 /* 리스트 */
-/* 상세 정보 모달 */
+/* 레시피 상세 정보 모달 */
 .recipe-details-modal {
   display: none;
   position: fixed;
@@ -946,13 +946,13 @@ a:focus {
 }
 
 .recipe-details-content {
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.9);
   margin: 5% auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 90%; /* 좌우 크*/
-  height: 90%; /* 아래쪽기를 늘림  크기를 늘림 */
-  max-width: 1200px; /* 최대 너비를 조정 */
+  width: 90%;
+  height: 90%;
+  max-width: 1200px;
   border-radius: 10px;
   position: relative;
   overflow-y: auto;
@@ -977,15 +977,33 @@ a:focus {
 .recipe-details-header {
   display: flex;
   align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #444;
+  padding-bottom: 10px;
 }
 
 .recipe-name {
-  margin-right: 10px; /* 음식 이름과 필터 사이의 간격 */
+  margin-right: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  flex-grow: 0; /* 음식 이름을 가능한 넓게 확장 */
 }
 
 .recipe-details-filters {
   display: flex;
-  gap: 5px; /* 필터 사이의 간격을 줄임 */
+  gap: 5px;
+}
+
+.recipe-details-filters .filter {
+  background-color: #444;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.tm-list-item-actions-details {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
 .like-btn {
@@ -995,7 +1013,7 @@ a:focus {
 }
 
 .like-btn i {
-  color: red; /* 좋아요 버튼을 빨간색으로 */
+  color: red;
 }
 
 .like-count {
@@ -1003,58 +1021,61 @@ a:focus {
   color: white;
 }
 
-.tm-list-item-actions-details {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
 .recipe-details-image {
-  width: 80%; /* 이미지를 페이지 너비의 80%로 조정 */
-  height: auto; /* 이미지를 비율에 맞게 조정 */
-  max-height: 500px; /* 이미지의 최대 높이 설정 */
-  margin: 20px auto; /* 이미지의 상단과 하단에 간격을 주고, 중앙에 정렬 */
-  display: block; /* 중앙 정렬을 위해 display를 block으로 설정 */
+  width: 80%;
+  height: auto;
+  max-height: 500px;
+  margin: 20px auto;
+  display: block;
   border-radius: 10px;
 }
 
-.recipe-ingredients, .recipe-instructions {
+.recipe-ingredients, .recipe-instructions, .recipe-nutrition, .recipe-updated-at {
   margin-top: 20px;
-  padding: 10px;
+  padding: 15px;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
+  border: 2px solid #444;
 }
 
-.recipe-ingredients h3, .recipe-instructions h3 {
+.recipe-ingredients h3, .recipe-instructions h3, .recipe-nutrition h3, .recipe-updated-at h3 {
   margin-top: 0;
+  font-size: 20px;
+  border-bottom: 2px solid #888;
+  padding-bottom: 5px;
 }
-
 
 .recipe-comments {
   margin-top: 20px;
 }
 
 .recipe-comments h3 {
-  font-size: 18px;
+  font-size: 20px;
   margin-bottom: 10px;
+  border-bottom: 2px solid #888;
+  padding-bottom: 5px;
 }
 
 .recipe-comments .comment-list {
-  max-height: 200px; /* 댓글 목록의 최대 높이를 설정 */
-  overflow-y: auto; /* 내용이 넘치면 스크롤 생성 */
+  max-height: 200px;
+  overflow-y: auto;
   margin-bottom: 10px;
+  border: 2px solid #444;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgba(128, 128, 128, 0.2);
 }
 
 .recipe-comments .comment-item {
   margin-bottom: 10px;
   padding: 10px;
-  background-color: rgba(128, 128, 128, 0.5); /* 배경 색상 및 투명도 */
+  background-color: rgba(128, 128, 128, 0.5);
   border-radius: 5px;
 }
 
 .recipe-comments .comment-item p {
   margin: 0;
-  color: white; /* 텍스트 색상 흰색으로 설정 */
+  color: white;
 }
 
 .recipe-comments textarea {
@@ -1064,6 +1085,12 @@ a:focus {
   border-radius: 5px;
   border: 1px solid #ccc;
   margin-bottom: 10px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.recipe-comments textarea::placeholder {
+  color: #ccc;
 }
 
 .recipe-comments .comment-submit-btn {
@@ -1078,6 +1105,7 @@ a:focus {
 .recipe-comments .comment-submit-btn:hover {
   background-color: #1e564d;
 }
+
 
 
 

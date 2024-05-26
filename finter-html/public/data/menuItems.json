@@ -18,7 +18,8 @@
       "saturatedFat": "1.62",
       "transFat": "0.00"
     },
-    "likes": 74
+    "likes": 98,
+    "updatedAt": "2024-05-26T12:34:56Z"
   },
   {
     "name": "봉골레파스타",
@@ -29,7 +30,8 @@
     "image": "pastaBolognese.png",
     "userId": "소연",
     "nutrition": null,
-    "likes": 5
+    "likes": 31,
+    "updatedAt": "2024-05-26T12:34:56Z"
   },
   {
     "name": "미역국",
@@ -49,7 +51,9 @@
       "cholesterol": "N/A",
       "saturatedFat": "N/A",
       "transFat": "N/A"
-    }
+    },
+    "likes": 35,
+    "updatedAt": "2024-05-26T12:34:56Z"
   },
   {
     "name": "두부김치",
@@ -69,6 +73,8 @@
       "cholesterol": "13.92",
       "saturatedFat": "3.17",
       "transFat": "0.07"
-    }
+    },
+    "likes": 14,
+    "updatedAt": "2024-05-26T12:34:56Z"
   }
 ]
