@@ -21,24 +21,74 @@ function showMyPage(event) {
 }
 
 // 등록한 레시피 관련된 함수
+// function updateUserRecipes(userId) {
+//     fetch(`/user-recipes?userId=${userId}`)
+//         .then(response => response.json())
+//         .then(userRecipes => {
+//             const userRecipeList = document.getElementById("userRecipeList");
+//             userRecipeList.innerHTML = "";
+//             userRecipes.forEach(recipe => {
+//                 const li = document.createElement("li");
+//                 li.textContent = recipe.name;
+//                 li.classList.add("recipe-link");
+//                 li.addEventListener("click", function () {
+//                     showRecipeDetailsModal(recipe);
+//                 });
+//                 userRecipeList.appendChild(li);
+//             });
+//         })
+//         .catch(error => console.error("Error fetching user recipes:", error));
+// }
+
 function updateUserRecipes(userId) {
     fetch(`/user-recipes?userId=${userId}`)
         .then(response => response.json())
         .then(userRecipes => {
-            const userRecipeList = document.getElementById("userRecipeList");
-            userRecipeList.innerHTML = "";
-            userRecipes.forEach(recipe => {
-                const li = document.createElement("li");
-                li.textContent = recipe.name;
-                li.classList.add("recipe-link");
-                li.addEventListener("click", function () {
+            const userRecipeTableBody = document.querySelector("#userRecipeTable tbody");
+            userRecipeTableBody.innerHTML = "";
+            userRecipes.forEach((recipe, index) => {
+                const tr = document.createElement("tr");
+
+                const checkboxTd = document.createElement("td");
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.classList.add("recipe-checkbox");
+                checkboxTd.appendChild(checkbox);
+
+                const indexTd = document.createElement("td");
+                indexTd.textContent = index + 1;
+
+                const nameTd = document.createElement("td");
+                nameTd.textContent = recipe.name;
+                nameTd.classList.add("recipe-link");
+                nameTd.addEventListener("click", function () {
                     showRecipeDetailsModal(recipe);
                 });
-                userRecipeList.appendChild(li);
+
+                const dateTd = document.createElement("td");
+                // 날짜 데이터를 표시할 수 있는 필드가 없다면, 임의로 설정합니다.
+                dateTd.textContent = recipe.date || "날짜 없음";
+
+                tr.appendChild(checkboxTd);
+                tr.appendChild(indexTd);
+                tr.appendChild(nameTd);
+                tr.appendChild(dateTd);
+
+                userRecipeTableBody.appendChild(tr);
             });
         })
         .catch(error => console.error("Error fetching user recipes:", error));
 }
+
+// 전체 선택 체크박스 기능 추가
+document.querySelector(".overall-checkbox").addEventListener("change", function (event) {
+    const isChecked = event.target.checked;
+    const checkboxes = document.querySelectorAll(".recipe-checkbox");
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = isChecked;
+    });
+});
+
 
 // 좋아요한 레시피 관련
 function updateLikedRecipes(userId) {
