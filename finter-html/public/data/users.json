@@ -3,13 +3,24 @@
     "studentId": "22",
     "name": "송용호",
     "username": "용호",
-    "password": "1111"
+    "password": "1111",
+    "likedRecipes": [
+      "봉골레파스타",
+      "미역국",
+      "두부김치"
+    ]
   },
   {
     "studentId": "21101039",
     "name": "김소연",
     "username": "소연",
-    "password": "1111"
+    "password": "1111",
+    "likedRecipes": [
+      "봉골레파스타",
+      "미역국",
+      "두부김치",
+      "치킨커리"
+    ]
   },
   {
     "studentId": "19111111",

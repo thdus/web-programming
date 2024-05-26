@@ -18,6 +18,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 categorySelect.addEventListener("change", function () {
                     filterMenuItems(menuItems);
                 });
+
+                // 페이지 로드 후 좋아요 버튼 상태 업데이트
+                updateLikeButtonsState(menuItems);
             })
             .catch((error) => console.error("Error loading the menu items:", error));
     }
@@ -51,15 +54,13 @@ document.addEventListener("DOMContentLoaded", function () {
                             </div>
                             <div class="tm-list-item-id-date">
                                 <span class="tm-list-item-id">${item.userId}/</span>
-                                <span class="tm-list-item-date">업데이트 날짜</span>
+                                <span class="tm-list-item-date">${new Date(item.updatedAt).toLocaleDateString()}</span>
                             </div>
                         </div>
                         <div class="tm-list-item-footer">
-                            <button class="details-btn">상세 정보</button>
+                            <button class="details-btn" data-recipe-id="${item.id}">상세 정보</button>
                             <div class="tm-list-item-actions">
-                                <button class="like-btn">
-                                    <i class="fa fa-heart"></i>
-                                </button>
+                                <button class="like-btn"><i class="fa fa-heart-o" aria-hidden="true"></i></button>
                                 <span class="like-count">${item.likes || 0}</span>
                                 <button class="comment-btn">
                                     <i class="fa fa-comment"></i>
@@ -77,7 +78,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function attachEventListeners() {
         setDetailButtonEventListeners();
-        setButtonEventListeners();
+        window.setButtonEventListeners(); // 전역 함수 호출
     }
 
     function setDetailButtonEventListeners() {
@@ -95,6 +96,28 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    function updateLikeButtonsState(menuItems) {
+        if (!window.currentUser) return;
+
+        fetch(`/liked-recipes/${window.currentUser.username}`)
+            .then(response => response.json())
+            .then(likedRecipes => {
+                menuItems.forEach(item => {
+                    const listItem = document.querySelector(`.tm-list-item[data-item*='${item.name}']`);
+                    const likeBtn = listItem.querySelector(".like-btn");
+                    const heartIcon = likeBtn.querySelector("i");
+
+                    if (likedRecipes.includes(item.name)) {
+                        heartIcon.classList.remove("fa-heart-o");
+                        heartIcon.classList.add("fa-heart");
+                    } else {
+                        heartIcon.classList.remove("fa-heart");
+                        heartIcon.classList.add("fa-heart-o");
+                    }
+                });
+            })
+            .catch(error => console.error("Error fetching liked recipes:", error));
+    }
+
     loadMenuItems();
 });
-

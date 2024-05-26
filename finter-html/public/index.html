@@ -198,47 +198,26 @@
             <div class="myPage-modal-body">
               <div id="userInfo" class="myPage-section">
                 <h3>회원 정보</h3>
+                <p>ID: <span id="userId"></span></p> <!-- ID 표시 부분 -->
                 <p>학번: <span id="userStudentId"></span></p>
                 <p>이름: <span id="userName"></span></p>
-                <p>ID: <span id="userId"></span></p>
                 <p>비밀번호: <span id="userPassword"></span></p>
-              </div>
-
-              <!-- 회원 정보 수정 섹션 -->
-              <div id="editUserInfo" class="myPage-section">
-                <h3>회원 정보 수정</h3>
-                <form id="editUserForm">
+            </div>
+            
+            <div id="editUserInfo" class="myPage-section">
+              <h3>회원 정보 수정</h3>
+              <form id="editUserForm">
                   <label for="editStudentId">학번:</label>
-                  <input
-                    type="number"
-                    id="editStudentId"
-                    name="studentId"
-                    class="myPage-form-control"
-                  />
+                  <input type="number" id="editStudentId" name="studentId" class="myPage-form-control" />
                   <label for="editName">이름:</label>
-                  <input
-                    type="text"
-                    id="editName"
-                    name="name"
-                    class="myPage-form-control"
-                  />
-                  <label for="editUsername">ID:</label>
-                  <input
-                    type="text"
-                    id="editUsername"
-                    name="username"
-                    class="myPage-form-control"
-                  />
+                  <input type="text" id="editName" name="name" class="myPage-form-control" />
                   <label for="editPassword">비밀번호:</label>
-                  <input
-                    type="password"
-                    id="editPassword"
-                    name="password"
-                    class="myPage-form-control"
-                  />
+                  <input type="password" id="editPassword" name="password" class="myPage-form-control" />
                   <button type="submit" class="myPage-btn-custom">수정</button>
-                </form>
-              </div>
+              </form>
+          </div>
+          
+            
 
               <!-- <div id="userRecipes" class="myPage-section">
                 <h3>등록한 레시피</h3>
@@ -247,6 +226,7 @@
 
               <div id="userRecipes" class="myPage-section">
                 <h3>등록한 레시피</h3>
+                <button id="bulkDeleteBtn">일괄 삭제</button>
                 <table id="userRecipeTable" border="1" class="notice-list">
                     <thead>
                         <tr>
@@ -312,54 +292,50 @@
           </div>
 
           <!-- 레시피 상세 정보 모달 -->
-          <div class="recipe-details-modal">
-            <div class="recipe-details-content">
-              <span class="recipe-details-close">&times;</span>
-              <div class="recipe-details-header">
-                <h2 class="recipe-name">음식이름</h2>
-                <div class="recipe-details-filters">
-                  <span class="filter">시간</span>
-                  <span class="filter">요리 종류</span>
-                  <!-- 좋아요 버튼과 개수 추가 -->
-                  <div class="tm-list-item-actions-details">
-                    <button class="like-btn">
-                      <i class="fa fa-heart"></i>
-                    </button>
-                    <span class="like-count">0</span>
-                  </div>
+        <div class="recipe-details-modal">
+          <div class="recipe-details-content">
+            <span class="recipe-details-close" onclick="closeModal()">&times;</span>
+            <div class="recipe-details-header">
+              <h2 class="recipe-name">음식이름</h2>
+              <div class="recipe-details-filters">
+                <span class="filter">시간</span>
+                <span class="filter">요리 종류</span>
+              </div>
+            </div>
+            <img class="recipe-details-image" src="" alt="Recipe Image" />
+            <div class="recipe-ingredients">
+              <h3>재료</h3>
+              <p>여기에 재료 설명이 표시됩니다.</p>
+            </div>
+            <div class="recipe-instructions">
+              <h3>레시피</h3>
+              <p>여기에 레시피 설명이 표시됩니다.</p>
+            </div>
+            <div class="recipe-nutrition">
+              <h3>영양정보</h3>
+              <p>여기에 영양 정보가 표시됩니다.</p>
+            </div>
+            <div class="recipe-updated-at">
+              <h3>업데이트한 시간</h3>
+              <p>여기에 업데이트 날짜가 표시됩니다.</p>
+            </div>
+            <div class="recipe-comments">
+              <h3>댓글</h3>
+              <div class="comment-list">
+                <div class="comment-item">
+                  <p><strong>사용자1:</strong> 여기에 첫 번째 댓글이 표시됩니다.</p>
+                </div>
+                <div class="comment-item">
+                  <p><strong>사용자2:</strong> 여기에 두 번째 댓글이 표시됩니다.</p>
                 </div>
               </div>
-              <img class="recipe-details-image" src="" alt="Recipe Image" />
-              <div class="recipe-ingredients">
-                <h3>재료</h3>
-                <p>여기에 재료 설명이 표시됩니다.</p>
-              </div>
-              <div class="recipe-instructions">
-                <h3>레시피</h3>
-                <p>여기에 레시피 설명이 표시됩니다.</p>
-              </div>
-              <div class="recipe-comments">
-                <h3>댓글</h3>
-                <div class="comment-list">
-                  <div class="comment-item">
-                    <p>
-                      <strong>사용자1:</strong> 여기에 첫 번째 댓글이
-                      표시됩니다.
-                    </p>
-                  </div>
-                  <div class="comment-item">
-                    <p>
-                      <strong>사용자2:</strong> 여기에 두 번째 댓글이
-                      표시됩니다.
-                    </p>
-                  </div>
-                </div>
-                <textarea placeholder="댓글을 입력하세요"></textarea>
-                <button class="comment-submit-btn">댓글 달기</button>
-              </div>
+              <textarea placeholder="댓글을 입력하세요"></textarea>
+              <button class="comment-submit-btn">댓글 달기</button>
             </div>
           </div>
         </div>
+
+
       </section>
       <!-- end slider section -->
     </div>
@@ -385,7 +361,7 @@
     <!-- custom js -->
 
     <script src="js/mypage.js"></script>
-    <script src="js/listbutton.js"></script>
+    <script src="js/likebutton.js"></script>
     <script src="js/filter.js"></script>
     <script src="js/login.js"></script>
     <script src="js/loadMenuItems.js"></script>
