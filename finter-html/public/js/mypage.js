@@ -48,103 +48,123 @@ function showMyPage(event) {
 //         .catch(error => console.error("Error fetching user recipes:", error));
 // }
 
+// Fetch and update user's recipes
 function updateUserRecipes(userId) {
-  fetch(`/user-recipes?userId=${userId}`)
-    .then((response) => response.json())
-    .then((userRecipes) => {
-      const userRecipeTableBody = document.querySelector(
-        "#userRecipeTable tbody"
-      );
-      userRecipeTableBody.innerHTML = "";
-      userRecipes.forEach((recipe, index) => {
-        const tr = document.createElement("tr");
-
-        const checkboxTd = document.createElement("td");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.classList.add("recipe-checkbox");
-        checkboxTd.appendChild(checkbox);
-
-        const indexTd = document.createElement("td");
-        indexTd.textContent = index + 1;
-
-        const nameTd = document.createElement("td");
-        nameTd.textContent = recipe.name;
-        nameTd.classList.add("recipe-link");
-        nameTd.addEventListener("click", function () {
-          showRecipeDetailsModal(recipe);
+    fetch(`/user-recipes?userId=${userId}`)
+      .then(response => response.json())
+      .then(userRecipes => {
+        const userRecipeTableBody = document.querySelector("#userRecipeTable tbody");
+        userRecipeTableBody.innerHTML = "";
+        userRecipes.forEach((recipe, index) => {
+          const tr = document.createElement("tr");
+  
+          const checkboxTd = document.createElement("td");
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.classList.add("recipe-checkbox");
+          checkbox.dataset.recipeName = recipe.name;
+          checkboxTd.appendChild(checkbox);
+  
+          const indexTd = document.createElement("td");
+          indexTd.textContent = index + 1;
+  
+          const nameTd = document.createElement("td");
+          nameTd.textContent = recipe.name;
+          nameTd.classList.add("recipe-link");
+          nameTd.addEventListener("click", function () {
+            showRecipeDetailsModal(recipe);
+          });
+  
+          const dateTd = document.createElement("td");
+          dateTd.textContent = recipe.updatedAt ? new Date(recipe.updatedAt).toLocaleDateString() : "날짜 없음";
+  
+          const deleteTd = document.createElement("td");
+          const deleteBtn = document.createElement("button");
+          deleteBtn.textContent = "삭제";
+          deleteBtn.classList.add("delete-btn");
+          deleteBtn.addEventListener("click", function () {
+            handleDeleteRecipe(recipe.name, userId);
+          });
+  
+          deleteTd.appendChild(deleteBtn);
+          tr.appendChild(checkboxTd);
+          tr.appendChild(indexTd);
+          tr.appendChild(nameTd);
+          tr.appendChild(dateTd);
+          tr.appendChild(deleteTd);
+  
+          userRecipeTableBody.appendChild(tr);
         });
-
-        const dateTd = document.createElement("td");
-        // 날짜 데이터를 표시할 수 있는 필드가 없다면, 임의로 설정합니다.
-        dateTd.textContent = recipe.date || "날짜 없음";
-        const deleteTd = document.createElement("td");
-        const deleteBtn = document.createElement("button");
-        deleteBtn.textContent = "삭제";
-        deleteBtn.classList.add("delete-btn");
-        deleteBtn.addEventListener("click", function () {
-          handleDeleteRecipe(recipe.name, userId);
-        });
-
-        deleteTd.appendChild(deleteBtn);
-        tr.appendChild(checkboxTd);
-        tr.appendChild(indexTd);
-        tr.appendChild(nameTd);
-        tr.appendChild(dateTd);
-        tr.appendChild(deleteTd);
-
-        userRecipeTableBody.appendChild(tr);
-      });
-
-      // 전체 선택 체크박스 이벤트 리스너
-      document
-        .querySelector(".overall-checkbox")
-        .addEventListener("change", function (event) {
+  
+        // 전체 선택 체크박스 이벤트 리스너
+        document.querySelector(".overall-checkbox").addEventListener("change", function (event) {
           const isChecked = event.target.checked;
-          document.querySelectorAll(".recipe-checkbox").forEach((checkbox) => {
+          document.querySelectorAll(".recipe-checkbox").forEach(checkbox => {
             checkbox.checked = isChecked;
           });
         });
-
-      // 일괄 삭제 버튼 이벤트 리스너
-      document
-        .getElementById("bulkDeleteBtn")
-        .addEventListener("click", function () {
+  
+        // 일괄 삭제 버튼 이벤트 리스너
+        document.getElementById("bulkDeleteBtn").addEventListener("click", function () {
           handleBulkDelete(userId);
         });
-    })
-    .catch((error) => console.error("Error fetching user recipes:", error));
-}
-
-function handleBulkDelete(userId) {
-    const selectedRecipes = Array.from(document.querySelectorAll(".recipe-checkbox:checked"))
-        .map(checkbox => checkbox.dataset.recipeName);
-
-    if (selectedRecipes.length === 0) {
-        alert("삭제할 레시피를 선택해 주세요.");
-        return;
-    }
-
-    if (confirm(`선택한 레시피를 삭제하시겠습니까?`)) {
-        fetch(`/bulk-delete-recipes`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ recipeNames: selectedRecipes, userId })
+      })
+      .catch(error => console.error("Error fetching user recipes:", error));
+  }
+  
+  // Handle single recipe delete
+  function handleDeleteRecipe(recipeName, userId) {
+    if (confirm(`레시피 '${recipeName}'을(를) 삭제하시겠습니까?`)) {
+      fetch(`/delete-recipe`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ recipeName, userId })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert("레시피가 성공적으로 삭제되었습니다.");
+            updateUserRecipes(userId); // 삭제 후 목록 갱신
+          } else {
+            alert("레시피 삭제 중 오류가 발생했습니다: " + data.message);
+          }
         })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("선택한 레시피가 성공적으로 삭제되었습니다.");
-                    updateUserRecipes(userId); // 삭제 후 목록 갱신
-                } else {
-                    alert("레시피 삭제 중 오류가 발생했습니다.");
-                }
-            })
-            .catch(error => console.error("레시피 삭제 중 오류가 발생했습니다:", error));
+        .catch(error => console.error("레시피 삭제 중 오류가 발생했습니다:", error));
     }
-}
+  }
+  
+  // Handle bulk delete
+  function handleBulkDelete(userId) {
+    const selectedRecipes = Array.from(document.querySelectorAll(".recipe-checkbox:checked")).map(checkbox => checkbox.dataset.recipeName);
+  
+    if (selectedRecipes.length === 0) {
+      alert("삭제할 레시피를 선택해 주세요.");
+      return;
+    }
+  
+    if (confirm(`선택한 레시피를 삭제하시겠습니까?`)) {
+      fetch(`/bulk-delete-recipes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ recipeNames: selectedRecipes, userId })
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert("선택한 레시피가 성공적으로 삭제되었습니다.");
+            updateUserRecipes(userId); // 삭제 후 목록 갱신
+          } else {
+            alert("레시피 삭제 중 오류가 발생했습니다.");
+          }
+        })
+        .catch(error => console.error("레시피 삭제 중 오류가 발생했습니다:", error));
+    }
+  }
+  
 // 전체 선택 체크박스 기능 추가
 document
   .querySelector(".overall-checkbox")

@@ -238,21 +238,22 @@ app.post("/update-user", (req, res) => {
 });
 
 app.post("/delete-recipe", (req, res) => {
-    const { recipeName, userId } = req.body;
+  const { recipeName, userId } = req.body;
 
-    const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
-    let menuItems = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
+  let menuItems = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
 
-    const recipeIndex = menuItems.findIndex(item => item.name === recipeName && item.userId === userId);
-    if (recipeIndex > -1) {
-        menuItems.splice(recipeIndex, 1);
-        fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
-        res.status(200).json({ success: true });
-    } else {
-        res.status(404).json({ success: false, message: "Recipe not found" });
-    }
+  const recipeIndex = menuItems.findIndex(item => item.name === recipeName && item.userId === userId);
+  if (recipeIndex > -1) {
+    menuItems.splice(recipeIndex, 1);
+    fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
+    res.status(200).json({ success: true });
+  } else {
+    res.status(404).json({ success: false, message: "Recipe not found" });
+  }
 });
 
+// Handle bulk deleting recipes
 app.post("/bulk-delete-recipes", (req, res) => {
   const { recipeNames, userId } = req.body;
 
@@ -260,10 +261,10 @@ app.post("/bulk-delete-recipes", (req, res) => {
   let menuItems = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
 
   recipeNames.forEach(recipeName => {
-      const recipeIndex = menuItems.findIndex(item => item.name === recipeName && item.userId === userId);
-      if (recipeIndex > -1) {
-          menuItems.splice(recipeIndex, 1);
-      }
+    const recipeIndex = menuItems.findIndex(item => item.name === recipeName && item.userId === userId);
+    if (recipeIndex > -1) {
+      menuItems.splice(recipeIndex, 1);
+    }
   });
 
   fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
