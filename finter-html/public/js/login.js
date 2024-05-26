@@ -57,32 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     setButtonEventListeners();
-    updateLikeButtonsState(); // 좋아요 버튼 상태 업데이트
   }
-  
-// 좋아요 버튼 상태 업데이트
-function updateLikeButtonsState() {
-  if (!window.currentUser) return;
-
-  fetch(`/liked-recipes/${window.currentUser.username}`)
-      .then(response => response.json())
-      .then(likedRecipes => {
-          document.querySelectorAll(".tm-list-item").forEach(item => {
-              const itemData = JSON.parse(item.getAttribute("data-item"));
-              const likeBtn = item.querySelector(".like-btn");
-              const heartIcon = likeBtn.querySelector("i");
-
-              if (likedRecipes.includes(itemData.name)) {
-                  heartIcon.classList.remove("fa-heart-o");
-                  heartIcon.classList.add("fa-heart");
-              } else {
-                  heartIcon.classList.remove("fa-heart");
-                  heartIcon.classList.add("fa-heart-o");
-              }
-          });
-      })
-      .catch(error => console.error("Error fetching liked recipes:", error));
-}
 
   // 로그인 모달 제어
   var loginBtn = document.getElementById("loginBtn");
@@ -90,18 +65,14 @@ function updateLikeButtonsState() {
   var closeBtn = document.querySelector(".close");
 
   // 로그인 모달 표시
-  if (loginBtn) {
-    loginBtn.onclick = function () {
-      loginModal.style.display = "block";
-    };
-  }
+  loginBtn.onclick = function () {
+    loginModal.style.display = "block";
+  };
 
   // 로그인 모달 닫기
-  if (closeBtn) {
-    closeBtn.onclick = function () {
-      loginModal.style.display = "none";
-    };
-  }
+  closeBtn.onclick = function () {
+    loginModal.style.display = "none";
+  };
 
   // 모달 외부 클릭 시 로그인 모달 닫기
   window.onclick = function (event) {
@@ -135,11 +106,9 @@ function updateLikeButtonsState() {
   var loginWarningClose = document.querySelector(".login-warning-close");
 
   // 로그인 필요 모달 닫기
-  if (loginWarningClose) {
-    loginWarningClose.onclick = function () {
-      loginWarningModal.style.display = "none";
-    };
-  }
+  loginWarningClose.onclick = function () {
+    loginWarningModal.style.display = "none";
+  };
 
   // 모달 외부 클릭 시 로그인 필요 모달 닫기
   window.onclick = function (event) {

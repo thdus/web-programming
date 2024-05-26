@@ -14,8 +14,6 @@ const upload = multer({ storage: storage });
 const API_KEY = "bblWRDviGiHeESuXlBgA7YwwG/d1Ur+OEg+RbtiIjcbF3UaECl2X2wN/r5Le3OkF7VhcSouZkovjpfHu3fwPpg==";
 const API_URL = "http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1";
 
-
-//영양정보
 const getFoodNutritionInfo = async (foodName) => {
   const params = {
     serviceKey: API_KEY,
@@ -45,22 +43,6 @@ const getFoodNutritionInfo = async (foodName) => {
   }
 };
 
-// 레시피 상세 정보를 제공하는 라우트
-app.get("/recipe-detail/:id", (req, res) => {
-  const { id } = req.params;
-  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
-  const data = fs.readFileSync(jsonFilePath, "utf8");
-  const menuItems = JSON.parse(data);
-  const recipe = menuItems.find(item => item.id === id);
-
-  if (!recipe) {
-    return res.status(404).send("Recipe not found");
-  }
-
-  res.json(recipe);
-});
-
-
 // 메뉴 아이템을 제공하는 라우트
 app.get("/menu-items", (req, res) => {
   const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json"); // JSON 파일 경로 설정
@@ -68,7 +50,6 @@ app.get("/menu-items", (req, res) => {
   const menuItems = JSON.parse(data); // JSON 파싱
   res.json(menuItems); // 클라이언트에 JSON 데이터 응답
 });
-
 
 // 특정 사용자의 레시피를 제공하는 라우트
 app.get("/user-recipes", (req, res) => {
@@ -146,8 +127,6 @@ const imageStorage = multer.diskStorage({
 
 const uploadImage = multer({ storage: imageStorage }); // 이미지 업로드 처리를 위한 multer 설정
 
-
-
 // JSON 데이터와 이미지를 업로드하는 POST 라우트
 app.post("/upload-data", uploadImage.single("uploadPhoto"), async (req, res) => {
   if (!req.file) {
@@ -172,8 +151,7 @@ app.post("/upload-data", uploadImage.single("uploadPhoto"), async (req, res) => 
     recipe: req.body.recipe,
     image: req.file.filename,
     userId: req.body.userId,// 사용자 ID 추가
-    nutrition: nutritionInfo,
-    updatedAt: new Date().toISOString()
+    nutrition: nutritionInfo 
   };
 
   menuItems.push(newItem); // 새 아이템 배열에 추가
@@ -181,48 +159,43 @@ app.post("/upload-data", uploadImage.single("uploadPhoto"), async (req, res) => 
   res.redirect(`/index.html?user=${req.body.userId}`);
 });
 
-
-const menuItemsFilePath = path.join(__dirname, "public/data", "menuItems.json");
-
-//좋아요버튼관련
-app.post("/toggle-like-recipe", (req, res) => {
+//좋아요 버튼 정보
+app.post("/like-recipe", upload.none(), (req, res) => {
   const { userId, recipeName } = req.body;
 
   const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
-  const menuItemsData = JSON.parse(fs.readFileSync(menuItemsFilePath, "utf8"));
+  const menuItemsData = JSON.parse(fs.readFileSync(path.join(__dirname, "public/data", "menuItems.json"), "utf8"));
 
   const user = usersData.find(user => user.username === userId);
   const recipe = menuItemsData.find(item => item.name === recipeName);
 
   if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    return res.status(404).json({ message: "User not found" });
   }
 
   if (!recipe) {
-      return res.status(404).json({ message: "Recipe not found" });
+    return res.status(404).json({ message: "Recipe not found" });
   }
 
-  let liked = false;
+  recipe.likes = (recipe.likes || 0) + 1;
 
-  if (user.likedRecipes.includes(recipeName)) {
-      recipe.likes -= 1;
-      user.likedRecipes = user.likedRecipes.filter(item => item !== recipeName);
-  } else {
-      recipe.likes += 1;
-      user.likedRecipes.push(recipeName);
-      liked = true;
+  if (!user.likedRecipes) {
+    user.likedRecipes = [];
+  }
+
+  if (!user.likedRecipes.includes(recipeName)) {
+    user.likedRecipes.push(recipeName);
   }
 
   fs.writeFileSync(usersFilePath, JSON.stringify(usersData, null, 2));
-  fs.writeFileSync(menuItemsFilePath, JSON.stringify(menuItemsData, null, 2));
+  fs.writeFileSync(path.join(__dirname, "public/data", "menuItems.json"), JSON.stringify(menuItemsData, null, 2));
 
-  res.status(200).json({ message: "Like toggled", likes: recipe.likes, liked });
+  res.status(200).json({ message: "Liked recipes updated", likes: recipe.likes });
 });
 
 
-// 사용자가 좋아요를 누른 레시피 목록을 제공하는 라우트
-app.get("/liked-recipes/:userId", (req, res) => {
-  const { userId } = req.params;
+app.get("/liked-recipes", (req, res) => {
+  const { userId } = req.query;
   const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
   const user = usersData.find(user => user.username === userId);
 
@@ -230,69 +203,12 @@ app.get("/liked-recipes/:userId", (req, res) => {
     return res.status(404).json({ message: "User not found" });
   }
 
-  res.json(user.likedRecipes || []);
+  res.json(user.likedRecipes);
 });
+
 
 
 app.listen(PORT, () => {
   // 서버 시작
   console.log(`Server running on http://localhost:${PORT}`);
-});
-
-
-
-// 회원 정보 업데이트 라우트
-app.post("/update-user", (req, res) => {
-  const { studentId, updatedUser } = req.body;
-
-  if (!fs.existsSync(usersFilePath)) {
-      return res.status(404).json({ message: "사용자 데이터를 찾을 수 없습니다." });
-  }
-
-  const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
-  const userIndex = usersData.findIndex(user => user.studentId === studentId);
-
-  if (userIndex === -1) {
-      return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
-  }
-
-  usersData[userIndex] = { ...usersData[userIndex], ...updatedUser };
-  fs.writeFileSync(usersFilePath, JSON.stringify(usersData, null, 2));
-
-  res.status(200).json({ message: "회원 정보가 성공적으로 변경됐습니다", success: true });
-});
-
-//레시피 삭제
-app.post("/delete-recipe", (req, res) => {
-  const { recipeName, userId } = req.body;
-
-  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
-  let menuItems = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
-
-  const recipeIndex = menuItems.findIndex(item => item.name === recipeName && item.userId === userId);
-  if (recipeIndex > -1) {
-    menuItems.splice(recipeIndex, 1);
-    fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
-    res.status(200).json({ success: true });
-  } else {
-    res.status(404).json({ success: false, message: "Recipe not found" });
-  }
-});
-
-// Handle bulk deleting recipes
-app.post("/bulk-delete-recipes", (req, res) => {
-  const { recipeNames, userId } = req.body;
-
-  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
-  let menuItems = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
-
-  recipeNames.forEach(recipeName => {
-    const recipeIndex = menuItems.findIndex(item => item.name === recipeName && item.userId === userId);
-    if (recipeIndex > -1) {
-      menuItems.splice(recipeIndex, 1);
-    }
-  });
-
-  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
-  res.status(200).json({ success: true });
 });

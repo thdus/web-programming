@@ -7,46 +7,156 @@ function showRecipeDetailsModal(recipe) {
     document.querySelector(".recipe-ingredients p").textContent = recipe.material;
     document.querySelector(".recipe-instructions p").textContent = recipe.recipe;
 
-    // 영양 정보 및 업데이트 날짜 표시
-    const nutritionText = `칼로리: ${recipe.nutrition ? recipe.nutrition.calories : 'N/A'}Kcal, 탄수화물: ${recipe.nutrition ? recipe.nutrition.carbohydrate : 'N/A'}g, 단백질: ${recipe.nutrition ? recipe.nutrition.protein : 'N/A'}g, 지방: ${recipe.nutrition ? recipe.nutrition.fat : 'N/A'}g, 당: ${recipe.nutrition ? recipe.nutrition.sugars : 'N/A'}g, 나트륨: ${recipe.nutrition ? recipe.nutrition.sodium : 'N/A'}g, 콜레스테롤: ${recipe.nutrition ? recipe.nutrition.cholesterol : 'N/A'}g, 포화 지방산: ${recipe.nutrition ? recipe.nutrition.saturatedFat : 'N/A'}g, 불포화 지방산: ${recipe.nutrition ? recipe.nutrition.transFat : 'N/A'}g`;
-    const updatedAtText = `업데이트 날짜: ${recipe.updatedAt ? new Date(recipe.updatedAt).toLocaleString() : 'N/A'}`;
+    const likeBtn = modal.querySelector(".like-btn");
+    const likeCount = modal.querySelector(".like-count");
+    likeCount.textContent = recipe.likes || 0;
 
-    // 모달에 영양 정보와 업데이트 날짜 추가
-    let nutritionElement = document.querySelector(".recipe-nutrition");
-    if (!nutritionElement) {
-        nutritionElement = document.createElement("div");
-        nutritionElement.classList.add("recipe-nutrition");
-        modal.querySelector(".recipe-details-content").appendChild(nutritionElement);
-    }
-    nutritionElement.innerHTML = `<h3>영양정보</h3><p>${nutritionText}</p>`;
-
-    let updatedAtElement = document.querySelector(".recipe-updated-at");
-    if (!updatedAtElement) {
-        updatedAtElement = document.createElement("div");
-        updatedAtElement.classList.add("recipe-updated-at");
-        modal.querySelector(".recipe-details-content").appendChild(updatedAtElement);
-    }
-    updatedAtElement.innerHTML = `<h3>업데이트한 시간</h3><p>${updatedAtText}</p>`;
+    likeBtn.onclick = function () {
+        if (!window.currentUser) {
+            showLoginWarningModal();
+            return;
+        }
+        recipe.likes = (recipe.likes || 0) + 1;
+        likeCount.textContent = recipe.likes;
+        updateLikeCountInList(recipe);
+        addRecipeToLikedRecipes(recipe);
+    };
 
     modal.style.display = "block";
 }
 
-function loadRecipeDetails(recipeId) {
-    fetch(`/recipe-detail/${recipeId}`)
-        .then(response => response.json())
-        .then(data => {
-            showRecipeDetailsModal(data);
-        })
-        .catch(error => console.error('Error loading the recipe details:', error));
+function setButtonEventListeners() {
+    // 좋아요 버튼 클릭 이벤트 설정
+    document.querySelectorAll(".like-btn").forEach(button => {
+        button.addEventListener("click", function(event) {
+            if (!window.currentUser) {
+                showLoginWarningModal();
+                return;
+            }
+            event.stopPropagation();
+            const listItem = button.closest(".tm-list-item");
+            const itemData = JSON.parse(listItem.getAttribute("data-item"));
+
+            // 좋아요 수 업데이트
+            itemData.likes = (itemData.likes || 0) + 1;
+            listItem.querySelector(".like-count").textContent = itemData.likes;
+
+            // 서버에 좋아요 수 업데이트
+            fetch("/like-recipe", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    userId: window.currentUser.username,
+                    recipeName: itemData.name
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    updateLikedRecipes(window.currentUser.username);
+                    // 상세 정보 모달의 좋아요 수 업데이트
+                    updateLikeCountInDetailsModal(itemData.name, itemData.likes);
+                }
+            })
+            .catch(error => console.error("Error liking recipe:", error));
+        });
+    });
+
+    // 댓글 버튼 클릭 이벤트 설정
+    document.querySelectorAll(".comment-btn").forEach(button => {
+        button.addEventListener("click", function(event) {
+            if (!window.currentUser) {
+                showLoginWarningModal();
+                return;
+            }
+            event.stopPropagation();
+            const listItem = button.closest(".tm-list-item");
+            const detailsModal = document.querySelector(".recipe-details-modal");
+            const commentsSection = detailsModal.querySelector(".comment-list");
+
+            const commentListModal = document.createElement("div");
+            commentListModal.classList.add("comment-list-modal");
+            commentListModal.innerHTML = `
+                <div class="comment-list-content">
+                    <span class="comment-list-close">&times;</span>
+                    ${commentsSection.innerHTML}
+                </div>
+            `;
+            document.body.appendChild(commentListModal);
+            commentListModal.style.display = "block";
+
+            const closeBtn = commentListModal.querySelector(".comment-list-close");
+            closeBtn.addEventListener("click", function () {
+                commentListModal.style.display = "none";
+                document.body.removeChild(commentListModal);
+            });
+
+            window.addEventListener("click", function (event) {
+                if (event.target === commentListModal) {
+                    commentListModal.style.display = "none";
+                    document.body.removeChild(commentListModal);
+                }
+            });
+        });
+    });
+
+    // 공유 버튼 클릭 이벤트 설정
+    document.querySelectorAll(".share-btn").forEach(button => {
+        button.addEventListener("click", function(event) {
+            if (!window.currentUser) {
+                showLoginWarningModal();
+                return;
+            }
+            event.stopPropagation();
+            const shareModal = button.nextElementSibling;
+            shareModal.style.display = "block";
+
+            const closeShareBtn = shareModal.querySelector(".share-close");
+            closeShareBtn.onclick = function () {
+                shareModal.style.display = "none";
+            };
+
+            window.onclick = function (event) {
+                if (event.target == shareModal) {
+                    shareModal.style.display = "none";
+                }
+            };
+        });
+    });
 }
 
-document.querySelectorAll('.detail-button').forEach(button => {
-    button.addEventListener('click', function() {
-        const recipeId = this.getAttribute('data-recipe-id');
-        loadRecipeDetails(recipeId);
+function updateLikeCountInList(recipe) {
+    const recipeItems = document.querySelectorAll(".tm-list-item");
+    recipeItems.forEach(item => {
+        const itemName = item.querySelector(".tm-list-item-name").textContent;
+        if (itemName === recipe.name) {
+            const likeCount = item.querySelector(".like-count");
+            likeCount.textContent = recipe.likes;
+        }
     });
-});
+}
 
+function addRecipeToLikedRecipes(recipe) {
+    fetch("/like-recipe", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            userId: window.currentUser.username,
+            recipeName: recipe.name
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            updateLikedRecipes(window.currentUser.username);
+        }
+    })
+    .catch(error => console.error("Error liking recipe:", error));
+}
 
 function showLoginWarningModal() {
     const warningModal = document.getElementById("loginWarningModal");
@@ -56,7 +166,11 @@ function showLoginWarningModal() {
     };
 }
 
-
-document.addEventListener("DOMContentLoaded", function () {
-    setButtonEventListeners();
-});
+function updateLikeCountInDetailsModal(recipeName, likes) {
+    const modal = document.querySelector(".recipe-details-modal");
+    const recipeNameElement = modal.querySelector(".recipe-name");
+    if (recipeNameElement.textContent === recipeName) {
+        const likeCountElement = modal.querySelector(".like-count");
+        likeCountElement.textContent = likes;
+    }
+}
