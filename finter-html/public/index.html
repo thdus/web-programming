@@ -198,47 +198,26 @@
             <div class="myPage-modal-body">
               <div id="userInfo" class="myPage-section">
                 <h3>회원 정보</h3>
+                <p>ID: <span id="userId"></span></p> <!-- ID 표시 부분 -->
                 <p>학번: <span id="userStudentId"></span></p>
                 <p>이름: <span id="userName"></span></p>
-                <p>ID: <span id="userId"></span></p>
                 <p>비밀번호: <span id="userPassword"></span></p>
-              </div>
-
-              <!-- 회원 정보 수정 섹션 -->
-              <div id="editUserInfo" class="myPage-section">
-                <h3>회원 정보 수정</h3>
-                <form id="editUserForm">
+            </div>
+            
+            <div id="editUserInfo" class="myPage-section">
+              <h3>회원 정보 수정</h3>
+              <form id="editUserForm">
                   <label for="editStudentId">학번:</label>
-                  <input
-                    type="number"
-                    id="editStudentId"
-                    name="studentId"
-                    class="myPage-form-control"
-                  />
+                  <input type="number" id="editStudentId" name="studentId" class="myPage-form-control" />
                   <label for="editName">이름:</label>
-                  <input
-                    type="text"
-                    id="editName"
-                    name="name"
-                    class="myPage-form-control"
-                  />
-                  <label for="editUsername">ID:</label>
-                  <input
-                    type="text"
-                    id="editUsername"
-                    name="username"
-                    class="myPage-form-control"
-                  />
+                  <input type="text" id="editName" name="name" class="myPage-form-control" />
                   <label for="editPassword">비밀번호:</label>
-                  <input
-                    type="password"
-                    id="editPassword"
-                    name="password"
-                    class="myPage-form-control"
-                  />
+                  <input type="password" id="editPassword" name="password" class="myPage-form-control" />
                   <button type="submit" class="myPage-btn-custom">수정</button>
-                </form>
-              </div>
+              </form>
+          </div>
+          
+            
 
               <!-- <div id="userRecipes" class="myPage-section">
                 <h3>등록한 레시피</h3>

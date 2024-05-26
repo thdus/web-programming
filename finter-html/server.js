@@ -217,21 +217,22 @@ app.listen(PORT, () => {
 
 // 회원 정보 업데이트 라우트
 app.post("/update-user", (req, res) => {
-    const { oldUsername, updatedUser } = req.body;
+  const { studentId, updatedUser } = req.body;
 
-    if (!fs.existsSync(usersFilePath)) {
-        return res.status(404).json({ message: "사용자 데이터를 찾을 수 없습니다." });
-    }
+  if (!fs.existsSync(usersFilePath)) {
+      return res.status(404).json({ message: "사용자 데이터를 찾을 수 없습니다." });
+  }
 
-    const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
-    const userIndex = usersData.findIndex(user => user.username === oldUsername);
+  const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  const userIndex = usersData.findIndex(user => user.studentId === studentId);
 
-    if (userIndex === -1) {
-        return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
-    }
+  if (userIndex === -1) {
+      return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+  }
 
-    usersData[userIndex] = updatedUser;
-    fs.writeFileSync(usersFilePath, JSON.stringify(usersData, null, 2));
+  usersData[userIndex] = { ...usersData[userIndex], ...updatedUser };
+  fs.writeFileSync(usersFilePath, JSON.stringify(usersData, null, 2));
 
-    res.status(200).json({ message: "회원 정보가 성공적으로 변경됐습니다", success: true });
+  res.status(200).json({ message: "회원 정보가 성공적으로 변경됐습니다", success: true });
 });
+

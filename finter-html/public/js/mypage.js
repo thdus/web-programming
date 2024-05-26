@@ -5,10 +5,14 @@ function showMyPage(event) {
 
     var myPageModal = document.getElementById("myPageModal");
     document.getElementById("myPageUsername").textContent = `${window.currentUser.username}님의 마이페이지`;
+    document.getElementById("userId").textContent = window.currentUser.username;
     document.getElementById("userStudentId").textContent = window.currentUser.studentId;
     document.getElementById("userName").textContent = window.currentUser.name;
-    document.getElementById("userId").textContent = window.currentUser.username;
     document.getElementById("userPassword").textContent = window.currentUser.password;
+
+    document.getElementById("editStudentId").value = window.currentUser.studentId;
+    document.getElementById("editName").value = window.currentUser.name;
+    document.getElementById("editPassword").value = window.currentUser.password;
 
     updateUserRecipes(window.currentUser.username);
     updateLikedRecipes(window.currentUser.username);
@@ -19,6 +23,9 @@ function showMyPage(event) {
 
     myPageModal.style.display = "block";
 }
+
+
+
 
 // 등록한 레시피 관련된 함수
 // function updateUserRecipes(userId) {
@@ -249,8 +256,6 @@ function fetchRecipeDetails(recipeName) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    
-
     // 회원 정보 수정 폼 제출 처리
     const editUserForm = document.getElementById("editUserForm");
     editUserForm.addEventListener("submit", function (event) {
@@ -259,7 +264,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const updatedUser = {
             studentId: document.getElementById("editStudentId").value,
             name: document.getElementById("editName").value,
-            username: document.getElementById("editUsername").value,
             password: document.getElementById("editPassword").value
         };
 
@@ -268,22 +272,20 @@ document.addEventListener("DOMContentLoaded", function () {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ oldUsername: window.currentUser.username, updatedUser })
+            body: JSON.stringify({ studentId: window.currentUser.studentId, updatedUser })
         })
         .then(response => response.json())
         .then(data => {
             if (data.message) {
                 alert(data.message);
                 if (data.success) {
-                    window.currentUser = updatedUser; // 업데이트된 정보로 현재 사용자 정보 갱신
-                    localStorage.setItem("currentUser", JSON.stringify(updatedUser)); // 로컬 저장소 갱신
-                    updateUIForLoggedInUser(updatedUser.username); // UI 업데이트
+                    window.currentUser = { ...window.currentUser, ...updatedUser }; // 업데이트된 정보로 현재 사용자 정보 갱신
+                    localStorage.setItem("currentUser", JSON.stringify(window.currentUser)); // 로컬 저장소 갱신
+                    updateUIForLoggedInUser(window.currentUser.username); // UI 업데이트
                     document.getElementById("myPageModal").style.display = "none"; // 모달 닫기
                 }
             }
         })
         .catch(error => console.error("Error updating user:", error));
     });
-
- 
 });
