@@ -151,7 +151,8 @@ app.post("/upload-data", uploadImage.single("uploadPhoto"), async (req, res) => 
     recipe: req.body.recipe,
     image: req.file.filename,
     userId: req.body.userId,// 사용자 ID 추가
-    nutrition: nutritionInfo 
+    nutrition: nutritionInfo,
+    updatedAt: new Date().toISOString()
   };
 
   menuItems.push(newItem); // 새 아이템 배열에 추가
@@ -236,3 +237,35 @@ app.post("/update-user", (req, res) => {
   res.status(200).json({ message: "회원 정보가 성공적으로 변경됐습니다", success: true });
 });
 
+app.post("/delete-recipe", (req, res) => {
+    const { recipeName, userId } = req.body;
+
+    const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
+    let menuItems = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
+
+    const recipeIndex = menuItems.findIndex(item => item.name === recipeName && item.userId === userId);
+    if (recipeIndex > -1) {
+        menuItems.splice(recipeIndex, 1);
+        fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
+        res.status(200).json({ success: true });
+    } else {
+        res.status(404).json({ success: false, message: "Recipe not found" });
+    }
+});
+
+app.post("/bulk-delete-recipes", (req, res) => {
+  const { recipeNames, userId } = req.body;
+
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
+  let menuItems = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
+
+  recipeNames.forEach(recipeName => {
+      const recipeIndex = menuItems.findIndex(item => item.name === recipeName && item.userId === userId);
+      if (recipeIndex > -1) {
+          menuItems.splice(recipeIndex, 1);
+      }
+  });
+
+  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
+  res.status(200).json({ success: true });
+});

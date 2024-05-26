@@ -3,7 +3,10 @@
     "studentId": "22",
     "name": "송용호",
     "username": "용호",
-    "password": "1111"
+    "password": "1111",
+    "likedRecipes": [
+      "봉골레파스타"
+    ]
   },
   {
     "studentId": "21101039",

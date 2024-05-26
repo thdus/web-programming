@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             </div>
                             <div class="tm-list-item-id-date">
                                 <span class="tm-list-item-id">${item.userId}/</span>
-                                <span class="tm-list-item-date">업데이트 날짜</span>
+                                <span class="tm-list-item-date">${new Date(item.updatedAt).toLocaleDateString()}</span>
                             </div>
                         </div>
                         <div class="tm-list-item-footer">

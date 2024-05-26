@@ -9,6 +9,9 @@ function showRecipeDetailsModal(recipe) {
 
     const likeBtn = modal.querySelector(".like-btn");
     const likeCount = modal.querySelector(".like-count");
+    
+
+
     likeCount.textContent = recipe.likes || 0;
 
     likeBtn.onclick = function () {
