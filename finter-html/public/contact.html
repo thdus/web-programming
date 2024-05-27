@@ -33,64 +33,65 @@
                         <div class="heading_container heading_center">
                             <h2>레시피 추가</h2>
                         </div>
-
                         <form action="/upload-data" method="post" enctype="multipart/form-data">
                             <div class="form-row">
-                                <div class="form-group col">
-                                    <label for="foodNameInput" style="color: white">음식 이름</label>
-                                    <input type="text" class="form-control" id="foodNameInput" name="foodNameInput" placeholder="추가할 음식이름을 작성해주세요." />
-                                </div>
+                              <div class="form-group col">
+                                <label for="foodNameInput" style="color: white">음식 이름</label>
+                                <input type="text" class="form-control" id="foodNameInput" name="foodNameInput" placeholder="추가할 음식이름을 작성해주세요." />
+                              </div>
                             </div>
-
                             <div class="form-row">
-                                <div class="form-group col-lg-6">
-                                    <label for="cookingTime" style="color: white">조리 시간</label>
-                                    <select id="cookingTime" name="cookingTime" class="form-control">
-                                        <option value="">시간 선택</option>
-                                        <option value="5분">5분</option>
-                                        <option value="10분">10분</option>
-                                        <option value="15분">15분</option>
-                                        <option value="20분">20분</option>
-                                        <option value="30분">30분</option>
-                                        <option value="1시간">1시간 이상</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-lg-6">
-                                    <label for="foodCategory" style="color: white">음식 종류</label>
-                                    <select id="foodCategory" name="foodCategory" class="form-control">
-                                        <option value="">카테고리 선택</option>
-                                        <option value="한식">한식</option>
-                                        <option value="중식">중식</option>
-                                        <option value="일식">일식</option>
-                                        <option value="양식">양식</option>
-                                        <option value="기타">기타</option>
-                                    </select>
-                                </div>
+                              <div class="form-group col-lg-6">
+                                <label for="cookingTime" style="color: white">조리 시간</label>
+                                <select id="cookingTime" name="cookingTime" class="form-control">
+                                  <option value="">시간 선택</option>
+                                  <option value="5분">5분</option>
+                                  <option value="10분">10분</option>
+                                  <option value="15분">15분</option>
+                                  <option value="20분">20분</option>
+                                  <option value="30분">30분</option>
+                                  <option value="1시간">1시간 이상</option>
+                                </select>
+                              </div>
+                              <div class="form-group col-lg-6">
+                                <label for="foodCategory" style="color: white">음식 종류</label>
+                                <select id="foodCategory" name="foodCategory" class="form-control">
+                                  <option value="">카테고리 선택</option>
+                                  <option value="한식">한식</option>
+                                  <option value="중식">중식</option>
+                                  <option value="일식">일식</option>
+                                  <option value="양식">양식</option>
+                                  <option value="기타">기타</option>
+                                </select>
+                              </div>
                             </div>
-
                             <div class="form-row">
-                                <div class="form-group col">
-                                    <label for="material" style="color: white">재료</label>
-                                    <input type="text" class="form-control" id="material" name="material" placeholder="재료를 입력해주세요." />
-                                </div>
+                              <div class="form-group col">
+                                <label for="material" style="color: white">재료</label>
+                                <input type="text" class="form-control" id="material" name="material" placeholder="재료를 입력해주세요." />
+                              </div>
                             </div>
-
                             <div class="form-row">
-                                <div class="form-group col">
-                                    <label for="recipe" style="color: white">레시피</label>
-                                    <input type="text" class="form-control" id="recipe" name="recipe" placeholder="레시피를 입력해주세요." />
-                                </div>
+                              <div class="form-group col">
+                                <label for="recipe" style="color: white">레시피</label>
+                                <input type="text" class="form-control" id="recipe" name="recipe" placeholder="레시피를 입력해주세요." />
+                              </div>
                             </div>
-
                             <div class="form-row">
-                                <div class="form-group col">
-                                    <label for="uploadPhoto">음식 사진</label>
-                                    <input type="file" class="form-control-file" id="uploadPhoto" name="uploadPhoto" accept="image/*" />
-                                </div>
+                              <div class="form-group col">
+                                <label for="uploadPhoto">음식 사진</label>
+                                <input type="file" class="form-control-file" id="uploadPhoto" name="uploadPhoto" accept="image/*" />
+                              </div>
                             </div>
-
+                            <div class="form-row">
+                              <input type="hidden" name="userId" value="<!-- 사용자 ID를 여기에 삽입 -->" id="userIdInput">
+                            </div>
                             <div class="btn_box">
-                                <button type="submit">SEND</button>
+                              <button type="submit">SEND</button>
+                            </div>
+                          </form>
+                          
+                        
                             </div>
                         </form>
                     </div>
@@ -118,5 +119,6 @@
     <script src="js/login.js"></script>
     <script src="js/loadMenuItems.js"></script>
     <script src="js/signup.js"></script>
+    <script src="js/add.js"></script>
 </body>
 </html>

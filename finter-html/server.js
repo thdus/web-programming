@@ -145,35 +145,35 @@ const uploadImage = multer({ storage: imageStorage }); // 이미지 업로드 �
 // JSON 데이터와 이미지를 업로드하는 POST 라우트
 app.post("/upload-data", uploadImage.single("uploadPhoto"), async (req, res) => {
   if (!req.file) {
-    return res.status(400).send("No file uploaded"); // 파일이 업로드되지 않았을 경우 에러 처리
+    return res.status(400).send("No file uploaded");
   }
 
-  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json"); // JSON 파일 경로 설정
-  let menuItems = []; // 메뉴 아이템 배열 초기화
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
+  let menuItems = [];
 
   if (fs.existsSync(jsonFilePath)) {
-    // 파일 존재 여부 확인
-    const data = fs.readFileSync(jsonFilePath, "utf8"); // 파일 읽기
-    menuItems = JSON.parse(data); // 기존 데이터 파싱
+    const data = fs.readFileSync(jsonFilePath, "utf8");
+    menuItems = JSON.parse(data);
   }
+
   const nutritionInfo = await getFoodNutritionInfo(req.body.foodNameInput);
   const newItem = {
-    // 새 메뉴 아이템 객체 생성
     name: req.body.foodNameInput,
     time: req.body.cookingTime,
     category: req.body.foodCategory,
     material: req.body.material,
     recipe: req.body.recipe,
     image: req.file.filename,
-    userId: req.body.userId,// 사용자 ID 추가
+    userId: req.body.userId || "Anonymous", // Ensure userId is provided
     nutrition: nutritionInfo,
     updatedAt: new Date().toISOString()
   };
 
-  menuItems.push(newItem); // 새 아이템 배열에 추가
-  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2)); // 파일에 데이터 저장
+  menuItems.push(newItem);
+  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
   res.redirect(`/index.html?user=${req.body.userId}`);
 });
+
 
 //좋아요 버튼 정보
 app.post("/toggle-like-recipe", upload.none(), (req, res) => {
