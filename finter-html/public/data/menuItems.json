@@ -19,7 +19,20 @@
       "transFat": "0.00"
     },
     "likes": 98,
-    "updatedAt": "2024-05-26T12:34:56Z"
+    "updatedAt": "2024-05-26T12:34:56Z",
+    "comments": [
+      {
+        "user": "민혁",
+        "text": "진짜 치킨커리는 스테판 커리 만큼 맛있는듯??",
+        "date": "2024-05-27T13:07:47.176Z"
+      },
+      {
+        "user": "민혁",
+        "text": "내가 오뚜기부대 출신인거 알아? 커리는 오뚜기 3분카레야!!!!",
+        "date": "2024-05-27T14:26:26.917Z"
+      }
+    ],
+    "commentCount": 2
   },
   {
     "name": "봉골레파스타",
@@ -30,7 +43,7 @@
     "image": "pastaBolognese.png",
     "userId": "소연",
     "nutrition": null,
-    "likes": 31,
+    "likes": 32,
     "updatedAt": "2024-05-26T12:34:56Z"
   },
   {
@@ -52,8 +65,16 @@
       "saturatedFat": "N/A",
       "transFat": "N/A"
     },
-    "likes": 35,
-    "updatedAt": "2024-05-26T12:34:56Z"
+    "likes": 34,
+    "updatedAt": "2024-05-26T12:34:56Z",
+    "comments": [
+      {
+        "user": "민혁",
+        "text": "중학교 때 여자친구가 나를 '미역이'라고 불렀는데,,,,",
+        "date": "2024-05-27T14:27:25.436Z"
+      }
+    ],
+    "commentCount": 1
   },
   {
     "name": "두부김치",
@@ -74,7 +95,37 @@
       "saturatedFat": "3.17",
       "transFat": "0.07"
     },
-    "likes": 14,
-    "updatedAt": "2024-05-26T12:34:56Z"
+    "likes": 13,
+    "updatedAt": "2024-05-26T12:34:56Z",
+    "comments": [
+      {
+        "user": "민혁",
+        "text": "두부두부두부 으쌰으쌰으쌰! 두부 네모!",
+        "date": "2024-05-27T14:26:57.556Z"
+      }
+    ],
+    "commentCount": 1
+  },
+  {
+    "name": "된장찌개",
+    "time": "시간 미정",
+    "category": "카테고리 미정",
+    "material": "된장 진간장 고춧가루 다진마늘 설탕 소금 느타리버섯 양파 애호박 청양고추 두부 ",
+    "recipe": "우선 냄비에 물을 6컵을 넣고 다시다나 멸치등 있는재료를 이용해서 육수를 내줍니다. (15분정도 끓여주었어요) 물은 종이컵으로 6컵을 해도, 끓이는동안 증발이 되서 실제로는 4컵이나5컵정도의 양이 됩니다^^",
+    "image": "doenjang stew.jpg",
+    "userId": "소연",
+    "nutrition": {
+      "calories": "37.00",
+      "carbohydrate": "3.40",
+      "protein": "2.90",
+      "fat": "1.30",
+      "sugars": "0.00",
+      "sodium": "505.00",
+      "cholesterol": "0.00",
+      "saturatedFat": "0.00",
+      "transFat": "N/A"
+    },
+    "updatedAt": "2024-05-27T10:51:53.131Z",
+    "likes": 0
   }
 ]

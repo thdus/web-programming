@@ -127,6 +127,7 @@ document.addEventListener("DOMContentLoaded", function () {
       addLoginCheck(".comment-btn");
       addLoginCheck(".share-btn");
       addLoginCheck(".comment-submit-btn");
+      addLoginCheck("add-Button");
     }
   
     // 페이지가 로드될 때 기존 버튼들에 대해서 로그인 체크 추가

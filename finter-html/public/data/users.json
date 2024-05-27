@@ -4,11 +4,7 @@
     "name": "송용호",
     "username": "용호",
     "password": "1111",
-    "likedRecipes": [
-      "봉골레파스타",
-      "미역국",
-      "두부김치"
-    ]
+    "likedRecipes": []
   },
   {
     "studentId": "21101039",
@@ -16,6 +12,7 @@
     "username": "소연",
     "password": "1111",
     "likedRecipes": [
+      "봉골레파스타",
       "치킨커리"
     ]
   },
@@ -25,7 +22,8 @@
     "username": "민혁",
     "password": "1111",
     "likedRecipes": [
-      "치킨커리"
+      "치킨커리",
+      "봉골레파스타"
     ]
   }
 ]

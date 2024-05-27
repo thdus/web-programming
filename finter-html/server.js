@@ -3,13 +3,13 @@ const multer = require("multer");
 const fs = require("fs");
 const path = require("path");
 const axios = require("axios");
-const app = express(); // express 애플리케이션 생성
-const PORT = 3000; // 서버 포트 설정
+const app = express(); 
+const PORT = 3000;
 
-app.use(express.static("public")); // 정적 파일 제공을 위한 폴더 설정
-app.use(express.json()); // JSON 요청 본문 파싱을 위한 미들웨어 사용
+app.use(express.static("public"));
+app.use(express.json());
 
-const storage = multer.memoryStorage();  // 메모리 스토리지 설정
+const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 const API_KEY = "bblWRDviGiHeESuXlBgA7YwwG/d1Ur+OEg+RbtiIjcbF3UaECl2X2wN/r5Le3OkF7VhcSouZkovjpfHu3fwPpg==";
 const API_URL = "http://apis.data.go.kr/1471000/FoodNtrIrdntInfoService1/getFoodNtrItdntList1";
@@ -43,30 +43,31 @@ const getFoodNutritionInfo = async (foodName) => {
   }
 };
 
-// 레시피 상세 정보를 제공하는 라우트
-app.get("/recipe-detail/:id", (req, res) => {
-  const { id } = req.params;
+app.get("/recipe-detail/:name", (req, res) => {
+  const { name } = req.params;
   const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
   const data = fs.readFileSync(jsonFilePath, "utf8");
   const menuItems = JSON.parse(data);
-  const recipe = menuItems.find(item => item.id === id);
+  const recipe = menuItems.find(item => item.name === name);
 
   if (!recipe) {
-    return res.status(404).send("Recipe not found");
+      return res.status(404).send("Recipe not found");
   }
 
   res.json(recipe);
 });
 
-// 메뉴 아이템을 제공하는 라우트
 app.get("/menu-items", (req, res) => {
-  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json"); // JSON 파일 경로 설정
-  const data = fs.readFileSync(jsonFilePath, "utf8"); // 동기적으로 파일 읽기
-  const menuItems = JSON.parse(data); // JSON 파싱
-  res.json(menuItems); // 클라이언트에 JSON 데이터 응답
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
+  if (fs.existsSync(jsonFilePath)) {
+    const data = fs.readFileSync(jsonFilePath, "utf8");
+    const menuItems = JSON.parse(data);
+    res.json(menuItems);
+  } else {
+    res.status(404).send("No menu items found");
+  }
 });
 
-// 특정 사용자의 레시피를 제공하는 라우트
 app.get("/user-recipes", (req, res) => {
   const { userId } = req.query;
   const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
@@ -76,24 +77,17 @@ app.get("/user-recipes", (req, res) => {
   res.json(userRecipes);
 });
 
-
 const usersFilePath = path.join(__dirname, "public/data", "users.json");
 
 app.post("/register", upload.none(), (req, res) => {
   const { studentId, name, username, password } = req.body;
 
-  console.log("Received registration data:", { studentId, name, username, password });
-
-  if (!fs.existsSync(usersFilePath)) {
-    console.log("users.json does not exist. Creating new file.");
+  if (!fs.exists(usersFilePath)) {
     fs.writeFileSync(usersFilePath, JSON.stringify([]));
   }
 
   const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
-  console.log("Current users data:", usersData);
-
   const userExists = usersData.some(user => user.username === username);
-  console.log("User exists:", userExists);
 
   if (userExists) {
     return res.status(400).json({ message: "이미 존재하는 ID입니다." });
@@ -103,16 +97,11 @@ app.post("/register", upload.none(), (req, res) => {
   usersData.push(newUser);
   fs.writeFileSync(usersFilePath, JSON.stringify(usersData, null, 2));
 
-  console.log("New user added:", newUser);
   res.status(201).json({ message: "회원가입이 완료되었습니다." });
 });
 
-
-// 사용자 이름(ID) 중복 확인 라우트
 app.get("/check-username", (req, res) => {
   const { username } = req.query;
-
-  console.log("Checking username availability for:", username);
 
   if (!fs.existsSync(usersFilePath)) {
     fs.writeFileSync(usersFilePath, JSON.stringify([]));
@@ -120,62 +109,53 @@ app.get("/check-username", (req, res) => {
 
   const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
   const userExists = usersData.some(user => user.username === username);
-
-  console.log("User exists:", userExists);
   res.json({ exists: userExists });
 });
 
-
-
-// JSON 데이터와 이미지를 업로드하는 POST 라우트
 const imageStorage = multer.diskStorage({
-  // 이미지 저장 설정
   destination: function (req, file, callback) {
-    // 이미지 저장 경로 설정
     callback(null, "public/image");
   },
   filename: function (req, file, callback) {
-    // 저장할 파일 이름 설정
     callback(null, file.originalname);
   },
 });
 
-const uploadImage = multer({ storage: imageStorage }); // 이미지 업로드 처리를 위한 multer 설정
+const uploadImage = multer({ storage: imageStorage });
 
-// JSON 데이터와 이미지를 업로드하는 POST 라우트
 app.post("/upload-data", uploadImage.single("uploadPhoto"), async (req, res) => {
   if (!req.file) {
-    return res.status(400).send("No file uploaded"); // 파일이 업로드되지 않았을 경우 에러 처리
+    return res.status(400).send("No file uploaded");
   }
 
-  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json"); // JSON 파일 경로 설정
-  let menuItems = []; // 메뉴 아이템 배열 초기화
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
+  let menuItems = [];
 
   if (fs.existsSync(jsonFilePath)) {
-    // 파일 존재 여부 확인
-    const data = fs.readFileSync(jsonFilePath, "utf8"); // 파일 읽기
-    menuItems = JSON.parse(data); // 기존 데이터 파싱
+    const data = fs.readFileSync(jsonFilePath, "utf8");
+    menuItems = JSON.parse(data);
   }
+
   const nutritionInfo = await getFoodNutritionInfo(req.body.foodNameInput);
   const newItem = {
-    // 새 메뉴 아이템 객체 생성
     name: req.body.foodNameInput,
-    time: req.body.cookingTime,
+    time: req.body.cookingTime ,
     category: req.body.foodCategory,
-    material: req.body.material,
-    recipe: req.body.recipe,
+    material: req.body.material ,
+    recipe: req.body.recipe ,
     image: req.file.filename,
-    userId: req.body.userId,// 사용자 ID 추가
-    nutrition: nutritionInfo,
-    updatedAt: new Date().toISOString()
+    userId: req.body.userId || "unknown",
+    nutrition: nutritionInfo || {},
+    updatedAt: new Date().toISOString(),
+    likes: 0,
+    comments: []
   };
 
-  menuItems.push(newItem); // 새 아이템 배열에 추가
-  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2)); // 파일에 데이터 저장
+  menuItems.push(newItem);
+  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
   res.redirect(`/index.html?user=${req.body.userId}`);
 });
 
-//좋아요 버튼 정보
 app.post("/toggle-like-recipe", upload.none(), (req, res) => {
   const { userId, recipeName } = req.body;
 
@@ -193,17 +173,14 @@ app.post("/toggle-like-recipe", upload.none(), (req, res) => {
     return res.status(404).json({ message: "Recipe not found" });
   }
 
-  // Check if user already liked the recipe
   if (!user.likedRecipes) {
     user.likedRecipes = [];
   }
 
   if (user.likedRecipes.includes(recipeName)) {
-    // User already liked the recipe, so remove the like
     recipe.likes = (recipe.likes || 0) - 1;
     user.likedRecipes = user.likedRecipes.filter(item => item !== recipeName);
   } else {
-    // User has not liked the recipe, so add the like
     recipe.likes = (recipe.likes || 0) + 1;
     user.likedRecipes.push(recipeName);
   }
@@ -214,14 +191,106 @@ app.post("/toggle-like-recipe", upload.none(), (req, res) => {
   res.status(200).json({ message: "Like toggled", likes: recipe.likes, liked: user.likedRecipes.includes(recipeName) });
 });
 
+// 댓글 추가 엔드포인트
+app.post("/add-comment", (req, res) => {
+  const { recipeName, comment, user } = req.body;
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
+  const data = fs.readFileSync(jsonFilePath, "utf8");
+  const menuItems = JSON.parse(data);
+  const recipe = menuItems.find(item => item.name === recipeName);
 
+  if (!recipe) {
+    return res.status(404).send("Recipe not found");
+  }
+
+  const newComment = {
+    user: user,
+    text: comment,
+    date: new Date().toISOString()
+  };
+
+  if (!recipe.comments) {
+    recipe.comments = [];
+  }
+  recipe.comments.push(newComment);
+  recipe.commentCount = recipe.comments.length; // 댓글 개수 업데이트
+
+  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
+  res.json({ success: true, comment: newComment });
+});
+
+// 서버에서 특정 사용자가 단 댓글을 반환하는 엔드포인트 추가
+app.get('/user-comments', (req, res) => {
+  const { userId } = req.query;
+
+  const jsonFilePath = path.join(__dirname, 'public/data', 'menuItems.json');
+  const data = fs.readFileSync(jsonFilePath, 'utf8');
+  const menuItems = JSON.parse(data);
+
+  const userComments = [];
+  menuItems.forEach(item => {
+      if (item.comments) {
+          item.comments.forEach(comment => {
+              if (comment.user === userId) {
+                  userComments.push({ recipeName: item.name, text: comment.text, date: comment.date });
+              }
+          });
+      }
+  });
+
+  res.json(userComments);
+});
+
+app.post("/delete-comment", (req, res) => {
+  const { commentText, recipeName, userId, commentDate } = req.body;
+
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
+  const data = fs.readFileSync(jsonFilePath, "utf8");
+  const menuItems = JSON.parse(data);
+
+  const recipe = menuItems.find(item => item.name === recipeName);
+  if (!recipe) {
+      return res.status(404).json({ success: false, message: "Recipe not found" });
+  }
+
+  const commentIndex = recipe.comments.findIndex(comment => 
+      comment.text === commentText && comment.user === userId && comment.date === commentDate
+  );
+  if (commentIndex > -1) {
+      recipe.comments.splice(commentIndex, 1);
+      recipe.commentCount = recipe.comments.length; // 댓글 개수 업데이트
+      fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
+      res.json({ success: true });
+  } else {
+      res.status(404).json({ success: false, message: "Comment not found" });
+  }
+});
+
+app.post('/bulk-delete-comments', (req, res) => {
+  const { comments, userId } = req.body;
+
+  const jsonFilePath = path.join(__dirname, 'public/data', 'menuItems.json');
+  const data = fs.readFileSync(jsonFilePath, 'utf8');
+  const menuItems = JSON.parse(data);
+
+  comments.forEach(comment => {
+      const recipe = menuItems.find(item => item.name === comment.recipeName);
+      if (recipe) {
+          const commentIndex = recipe.comments.findIndex(c => c.text === comment.text && c.user === userId);
+          if (commentIndex > -1) {
+              recipe.comments.splice(commentIndex, 1);
+          }
+      }
+  });
+
+  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
+  res.json({ success: true });
+});
 
 app.listen(PORT, () => {
-  // 서버 시작
   console.log(`Server running on http://localhost:${PORT}`);
 });
 
-// 특정 사용자의 좋아요한 레시피를 제공하는 라우트
 app.get("/liked-recipes", (req, res) => {
   const { userId } = req.query;
   const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
@@ -238,20 +307,18 @@ app.get("/liked-recipes", (req, res) => {
   res.json(likedRecipes);
 });
 
-
-// 회원 정보 업데이트 라우트
 app.post("/update-user", (req, res) => {
   const { studentId, updatedUser } = req.body;
 
   if (!fs.existsSync(usersFilePath)) {
-      return res.status(404).json({ message: "사용자 데이터를 찾을 수 없습니다." });
+    return res.status(404).json({ message: "사용자 데이터를 찾을 수 없습니다." });
   }
 
   const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
   const userIndex = usersData.findIndex(user => user.studentId === studentId);
 
   if (userIndex === -1) {
-      return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
+    return res.status(404).json({ message: "사용자를 찾을 수 없습니다." });
   }
 
   usersData[userIndex] = { ...usersData[userIndex], ...updatedUser };
@@ -276,7 +343,6 @@ app.post("/delete-recipe", (req, res) => {
   }
 });
 
-// Handle bulk deleting recipes
 app.post("/bulk-delete-recipes", (req, res) => {
   const { recipeNames, userId } = req.body;
 
@@ -289,7 +355,6 @@ app.post("/bulk-delete-recipes", (req, res) => {
       menuItems.splice(recipeIndex, 1);
     }
   });
-
   fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
   res.status(200).json({ success: true });
 });

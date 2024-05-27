@@ -250,7 +250,22 @@
 
               <div id="userComments" class="myPage-section">
                 <h3>내가 단 댓글</h3>
-                <ul id="userCommentList"></ul>
+                <button id="bulkDeleteCommentsBtn">일괄 삭제</button>
+                <table id="userCommentTable" border="1" class="notice-list">
+                  <thead>
+                    <tr>
+                      <th><input class="overall-comment-checkbox" type="checkbox"></th>
+                      <th>번호</th>
+                      <th>레시피 이름</th>
+                      <th>댓글 내용</th>
+                      <th>작성 날짜</th>
+                      <th>삭제</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- 댓글 목록이 여기에 추가됩니다. -->
+                  </tbody>
+                </table>
               </div>
 
               <div class="myPage-modal-footer">
@@ -323,15 +338,21 @@
     <div class="recipe-comments">
       <h3>댓글</h3>
       <div class="comment-list">
-        <div class="comment-item">
-          <p><strong>사용자1:</strong> 여기에 첫 번째 댓글이 표시됩니다.</p>
-        </div>
-        <div class="comment-item">
-          <p><strong>사용자2:</strong> 여기에 두 번째 댓글이 표시됩니다.</p>
-        </div>
+        <!-- 여기서부터 동적으로 댓글이 추가될 예정 -->
       </div>
-      <textarea placeholder="댓글을 입력하세요"></textarea>
+      <textarea placeholder="댓글을 입력하세요" id="commentTextarea"></textarea>
       <button class="comment-submit-btn">댓글 달기</button>
+    </div>
+  </div>
+</div>
+
+<!-- 댓글 내용 모달 -->
+<div id="commentModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>댓글 내용</h3>
+    <div id="commentList">
+      <!-- 댓글 내용이 여기에 동적으로 추가됩니다. -->
     </div>
   </div>
 </div>
@@ -368,5 +389,11 @@
     <script src="js/loadMenuItems.js"></script>
     <script src="js/signup.js"></script>
     <script src="js/detailinfo.js"></script>
+    <script src="js/add.js"></script>
+    <script>
+      function redirectToContactPage() {
+        window.location.href = "contact.html";
+      }
+    </script>
   </body>
 </html>
