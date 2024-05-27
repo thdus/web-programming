@@ -1,0 +1,25 @@
+[
+  {
+    "studentId": "22",
+    "name": "송용호",
+    "username": "용호",
+    "password": "1111",
+    "likedRecipes": []
+  },
+  {
+    "studentId": "21101039",
+    "name": "김소연",
+    "username": "소연",
+    "password": "1111",
+    "likedRecipes": []
+  },
+  {
+    "studentId": "19111111",
+    "name": "손민혁",
+    "username": "민혁",
+    "password": "1111",
+    "likedRecipes": [
+      "치킨커리"
+    ]
+  }
+]
