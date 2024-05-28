@@ -377,3 +377,129 @@ document.addEventListener("DOMContentLoaded", function () {
       .catch((error) => console.error("Error updating user:", error));
   });
 });
+
+
+function updateUserRecipes(userId) {
+  fetch(`/user-recipes?userId=${userId}`)
+    .then(response => response.json())
+    .then(userRecipes => {
+      const userRecipeTableBody = document.querySelector("#userRecipeTable tbody");
+      userRecipeTableBody.innerHTML = "";
+      userRecipes.forEach((recipe, index) => {
+        const tr = document.createElement("tr");
+
+        const checkboxTd = document.createElement("td");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.classList.add("recipe-checkbox");
+        checkbox.dataset.recipeName = recipe.name;
+        checkboxTd.appendChild(checkbox);
+
+        const indexTd = document.createElement("td");
+        indexTd.textContent = index + 1;
+
+        const nameTd = document.createElement("td");
+        nameTd.textContent = recipe.name;
+        nameTd.classList.add("recipe-link");
+        nameTd.addEventListener("click", function () {
+          showRecipeDetailsModal(recipe);
+        });
+
+        const dateTd = document.createElement("td");
+        dateTd.textContent = recipe.updatedAt ? new Date(recipe.updatedAt).toLocaleDateString() : "날짜 없음";
+
+        const actionsTd = document.createElement("td");
+        const editBtn = document.createElement("button");
+        editBtn.textContent = "수정";
+        editBtn.classList.add("edit-btn");
+        editBtn.addEventListener("click", function () {
+          showEditRecipeModal(recipe);
+        });
+
+        const deleteBtn = document.createElement("button");
+        deleteBtn.textContent = "삭제";
+        deleteBtn.classList.add("delete-btn");
+        deleteBtn.addEventListener("click", function () {
+          handleDeleteRecipe(recipe.name, userId);
+        });
+
+        actionsTd.appendChild(editBtn);
+        actionsTd.appendChild(deleteBtn);
+
+        tr.appendChild(checkboxTd);
+        tr.appendChild(indexTd);
+        tr.appendChild(nameTd);
+        tr.appendChild(dateTd);
+        tr.appendChild(actionsTd);
+
+        userRecipeTableBody.appendChild(tr);
+      });
+
+      document.querySelector(".overall-checkbox").addEventListener("change", function (event) {
+        const isChecked = event.target.checked;
+        document.querySelectorAll(".recipe-checkbox").forEach(checkbox => {
+          checkbox.checked = isChecked;
+        });
+      });
+
+      document.getElementById("bulkDeleteBtn").addEventListener("click", function () {
+        handleBulkDelete(userId);
+      });
+    })
+    .catch(error => console.error("Error fetching user recipes:", error));
+}
+
+function showEditRecipeModal(recipe) {
+  const editModal = document.getElementById("editRecipeModal");
+  editModal.querySelector("#editRecipeName").value = recipe.name;
+  editModal.querySelector("#editCookingTime").value = recipe.time;
+  editModal.querySelector("#editCategory").value = recipe.category;
+  editModal.querySelector("#editMaterial").value = recipe.material;
+  editModal.querySelector("#editRecipeInstructions").value = recipe.recipe;
+
+  editModal.style.display = "block";
+
+  editModal.querySelector("#saveEditRecipeBtn").onclick = function () {
+    handleEditRecipe(recipe.name, recipe.userId);
+  };
+}
+
+function handleEditRecipe(recipeName, userId) {
+  const editModal = document.getElementById("editRecipeModal");
+  const newRecipeData = {
+    name: editModal.querySelector("#editRecipeName").value,
+    time: editModal.querySelector("#editCookingTime").value,
+    category: editModal.querySelector("#editCategory").value,
+    material: editModal.querySelector("#editMaterial").value,
+    recipe: editModal.querySelector("#editRecipeInstructions").value,
+  };
+
+  fetch(`/update-recipe`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({ recipeName, userId, newRecipeData })
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        alert("레시피가 성공적으로 수정되었습니다.");
+        updateUserRecipes(userId);
+        editModal.style.display = "none";
+      } else {
+        alert("레시피 수정 중 오류가 발생했습니다: " + data.message);
+      }
+    })
+    .catch(error => console.error("레시피 수정 중 오류가 발생했습니다:", error));
+}
+document.querySelector(".close-edit-recipe").onclick = function () {
+  document.getElementById("editRecipeModal").style.display = "none";
+};
+
+window.onclick = function (event) {
+  const editRecipeModal = document.getElementById("editRecipeModal");
+  if (event.target == editRecipeModal) {
+    editRecipeModal.style.display = "none";
+  }
+};
