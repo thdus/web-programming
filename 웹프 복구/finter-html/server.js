@@ -263,3 +263,31 @@ app.post("/bulk-delete-recipes", (req, res) => {
   fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
   res.status(200).json({ success: true });
 });
+
+app.post("/update-recipe", uploadImage.single("uploadPhoto"), async (req, res) => {
+  const { recipeName, userId, newRecipeData } = req.body;
+
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
+  let menuItems = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
+
+  const recipeIndex = menuItems.findIndex(item => item.name === recipeName && item.userId === userId);
+
+  if (recipeIndex === -1) {
+    return res.status(404).json({ success: false, message: "Recipe not found" });
+  }
+
+  const updatedRecipe = {
+    ...menuItems[recipeIndex],
+    ...newRecipeData,
+    updatedAt: new Date().toISOString()
+  };
+
+  if (req.file) {
+    updatedRecipe.image = req.file.filename;
+  }
+
+  menuItems[recipeIndex] = updatedRecipe;
+  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
+
+  res.status(200).json({ success: true, message: "Recipe updated successfully", updatedRecipe });
+});
