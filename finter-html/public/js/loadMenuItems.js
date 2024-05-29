@@ -90,10 +90,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function setDetailButtonEventListeners() {
         document.querySelectorAll(".details-btn").forEach(button => {
             button.addEventListener("click", function(event) {
-                if (!window.currentUser) {
-                    showLoginWarningModal();
-                    return;
-                }
                 event.stopPropagation();
                 const recipeName = button.getAttribute("data-recipe-name");
                 loadRecipeDetails(recipeName);
