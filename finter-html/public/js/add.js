@@ -4,3 +4,11 @@ document.addEventListener("DOMContentLoaded", function () {
       userIdField.value = window.currentUser.username;
     }
   });
+
+  function redirectToContactPage() {
+    if (!window.currentUser) {
+        showLoginWarningModal();
+    } else {
+        window.location.href = "contact.html";
+    }
+}
