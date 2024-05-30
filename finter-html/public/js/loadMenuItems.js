@@ -44,9 +44,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const menuContainer = document.querySelector("#customCarousel1 .tm-list");
         menuContainer.innerHTML = "";
         menuItems.forEach((item) => {
-            const liked = window.currentUser && window.currentUser.likedRecipes.includes(item.name);
+            const liked = window.currentUser && window.currentUser.likedRecipes && window.currentUser.likedRecipes.includes(item.name);
             const heartClass = liked ? "fa-heart" : "fa-heart-o";
-
+    
             const menuItemHtml = `
                 <div class="tm-list-item" data-item='${JSON.stringify(item)}' data-recipe-name="${item.name}">
                     <img src="image/${item.image}" alt="${item.name}" class="tm-list-item-img">
@@ -77,9 +77,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 </div>`;
             menuContainer.innerHTML += menuItemHtml;
         });
-
+    
         attachEventListeners();
-    }
+    }    
 
     function attachEventListeners() {
         setDetailButtonEventListeners();

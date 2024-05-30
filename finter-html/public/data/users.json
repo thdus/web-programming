@@ -4,7 +4,11 @@
     "name": "송용호",
     "username": "용호",
     "password": "1111",
-    "likedRecipes": []
+    "likedRecipes": [
+      "두부김치",
+      "고추장 찌개",
+      "된장찌개"
+    ]
   },
   {
     "studentId": "21101039",
@@ -23,7 +27,27 @@
     "password": "1111",
     "likedRecipes": [
       "치킨커리",
-      "봉골레파스타"
+      "봉골레파스타",
+      "두부김치",
+      "고추장 찌개"
+    ]
+  },
+  {
+    "studentId": "111111",
+    "name": "오세연",
+    "username": "세연",
+    "password": "1111"
+  },
+  {
+    "studentId": "19120111",
+    "name": "오지연",
+    "username": "지연",
+    "password": "1111",
+    "likedRecipes": [
+      "된장찌개",
+      "치킨커리",
+      "봉골레파스타",
+      "고추장 찌개"
     ]
   }
 ]

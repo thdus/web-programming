@@ -1,394 +1,357 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ourecipe</title>
-    <link rel="shortcut icon" href="images/fevicon.png" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css"
-    />
-    <link href="css/font-awesome.min.css" rel="stylesheet" />
-    <link href="css/style.css" rel="stylesheet" />
-    <link href="css/responsive.css" rel="stylesheet" />
-  </head>
 
-  <body>
-    <!-- 배경 -->
-    <div class="hero_area">
-      <div class="hero_bg_box">
-        <img src="images/hero-bg.jpg" alt="" />
-      </div>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ourecipe</title>
+  <link rel="shortcut icon" href="images/fevicon.png" type="image/x-icon" />
+  <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css"
+    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" />
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" />
+  <link href="css/font-awesome.min.css" rel="stylesheet" />
+  <link href="css/style.css" rel="stylesheet" />
+  <link href="css/responsive.css" rel="stylesheet" />
+</head>
 
-      <!-- header section starts -->
-      <header class="header_section">
-        <nav class="navbar navbar-expand-lg custom_nav-container">
-          <a class="navbar-brand" href="index.html"> Ourecipe </a>
+<body>
+  <!-- 배경 -->
+  <div class="hero_area">
+    <div class="hero_bg_box">
+      <img src="images/2096330_527792_3845.jpg" alt="" />
+    </div>
 
-          <!-- 검색 및 로그인 영역 -->
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-toggle="collapse"
-            data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class=""> </span>
-          </button>
-          <ul class="navbar-nav">
-            <div class="navbar-collapse" id="navbarSupportedContent">
-              <form
-                class="form-inline justify-content-center"
-                style="flex-grow: 1"
-              >
-                <button class="btn my-2 my-sm-0 nav_search-btn" type="submit">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
+    <!-- header section starts -->
+    <header class="header_section">
+      <nav class="navbar navbar-expand-lg custom_nav-container">
+        <a class="navbar-brand" href="index.html"> Ourecipe </a>
 
-                <div class="form-row">
-                  <div class="form-group col-lg-6">
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="foodInput"
-                      placeholder="음식을 입력해 주세요."
-                    />
-                  </div>
+        <!-- 검색 및 로그인 영역 -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class=""> </span>
+        </button>
+        <ul class="navbar-nav">
+          <div class="navbar-collapse" id="navbarSupportedContent">
+            <form class="form-inline justify-content-center" style="flex-grow: 1">
+              <button class="btn my-2 my-sm-0 nav_search-btn" type="submit">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
 
-                  <div class="form-group col-lg-6">
-                    <select name="" id="timeSelect" class="form-control wide">
-                      <option value="">조리시간 선택</option>
-                      <option value="5분">5분</option>
-                      <option value="10분">10분</option>
-                      <option value="15분">15분</option>
-                      <option value="20분">20분</option>
-                      <option value="30분">30분</option>
-                      <option value="1시간">1시간</option>
-                    </select>
-                    <select
-                      name=""
-                      id="categorySelect"
-                      class="form-control wide"
-                    >
-                      <option value="">카테고리 선택</option>
-                      <option value="한식">한식</option>
-                      <option value="중식">중식</option>
-                      <option value="일식">일식</option>
-                      <option value="양식">양식</option>
-                    </select>
-                  </div>
+              <div class="form-row">
+                <div class="form-group col-lg-6">
+                  <input type="text" class="form-control" id="foodInput" placeholder="음식을 입력해 주세요." />
                 </div>
+
+                <div class="form-group col-lg-6">
+                  <select name="" id="timeSelect" class="form-control wide">
+                    <option value="">조리시간 선택</option>
+                    <option value="5분">5분</option>
+                    <option value="10분">10분</option>
+                    <option value="15분">15분</option>
+                    <option value="20분">20분</option>
+                    <option value="30분">30분</option>
+                    <option value="1시간">1시간</option>
+                  </select>
+                  <select name="" id="categorySelect" class="form-control wide">
+                    <option value="">카테고리 선택</option>
+                    <option value="한식">한식</option>
+                    <option value="중식">중식</option>
+                    <option value="일식">일식</option>
+                    <option value="양식">양식</option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Login Modal -->
+          <!-- 로그인 버튼 -->
+          <button class="btn nav-link login-button" type="button" id="loginBtn">
+            <i class="fa fa-user" aria-hidden="true"></i> Login
+          </button>
+
+          <!-- 로그인 모달 -->
+          <div id="loginModal" class="modal">
+            <div class="modal-content">
+              <span class="close">&times;</span>
+              <form id="loginForm">
+                <label for="username">ID:</label>
+                <input type="text" id="username" name="username" placeholder="아이디 입력" />
+                <label for="password">PW:</label>
+                <input type="password" id="password" name="password" placeholder="비밀번호 입력" />
+                <button type="submit" class="login-submit-btn">Login</button>
+              </form>
+              <div class="register-link">
+                <a href="#" id="registerLink">회원가입</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 회원가입 모달 -->
+          <div id="registerModal" class="modal">
+            <div class="modal-content">
+              <span class="close-register">&times;</span>
+              <form id="registerForm" action="/register" method="post">
+                <label for="student-id">학번:</label>
+                <input type="number" id="student-id" name="studentId" placeholder="학번 입력" />
+                <label for="name">이름:</label>
+                <input type="text" id="name" name="name" placeholder="이름 입력" />
+                <label for="new-username">등록할 ID:</label>
+                <input type="text" id="new-username" name="username" placeholder="ID 입력" />
+                <label for="new-password">등록할 비밀번호:</label>
+                <input type="password" id="new-password" name="password" placeholder="비밀번호 입력" />
+                <button type="submit" class="register-submit-btn">
+                  Register
+                </button>
+                <div id="error-message"></div>
               </form>
             </div>
+          </div>
+          <!-- 경고 모달 -->
+          <div id="warningModal" class="modal" style="display: none">
+            <div class="modal-content">
+              <span class="warning-close">&times;</span>
+              <p id="warning-text"></p>
+            </div>
+          </div>
 
-            <!-- Login Modal -->
-            <!-- 로그인 버튼 -->
-            <button
-              class="btn nav-link login-button"
-              type="button"
-              id="loginBtn"
-            >
-              <i class="fa fa-user" aria-hidden="true"></i> Login
-            </button>
-
-            <!-- 로그인 모달 -->
-            <div id="loginModal" class="modal">
-              <div class="modal-content">
-                <span class="close">&times;</span>
-                <form id="loginForm">
-                  <label for="username">ID:</label>
-                  <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="아이디 입력"
-                  />
-                  <label for="password">PW:</label>
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="비밀번호 입력"
-                  />
-                  <button type="submit" class="login-submit-btn">Login</button>
-                </form>
-                <div class="register-link">
-                  <a href="#" id="registerLink">회원가입</a>
-                </div>
-              </div>
+          <!-- 회원가입 완료 모달 -->
+          <div id="successModal" class="modal" style="display: none">
+            <div class="modal-content">
+              <span class="success-close">&times;</span>
+              <p>회원가입이 완료되었습니다!</p>
+            </div>
+          </div>
+        </ul>
+      </nav>
+      <!-- 마이페이지 모달 -->
+      <div id="myPageModal" class="modal">
+        <div class="myPage-modal-content">
+          <div class="myPage-modal-header">
+            <span class="close-mypage">&times;</span>
+            <h2 id="myPageUsername">마이페이지</h2>
+          </div>
+          <div class="myPage-modal-body">
+            <div id="userInfo" class="myPage-section">
+              <h3>회원 정보</h3>
+              <p>ID: <span id="userId"></span></p> <!-- ID 표시 부분 -->
+              <p>학번: <span id="userStudentId"></span></p>
+              <p>이름: <span id="userName"></span></p>
+              <p>비밀번호: <span id="userPassword"></span></p>
             </div>
 
-            <!-- 회원가입 모달 -->
-            <div id="registerModal" class="modal">
-              <div class="modal-content">
-                <span class="close-register">&times;</span>
-                <form id="registerForm" action="/register" method="post">
-                  <label for="student-id">학번:</label>
-                  <input
-                    type="number"
-                    id="student-id"
-                    name="studentId"
-                    placeholder="학번 입력"
-                  />
-                  <label for="name">이름:</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="이름 입력"
-                  />
-                  <label for="new-username">등록할 ID:</label>
-                  <input
-                    type="text"
-                    id="new-username"
-                    name="username"
-                    placeholder="ID 입력"
-                  />
-                  <label for="new-password">등록할 비밀번호:</label>
-                  <input
-                    type="password"
-                    id="new-password"
-                    name="password"
-                    placeholder="비밀번호 입력"
-                  />
-                  <button type="submit" class="register-submit-btn">
-                    Register
-                  </button>
-                  <div id="error-message"></div>
-                </form>
-              </div>
-            </div>
-            <!-- 경고 모달 -->
-            <div id="warningModal" class="modal" style="display: none">
-              <div class="modal-content">
-                <span class="warning-close">&times;</span>
-                <p id="warning-text"></p>
-              </div>
-            </div>
-
-            <!-- 회원가입 완료 모달 -->
-            <div id="successModal" class="modal" style="display: none">
-              <div class="modal-content">
-                <span class="success-close">&times;</span>
-                <p>회원가입이 완료되었습니다!</p>
-              </div>
-            </div>
-          </ul>
-        </nav>
-        <!-- 마이페이지 모달 -->
-        <div id="myPageModal" class="modal">
-          <div class="myPage-modal-content">
-            <div class="myPage-modal-header">
-              <span class="close-mypage">&times;</span>
-              <h2 id="myPageUsername">마이페이지</h2>
-            </div>
-            <div class="myPage-modal-body">
-              <div id="userInfo" class="myPage-section">
-                <h3>회원 정보</h3>
-                <p>ID: <span id="userId"></span></p> <!-- ID 표시 부분 -->
-                <p>학번: <span id="userStudentId"></span></p>
-                <p>이름: <span id="userName"></span></p>
-                <p>비밀번호: <span id="userPassword"></span></p>
-            </div>
-            
             <div id="editUserInfo" class="myPage-section">
               <h3>회원 정보 수정</h3>
               <form id="editUserForm">
-                  <label for="editStudentId">학번:</label>
-                  <input type="number" id="editStudentId" name="studentId" class="myPage-form-control" />
-                  <label for="editName">이름:</label>
-                  <input type="text" id="editName" name="name" class="myPage-form-control" />
-                  <label for="editPassword">비밀번호:</label>
-                  <input type="password" id="editPassword" name="password" class="myPage-form-control" />
-                  <button type="submit" class="myPage-btn-custom">수정</button>
+                <label for="editStudentId">학번:</label>
+                <input type="number" id="editStudentId" name="studentId" class="myPage-form-control" />
+                <label for="editName">이름:</label>
+                <input type="text" id="editName" name="name" class="myPage-form-control" />
+                <label for="editPassword">비밀번호:</label>
+                <input type="password" id="editPassword" name="password" class="myPage-form-control" />
+                <button type="submit" class="myPage-btn-custom">수정</button>
               </form>
-          </div>
-          
-            
+            </div>
 
-              <!-- <div id="userRecipes" class="myPage-section">
+
+
+            <!-- <div id="userRecipes" class="myPage-section">
                 <h3>등록한 레시피</h3>
                 <ul id="userRecipeList"></ul>
               </div> -->
 
-              <div id="userRecipes" class="myPage-section">
-                <h3>등록한 레시피</h3>
-                <button id="bulkDeleteBtn">일괄 삭제</button>
-                <table id="userRecipeTable" border="1" class="notice-list">
-                    <thead>
-                        <tr>
-                            <td><input class="overall-checkbox" type="checkbox"></td>
-                            <td>번호</td>
-                            <td>이름</td>
-                            <td>날짜</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- 레시피 목록이 여기에 추가됩니다. -->
-                    </tbody>
-                </table>
+            <div id="userRecipes" class="myPage-section">
+              <h3>등록한 레시피</h3>
+              <button id="bulkDeleteBtn">일괄 삭제</button>
+              <table id="userRecipeTable" border="1" class="notice-list">
+                <thead>
+                  <tr>
+                    <td><input class="overall-checkbox" type="checkbox"></td>
+                    <td>번호</td>
+                    <td>이름</td>
+                    <td>날짜</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- 레시피 목록이 여기에 추가됩니다. -->
+                </tbody>
+              </table>
             </div>
-            
 
-              <div id="likedRecipes" class="myPage-section">
-                <h3>좋아요한 레시피</h3>
-                <ul id="likedRecipeList"></ul>
-              </div>
 
-              <div id="userComments" class="myPage-section">
-                <h3>내가 단 댓글</h3>
-                <button id="bulkDeleteCommentsBtn">일괄 삭제</button>
-                <table id="userCommentTable" border="1" class="notice-list">
-                  <thead>
-                    <tr>
-                      <th><input class="overall-comment-checkbox" type="checkbox"></th>
-                      <th>번호</th>
-                      <th>레시피 이름</th>
-                      <th>댓글 내용</th>
-                      <th>작성 날짜</th>
-                      <th>삭제</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!-- 댓글 목록이 여기에 추가됩니다. -->
-                  </tbody>
-                </table>
-              </div>
+            <div id="likedRecipes" class="myPage-section">
+              <h3>좋아요한 레시피</h3>
+              <ul id="likedRecipeList"></ul>
+            </div>
 
-              <div class="myPage-modal-footer">
-                <button id="logoutBtn" class="myPage-btn-custom">
-                  로그아웃
-                </button>
-              </div>
+            <div id="userComments" class="myPage-section">
+              <h3>내가 단 댓글</h3>
+              <button id="bulkDeleteCommentsBtn">일괄 삭제</button>
+              <table id="userCommentTable" border="1" class="notice-list">
+                <thead>
+                  <tr>
+                    <th><input class="overall-comment-checkbox" type="checkbox"></th>
+                    <th>번호</th>
+                    <th>레시피 이름</th>
+                    <th>댓글 내용</th>
+                    <th>작성 날짜</th>
+                    <th>삭제</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- 댓글 목록이 여기에 추가됩니다. -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="myPage-modal-footer">
+              <button id="logoutBtn" class="myPage-btn-custom">
+                로그아웃
+              </button>
             </div>
           </div>
         </div>
-        <!-- 로그인 경고 모달 -->
-        <div id="loginWarningModal" class="modal" style="display: none">
+      </div>
+      <!-- 레시피 수정 모달 -->
+      <div id="editRecipeModal" class="modal">
+        <div class="modal-content">
+          <span class="close-edit-recipe">&times;</span>
+          <h2>레시피 수정</h2>
+          <form id="editRecipeForm">
+            <label for="editRecipeName">이름:</label>
+            <input type="text" id="editRecipeName" name="name" required />
+
+            <label for="editCookingTime">조리 시간:</label>
+            <input type="text" id="editCookingTime" name="time" required />
+
+            <label for="editCategory">카테고리:</label>
+            <input type="text" id="editCategory" name="category" required />
+
+            <label for="editMaterial">재료:</label>
+            <input type="text" id="editMaterial" name="material" required />
+
+            <label for="editRecipeInstructions">레시피:</label>
+            <textarea id="editRecipeInstructions" name="recipe" required></textarea>
+
+            <label for="editRecipeImage">이미지:</label>
+            <input type="file" id="editRecipeImage" name="uploadPhoto" accept="image/*" />
+
+            <button type="button" id="saveEditRecipeBtn">저장</button>
+          </form>
+        </div>
+      </div>
+
+
+
+      <!-- 로그인 경고 모달 -->
+      <div id="loginWarningModal" class="modal" style="display: none">
+        <div class="modal-content">
+          <span class="login-warning-close">&times;</span>
+          <p>로그인이 필요합니다.</p>
+        </div>
+      </div>
+    </header>
+    <!-- end header section -->
+
+    <!-- slider section -->
+    <section class="slider_section">
+      <div class="new-area">
+        <div class="left-area">
+          <div class="left-text">전체 목록</div>
+          <button id="addButton" class="add-button" onclick="redirectToContactPage()">
+            추가
+          </button>
+        </div>
+      </div>
+
+      <div id="customCarousel1" class="carousel slide" data-ride="carousel">
+        <div class="tm-list">
+          <!-- 여기서부터 동적으로 메뉴 항목을 추가할 예정 -->
+        </div>
+
+        <!-- 레시피 상세 정보 모달 -->
+        <div class="recipe-details-modal">
+          <div class="recipe-details-content">
+            <span class="recipe-details-close" onclick="closeModal()">&times;</span>
+            <div class="recipe-details-header">
+              <h2 class="recipe-name">음식이름</h2>
+              <div class="recipe-details-filters">
+                <span class="filter">시간</span>
+                <span class="filter">요리 종류</span>
+
+              </div>
+            </div>
+            <img class="recipe-details-image" src="" alt="Recipe Image" />
+            <div class="recipe-ingredients">
+              <h3>재료</h3>
+              <p>여기에 재료 설명이 표시됩니다.</p>
+            </div>
+            <div class="recipe-instructions">
+              <h3>레시피</h3>
+              <p>여기에 레시피 설명이 표시됩니다.</p>
+            </div>
+            <div class="recipe-nutrition">
+              <h3>영양정보</h3>
+              <p>여기에 영양 정보가 표시됩니다.</p>
+            </div>
+            <div class="recipe-updated-at">
+              <h3>업데이트한 시간</h3>
+              <p>여기에 업데이트 날짜가 표시됩니다.</p>
+            </div>
+            <div class="recipe-comments">
+              <h3>댓글</h3>
+              <div class="comment-list">
+                <!-- 여기서부터 동적으로 댓글이 추가될 예정 -->
+              </div>
+              <textarea placeholder="댓글을 입력하세요" id="commentTextarea"></textarea>
+              <button class="comment-submit-btn">댓글 달기</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 댓글 내용 모달 -->
+        <div id="commentModal" class="modal">
           <div class="modal-content">
-            <span class="login-warning-close">&times;</span>
-            <p>로그인이 필요합니다.</p>
+            <span class="close">&times;</span>
+            <h3>댓글 내용</h3>
+            <div id="commentList">
+              <!-- 댓글 내용이 여기에 동적으로 추가됩니다. -->
+            </div>
           </div>
         </div>
-      </header>
-      <!-- end header section -->
-
-      <!-- slider section -->
-      <section class="slider_section">
-        <div class="new-area">
-          <div class="left-area">
-            <div class="left-text">전체 목록</div>
-            <button
-              id="addButton"
-              class="add-button"
-              onclick="redirectToContactPage()"
-            >
-              추가
-            </button>
-          </div>
-        </div>
-
-        <div id="customCarousel1" class="carousel slide" data-ride="carousel">
-          <div class="tm-list">
-            <!-- 여기서부터 동적으로 메뉴 항목을 추가할 예정 -->
-          </div>
-
-          <!-- 레시피 상세 정보 모달 -->
-<div class="recipe-details-modal">
-  <div class="recipe-details-content">
-    <span class="recipe-details-close" onclick="closeModal()">&times;</span>
-    <div class="recipe-details-header">
-      <h2 class="recipe-name">음식이름</h2>
-      <div class="recipe-details-filters">
-        <span class="filter">시간</span>
-        <span class="filter">요리 종류</span>
 
       </div>
-    </div>
-    <img class="recipe-details-image" src="" alt="Recipe Image" />
-    <div class="recipe-ingredients">
-      <h3>재료</h3>
-      <p>여기에 재료 설명이 표시됩니다.</p>
-    </div>
-    <div class="recipe-instructions">
-      <h3>레시피</h3>
-      <p>여기에 레시피 설명이 표시됩니다.</p>
-    </div>
-    <div class="recipe-nutrition">
-      <h3>영양정보</h3>
-      <p>여기에 영양 정보가 표시됩니다.</p>
-    </div>
-    <div class="recipe-updated-at">
-      <h3>업데이트한 시간</h3>
-      <p>여기에 업데이트 날짜가 표시됩니다.</p>
-    </div>
-    <div class="recipe-comments">
-      <h3>댓글</h3>
-      <div class="comment-list">
-        <!-- 여기서부터 동적으로 댓글이 추가될 예정 -->
-      </div>
-      <textarea placeholder="댓글을 입력하세요" id="commentTextarea"></textarea>
-      <button class="comment-submit-btn">댓글 달기</button>
-    </div>
+    </section>
+    <!-- end slider section -->
   </div>
-</div>
 
-<!-- 댓글 내용 모달 -->
-<div id="commentModal" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h3>댓글 내용</h3>
-    <div id="commentList">
-      <!-- 댓글 내용이 여기에 동적으로 추가됩니다. -->
-    </div>
-  </div>
-</div>
+  <!-- jQery -->
+  <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <!-- popper js -->
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+    crossorigin="anonymous"></script>
+  <!-- bootstrap js -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <!-- owl slider -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <!-- nice select -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
+    integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo=" crossorigin="anonymous"></script>
+  <!-- custom js -->
 
-        </div>
-      </section>
-      <!-- end slider section -->
-    </div>
+  <script src="js/mypage.js"></script>
+  <script src="js/likebutton.js"></script>
+  <script src="js/filter.js"></script>
+  <script src="js/login.js"></script>
+  <script src="js/loadMenuItems.js"></script>
+  <script src="js/signup.js"></script>
+  <script src="js/detailinfo.js"></script>
+  <script src="js/add.js"></script>
+</body>
 
-    <!-- jQery -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <!-- popper js -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
-      integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
-      crossorigin="anonymous"
-    ></script>
-    <!-- bootstrap js -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <!-- owl slider -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-    <!-- nice select -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/js/jquery.nice-select.min.js"
-      integrity="sha256-Zr3vByTlMGQhvMfgkQ5BtWRSKBGa2QlspKYJnkjZTmo="
-      crossorigin="anonymous"
-    ></script>
-    <!-- custom js -->
-
-    <script src="js/mypage.js"></script>
-    <script src="js/likebutton.js"></script>
-    <script src="js/filter.js"></script>
-    <script src="js/login.js"></script>
-    <script src="js/loadMenuItems.js"></script>
-    <script src="js/signup.js"></script>
-    <script src="js/detailinfo.js"></script>
-    <script src="js/add.js"></script>
-  </body>
 </html>

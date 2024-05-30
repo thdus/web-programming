@@ -78,11 +78,12 @@ app.get("/user-recipes", (req, res) => {
 });
 
 const usersFilePath = path.join(__dirname, "public/data", "users.json");
-
+// 회원가입 엔드포인트
 app.post("/register", upload.none(), (req, res) => {
   const { studentId, name, username, password } = req.body;
 
-  if (!fs.exists(usersFilePath)) {
+  // users.json 파일 존재 여부 확인
+  if (!fs.existsSync(usersFilePath)) {
     fs.writeFileSync(usersFilePath, JSON.stringify([]));
   }
 
@@ -98,6 +99,20 @@ app.post("/register", upload.none(), (req, res) => {
   fs.writeFileSync(usersFilePath, JSON.stringify(usersData, null, 2));
 
   res.status(201).json({ message: "회원가입이 완료되었습니다." });
+});
+
+// 사용자 이름 중복 확인 엔드포인트
+app.get("/check-username", (req, res) => {
+  const { username } = req.query;
+
+  // users.json 파일 존재 여부 확인
+  if (!fs.existsSync(usersFilePath)) {
+    fs.writeFileSync(usersFilePath, JSON.stringify([]));
+  }
+
+  const usersData = JSON.parse(fs.readFileSync(usersFilePath, "utf8"));
+  const userExists = usersData.some(user => user.username === username);
+  res.json({ exists: userExists });
 });
 
 app.get("/check-username", (req, res) => {
@@ -357,4 +372,35 @@ app.post("/bulk-delete-recipes", (req, res) => {
   });
   fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
   res.status(200).json({ success: true });
+});
+
+
+
+app.post("/update-recipe", uploadImage.single("uploadPhoto"), async (req, res) => {
+  const { recipeName, userId } = req.body;
+  const newRecipeData = JSON.parse(req.body.newRecipeData);
+
+  const jsonFilePath = path.join(__dirname, "public/data", "menuItems.json");
+  let menuItems = JSON.parse(fs.readFileSync(jsonFilePath, "utf8"));
+
+  const recipeIndex = menuItems.findIndex(item => item.name === recipeName && item.userId === userId);
+
+  if (recipeIndex === -1) {
+    return res.status(404).json({ success: false, message: "Recipe not found" });
+  }
+
+  const updatedRecipe = {
+    ...menuItems[recipeIndex],
+    ...newRecipeData,
+    updatedAt: new Date().toISOString()
+  };
+
+  if (req.file) {
+    updatedRecipe.image = req.file.filename;
+  }
+
+  menuItems[recipeIndex] = updatedRecipe;
+  fs.writeFileSync(jsonFilePath, JSON.stringify(menuItems, null, 2));
+
+  res.status(200).json({ success: true, message: "Recipe updated successfully", updatedRecipe });
 });
